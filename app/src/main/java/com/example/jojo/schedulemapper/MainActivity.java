@@ -19,7 +19,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        View.OnClickListener listener = new View.OnClickListener() {
+
+        View.OnClickListener mapListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Uri gmmIntentUri = Uri.parse("http://maps.google.com/maps");
@@ -32,7 +33,16 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         Button mapBtn = (Button) findViewById(R.id.mapButton);
-        mapBtn.setOnClickListener(listener);
+        mapBtn.setOnClickListener(mapListener);
+
+        View.OnClickListener scheduleListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                    startActivity(new Intent(MainActivity.this, MapActivity.class));
+            }
+        };
+        Button scheduleBtn = (Button) findViewById(R.id.scheduleButton);
+        scheduleBtn.setOnClickListener(scheduleListener);
     }
 
     @Override
