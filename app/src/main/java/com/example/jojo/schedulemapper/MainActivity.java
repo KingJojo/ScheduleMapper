@@ -22,13 +22,13 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Uri gmmIntentUri = Uri.parse("http://maps.google.com/maps");
-                //Intent i = new Intent(android.content.Intent.ACTION_VIEW, gmmIntentUri);
-                //i.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
-                //i.setPackage("com.google.android.apps.maps");
-                //if (i.resolveActivity(getPackageManager()) != null) {
-                //    startActivity(new Intent(this, MapActivity.class));
-                //}
+                Uri gmmIntentUri = Uri.parse("http://maps.google.com/maps");
+                Intent i = new Intent(android.content.Intent.ACTION_VIEW, gmmIntentUri);
+                i.setClassName("com.google.android.apps.maps", "com.google.android.maps.MapsActivity");
+                i.setPackage("com.google.android.apps.maps");
+                if (i.resolveActivity(getPackageManager()) != null) {
+                    startActivity(new Intent(MainActivity.this, MapActivity.class));
+                }
             }
         };
         Button mapBtn = (Button) findViewById(R.id.mapButton);
