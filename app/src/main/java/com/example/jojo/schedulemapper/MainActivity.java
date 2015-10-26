@@ -21,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent("MapActivity");
+                Intent i;
+                i = new Intent(getApplicationContext(), MapActivity.class);
                 startActivity(i);
             }
         };
