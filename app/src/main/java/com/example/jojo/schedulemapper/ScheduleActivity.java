@@ -77,6 +77,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         int id = item.getItemId();
         setupDateTimeInterpreter(id == R.id.action_week_view);
         switch (id){
+            case R.id.action_add_event:
+                return true;
             case R.id.action_today:
                 mWeekView.goToToday();
                 return true;
