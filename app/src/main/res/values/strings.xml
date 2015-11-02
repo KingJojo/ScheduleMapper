@@ -7,9 +7,14 @@
     <string name="action_three_day_view">3 day view</string>
     <string name="action_week_view">Week view</string>
     <string name="action_add_event">Add event</string>
+    <string name="event_title">Event title</string>
     <string-array name="time_array">
         <item>Day</item>
         <item>3 Day</item>
         <item>Week</item>
     </string-array>
+    <string name="title_activity_input_event">InputEvent</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
