@@ -43,6 +43,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     private static final String TAG = "PROFILE";
     private int populated;
     private List<WeekViewEvent> events;
+    private WeekViewEvent tapped = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +93,9 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
+                if(tapped != null) {
+                    events.remove(tapped);
+                }
                 int year = data.getIntExtra("year", 0);
                 int month = data.getIntExtra("month", 0);
                 int day = data.getIntExtra("day", 0);
@@ -209,7 +213,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        events.remove(event);
+        tapped = event;
         startActivityForResult(new Intent( this, InputEventActivity.class ), 1 );
     }
 
