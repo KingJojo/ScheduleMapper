@@ -12,9 +12,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.AdapterView;
-import android.widget.Adapter;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.WeekView;
@@ -41,7 +38,6 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     private WeekView mWeekView;
     private MenuItem viewMenu;
     private static final String TAG = "PROFILE";
-    private int populated;
     private List<WeekViewEvent> events;
     private WeekViewEvent tapped = null;
 
@@ -199,7 +195,9 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         List<WeekViewEvent> weekviewEvents = new ArrayList<WeekViewEvent>();
         for(WeekViewEvent event: events){
-            if(event.getStartTime().get(Calendar.MONTH)+1 == newMonth && event.getStartTime().get(Calendar.YEAR) == newYear){
+            if(event.getStartTime().get(Calendar.MONTH)+1 == newMonth &&
+                    event.getStartTime().get(Calendar.YEAR) == newYear)
+            {
                 weekviewEvents.add(event);
             }
         }
@@ -208,7 +206,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     }
 
     private String getEventTitle(Calendar time) {
-        return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
+        return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY),
+                time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
     }
 
     @Override
