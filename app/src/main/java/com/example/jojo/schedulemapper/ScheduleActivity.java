@@ -51,6 +51,14 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
         events = new ArrayList<WeekViewEvent>();
 
+        // Sample events specifically for lab day
+        WeekViewEvent newEvent1 = new WeekViewEvent(0, "5:30 Morning Jog",
+                2015, 11, 2, 5, 30, 2015, 11, 2, 6, 30);
+        WeekViewEvent newEvent2 = new WeekViewEvent(0, "CSE 110 Lab",
+                2015, 11, 2, 10, 30, 2015, 11, 2, 12, 30);
+        events.add(newEvent1);
+        events.add(newEvent2);
+
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
 
