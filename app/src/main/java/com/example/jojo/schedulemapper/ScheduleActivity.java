@@ -213,12 +213,12 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        tapped = event;
-        startActivityForResult(new Intent( this, InputEventActivity.class ), 1 );
+
     }
 
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-        Toast.makeText(ScheduleActivity.this, "Long pressed event: " + event.getName(), Toast.LENGTH_SHORT).show();
+        tapped = event;
+        startActivityForResult(new Intent(this, InputEventActivity.class), 1);
     }
 }

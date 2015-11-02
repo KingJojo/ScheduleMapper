@@ -14,9 +14,15 @@
         android:layout_height="wrap_content"
         android:text = "Map"
         android:id="@+id/mapButton"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="300dp" />
+        android:fontFamily="Helvetica"
+        android:layout_centerVertical="true"
+        android:textColor="#FFFFFF"
+        android:background="#303F9F"
+        android:layout_alignRight="@+id/textView4"
+        android:layout_alignEnd="@+id/textView4"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignStart="@+id/textView4"
+        android:textSize="20dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -24,8 +30,25 @@
         android:text = "Schedule"
         android:id="@+id/scheduleButton"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="150dp"
+        android:textColor="#FFFFFF"
+        android:background="#303F9F"
+        android:layout_alignLeft="@+id/mapButton"
+        android:layout_alignStart="@+id/mapButton"
+        android:layout_alignRight="@+id/mapButton"
+        android:layout_alignEnd="@+id/mapButton"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ScheduleMapper"
+        android:id="@+id/textView4"
+        android:textSize="40dp"
+        android:layout_above="@+id/mapButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="150dp" />
+        android:layout_marginBottom="80dp"
+        android:textColor="#000" />
 
 
 </RelativeLayout>
