@@ -8,7 +8,7 @@
         app:showAsAction="ifRoom"/>
     <item android:id="@+id/action_add_event"
         android:title=""
-        android:icon="@android:drawable/ic_input_add"
+        android:icon="@android:drawable/ic_menu_more"
         android:orderInCategory="100"
         app:showAsAction="ifRoom"/>
     <item android:id="@+id/change_view"
