@@ -19,7 +19,6 @@ import java.util.Calendar;
 
 public class InputEventActivity extends AppCompatActivity {
 
-    private static final int DECI = 10;
     private int year, month, day;
     private int startHour, startMinute;
     private int endHour, endMinute;
@@ -109,7 +108,7 @@ public class InputEventActivity extends AppCompatActivity {
         if(start) {
             startHour = hourOfDay;
             startMinute = minute;
-            if(minute < DECI)
+            if(minute < 10)
                 startTime.setText(hourOfDay + ":0" + minute);
             else
                 startTime.setText(hourOfDay + ":" + minute);
@@ -118,7 +117,7 @@ public class InputEventActivity extends AppCompatActivity {
         {
             endHour = hourOfDay;
             endMinute = minute;
-            if(minute < DECI)
+            if(minute < 10)
                 endTime.setText(hourOfDay + ":0" + minute);
             else
                 endTime.setText(hourOfDay + ":" + minute);

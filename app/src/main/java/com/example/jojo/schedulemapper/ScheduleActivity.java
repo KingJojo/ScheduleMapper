@@ -5,13 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.content.Intent;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
-import android.widget.Spinner;
-import android.widget.ArrayAdapter;
+import android.util.Log;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.WeekView;
@@ -23,9 +20,11 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-/**
+/*
  * Created by Raquib-ul-Alam Kanak on 7/21/2014.
  * Website: http://alamkanak.github.io/
+ *
+ * Modified by Jojo Chen, Kevin Kuo, Lucy Li, Nathan Ng, Thomas Gui
  */
 public class ScheduleActivity extends AppCompatActivity implements WeekView.MonthChangeListener,
         WeekView.EventClickListener, WeekView.EventLongPressListener {
@@ -33,11 +32,10 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     private static final int TYPE_DAY_VIEW = 1;
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
-    private static final int INITIAL_LIMIT = 0;
+    private static final String TAG = "PROFILE";
     private int mWeekViewType = TYPE_DAY_VIEW;
     private WeekView mWeekView;
     private MenuItem viewMenu;
-    private static final String TAG = "PROFILE";
     private List<WeekViewEvent> events;
     private WeekViewEvent tapped = null;
 
@@ -50,9 +48,9 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
         // Sample events specifically for lab day
         WeekViewEvent newEvent1 = new WeekViewEvent(0, "5:30 Morning Jog",
-                2015, 11, 2, 5, 30, 2015, 11, 2, 6, 30);
+                2015, 11, 5, 5, 30, 2015, 11, 5, 6, 30);
         WeekViewEvent newEvent2 = new WeekViewEvent(0, "CSE 110 Lab",
-                2015, 11, 2, 10, 30, 2015, 11, 2, 12, 30);
+                2015, 11, 5, 10, 30, 2015, 11, 5, 12, 30);
         events.add(newEvent1);
         events.add(newEvent2);
 
