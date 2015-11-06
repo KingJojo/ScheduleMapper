@@ -1,5 +1,8 @@
 package com.example.jojo.schedulemapper;
 
+/*
+ * Created by kevinkuo on 11/1/15
+ */
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
