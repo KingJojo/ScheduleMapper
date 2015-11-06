@@ -13,12 +13,10 @@ public class WeekViewEventSingle extends WeekViewEvent{
 
     public WeekViewEventSingle(long id, String name, int startYear, int startMonth, int startDay,
                                int startHour, int startMinute, int endYear, int endMonth,
-                               int endDay, int endHour, int endMinute, String location,
-                               String mNote) {
+                               int endDay, int endHour, int endMinute, String location) {
 
         super(id, name, startYear, startMonth, startDay, startHour, startMinute, endYear,
                 endMonth, endDay, endHour, endMinute);
-
         super.setLocation(location);
 
     }
