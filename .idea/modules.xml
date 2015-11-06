@@ -4,6 +4,9 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ScheduleMapper.iml" filepath="$PROJECT_DIR$/ScheduleMapper.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/weekview/library/library.iml" filepath="$PROJECT_DIR$/weekview/library/library.iml" />
+      <module fileurl="file://$PROJECT_DIR$/weekview/weekview.iml" filepath="$PROJECT_DIR$/weekview/weekview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/weekview/library/weekview-library.iml" filepath="$PROJECT_DIR$/app/weekview/library/weekview-library.iml" />
     </modules>
   </component>
 </project>
