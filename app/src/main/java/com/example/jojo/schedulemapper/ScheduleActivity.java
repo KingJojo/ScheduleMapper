@@ -38,6 +38,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     private MenuItem viewMenu;
     private List<WeekViewEvent> events;
     private WeekViewEvent tapped = null;
+    private int id = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +48,19 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         events = new ArrayList<WeekViewEvent>();
 
         // Sample events specifically for lab day
-        WeekViewEvent newEvent1 = new WeekViewEvent(0, "5:30 Morning Jog",
-                2015, 11, 5, 5, 30, 2015, 11, 5, 6, 30);
-        WeekViewEvent newEvent2 = new WeekViewEvent(0, "CSE 110 Lab",
-                2015, 11, 5, 10, 30, 2015, 11, 5, 12, 30);
+        WeekViewEvent newEvent1 = new WeekViewEvent(id, "5:30 Morning Jog",
+                2015, 11, 6, 5, 30, 2015, 11, 6, 6, 30);
+        id++;
+        WeekViewEvent newEvent2 = new WeekViewEvent(id, "5:30 Morning Jog",
+                2015, 11, 6, 4, 30, 2015, 11, 6, 5, 30);
+        id++;
+        WeekViewEvent newEvent3 = new WeekViewEvent(id, "CSE 110 Lab",
+                2015, 11, 6, 10, 30, 2015, 11, 6, 12, 30);
+        id++;
         events.add(newEvent1);
+        events.add(newEvent3);
         events.add(newEvent2);
+        System.out.println(events.size());
 
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
@@ -74,6 +82,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
         mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
 
+        mWeekView.notifyDatasetChanged();
     }
 
     @Override
@@ -85,6 +94,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        id++;
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 if(tapped != null) {
@@ -93,7 +103,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 int year = data.getIntExtra("year", 0);
                 int month = data.getIntExtra("month", 0);
                 int day = data.getIntExtra("day", 0);
-                WeekViewEvent newEvent = new WeekViewEvent(0, data.getStringExtra("eventTitle"),
+                WeekViewEvent newEvent = new WeekViewEvent(id, data.getStringExtra("eventTitle"),
                         year, month, day, data.getIntExtra("startHour", 0),
                         data.getIntExtra("startMinute", 0), year, month, day,
                         data.getIntExtra("endHour", 0), data.getIntExtra("endMinute", 0) );
@@ -193,7 +203,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
         List<WeekViewEvent> weekviewEvents = new ArrayList<WeekViewEvent>();
         for(WeekViewEvent event: events){
-            if(event.getStartTime().get(Calendar.MONTH)+1 == newMonth &&
+            if(event.getStartTime().get(Calendar.MONTH) == newMonth &&
                     event.getStartTime().get(Calendar.YEAR) == newYear)
             {
                 weekviewEvents.add(event);
