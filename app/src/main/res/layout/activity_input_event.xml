@@ -9,11 +9,13 @@
         android:id="@+id/nameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="27dp"
+        android:text="@string/event_title"
         android:layout_alignParentTop="true"
-        android:layout_marginLeft="18dp"
-        android:layout_marginTop="24dp"
-        android:text="@string/event_title" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="19dp" />
 
     <EditText
         android:id="@+id/name"
@@ -24,18 +26,36 @@
         android:layout_alignLeft="@+id/textView2"
         android:layout_alignStart="@+id/textView2" />
 
-    <Button
+    <TextView
+        android:id="@+id/locationText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Date"
-        android:onClick="showDatePickerDialog"
-        android:id="@+id/button"
+        android:text="Location"
+        android:layout_marginTop="16dp"
         android:layout_below="@+id/name"
-        android:layout_marginTop="27dp"
-        android:layout_alignRight="@+id/startButton"
-        android:layout_alignEnd="@+id/startButton"
         android:layout_alignLeft="@+id/nameText"
         android:layout_alignStart="@+id/nameText" />
+
+    <EditText
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10" android:inputType="text"
+        android:layout_alignTop="@+id/locationText"
+        android:layout_alignLeft="@+id/name"
+        android:layout_alignStart="@+id/name" />
+
+    <Button
+        android:id="@+id/dateButton"
+        android:text="Date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showDatePickerDialog"
+        android:layout_alignBottom="@+id/textView2"
+        android:layout_alignLeft="@+id/startButton"
+        android:layout_alignStart="@+id/startButton"
+        android:layout_alignRight="@+id/startButton"
+        android:layout_alignEnd="@+id/startButton" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -43,7 +63,8 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="No date selected"
         android:id="@+id/textView2"
-        android:layout_alignBottom="@+id/button"
+        android:layout_marginBottom="18dp"
+        android:layout_above="@+id/startButton"
         android:layout_alignLeft="@+id/textView"
         android:layout_alignStart="@+id/textView" />
 
@@ -54,8 +75,8 @@
         android:text="start time"
         android:onClick="showStartTimePicker"
         android:layout_alignBottom="@+id/textView"
-        android:layout_alignLeft="@+id/nameText"
-        android:layout_alignStart="@+id/nameText" />
+        android:layout_alignLeft="@+id/locationText"
+        android:layout_alignStart="@+id/locationText" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -64,8 +85,50 @@
         android:text="No time selected"
         android:id="@+id/textView"
         android:textAlignment="center"
-        android:layout_marginTop="52dp"
-        android:layout_below="@+id/textView2"
+        android:layout_marginTop="104dp"
+        android:layout_below="@+id/location"
+        android:layout_alignLeft="@+id/textView3"
+        android:layout_alignStart="@+id/textView3" />
+
+    <Button
+        android:text="End time"
+        android:id="@+id/endButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showEndTimePicker"
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_alignLeft="@+id/startButton"
+        android:layout_alignStart="@+id/startButton"
+        android:layout_alignRight="@+id/startButton"
+        android:layout_alignEnd="@+id/startButton" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="No time selected"
+        android:id="@+id/textView3"
+        android:layout_marginTop="39dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignLeft="@+id/submit"
+        android:layout_alignStart="@+id/submit" />
+
+    <TextView
+        android:id="@+id/noteText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Note"
+        android:layout_below="@+id/endButton"
+        android:layout_alignLeft="@+id/endButton"
+        android:layout_alignStart="@+id/endButton"
+        android:layout_marginTop="35dp" />
+
+    <EditText
+        android:id="@+id/note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10" android:inputType="text"
+        android:layout_alignTop="@+id/noteText"
         android:layout_alignLeft="@+id/submit"
         android:layout_alignStart="@+id/submit" />
 
@@ -74,31 +137,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Event"
-        android:layout_marginBottom="38dp"
+        android:layout_marginBottom="30dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="End time"
-        android:onClick="showEndTimePicker"
-        android:layout_alignBottom="@+id/textView3"
-        android:layout_alignLeft="@+id/startButton"
-        android:layout_alignStart="@+id/startButton"
-        android:layout_alignRight="@+id/startButton"
-        android:layout_alignEnd="@+id/startButton"
-        android:id="@+id/button2" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="No time selected"
-        android:id="@+id/textView3"
-        android:layout_below="@+id/textView"
-        android:layout_alignLeft="@+id/textView"
-        android:layout_alignStart="@+id/textView"
-        android:layout_marginTop="45dp" />
 
 </RelativeLayout>

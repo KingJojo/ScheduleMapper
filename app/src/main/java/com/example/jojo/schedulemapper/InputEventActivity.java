@@ -41,9 +41,14 @@ public class InputEventActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent();
+
                 EditText eventText = (EditText) findViewById(R.id.name);
+                EditText eventLocation = (EditText) findViewById(R.id.location);
+                EditText eventNote = (EditText) findViewById(R.id.note);
 
                 intent.putExtra("eventTitle", eventText.getText().toString());
+                intent.putExtra("location", eventLocation.getText().toString());
+                intent.putExtra("note", eventNote.getText().toString());
                 intent.putExtra("year", year);
                 intent.putExtra("month", month);
                 intent.putExtra("day", day);

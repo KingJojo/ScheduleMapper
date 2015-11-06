@@ -48,17 +48,13 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         events = new ArrayList<WeekViewEvent>();
 
         // Sample events specifically for lab day
-        WeekViewEvent newEvent1 = new WeekViewEvent(id, "5:30 Morning Jog",
+        WeekViewEvent newEvent1 = new WeekViewEvent(id, "5:30 Morning Jog", null, null,
                 2015, 11, 6, 5, 30, 2015, 11, 6, 6, 30);
         id++;
-        WeekViewEvent newEvent2 = new WeekViewEvent(id, "5:30 Morning Jog",
-                2015, 11, 6, 4, 30, 2015, 11, 6, 5, 30);
-        id++;
-        WeekViewEvent newEvent3 = new WeekViewEvent(id, "CSE 110 Lab",
+        WeekViewEvent newEvent2 = new WeekViewEvent(id, "CSE 110 Lab", null, null,
                 2015, 11, 6, 10, 30, 2015, 11, 6, 12, 30);
         id++;
         events.add(newEvent1);
-        events.add(newEvent3);
         events.add(newEvent2);
         System.out.println(events.size());
 
@@ -104,6 +100,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 int month = data.getIntExtra("month", 0);
                 int day = data.getIntExtra("day", 0);
                 WeekViewEvent newEvent = new WeekViewEvent(id, data.getStringExtra("eventTitle"),
+                        data.getStringExtra("location"), data.getStringExtra("note"),
                         year, month, day, data.getIntExtra("startHour", 0),
                         data.getIntExtra("startMinute", 0), year, month, day,
                         data.getIntExtra("endHour", 0), data.getIntExtra("endMinute", 0) );
