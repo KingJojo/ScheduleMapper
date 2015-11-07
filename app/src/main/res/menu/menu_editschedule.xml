@@ -2,8 +2,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".ScheduleActivity" >
-    <item android:id="@+id/edit_button"
-        android:title="@string/edit_string"
+    <item android:id="@+id/view_button"
+        android:title="@string/view_string"
         android:orderInCategory="0"
         app:showAsAction="always" />
     <item android:id="@+id/action_today"

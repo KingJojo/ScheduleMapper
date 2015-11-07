@@ -67,7 +67,11 @@
         </activity>
         <activity
             android:name=".ScheduleActivity"
-            android:label="Schedule" >
+            android:label="" >
+        </activity>
+        <activity
+            android:name=".EditScheduleActivity"
+            android:label="" >
         </activity>
         <activity
             android:name=".InputEventActivity"

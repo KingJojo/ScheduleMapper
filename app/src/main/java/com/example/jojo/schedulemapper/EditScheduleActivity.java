@@ -1,15 +1,12 @@
 package com.example.jojo.schedulemapper;
 
+import android.content.Intent;
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
-import android.content.Intent;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.util.Log;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.WeekView;
@@ -27,7 +24,7 @@ import java.util.Locale;
  *
  * Modified by Jojo Chen, Kevin Kuo, Lucy Li, Nathan Ng, Thomas Gui
  */
-public class ScheduleActivity extends AppCompatActivity implements WeekView.MonthChangeListener,
+public class EditScheduleActivity extends AppCompatActivity implements WeekView.MonthChangeListener,
         WeekView.EventClickListener, WeekView.EventLongPressListener {
 
     private static final int TYPE_DAY_VIEW = 1;
@@ -47,19 +44,9 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
         setContentView(R.layout.activity_schedule);
 
-        events = new ArrayList<WeekViewEvent>();
-
         // Sample events specifically for lab day
-        WeekViewEvent newEvent1 = new WeekViewEvent(id, "5:30 Morning Jog", null, null,
-                2015, 11, 6, 5, 30, 2015, 11, 6, 6, 30);
-        id++;
-        WeekViewEvent newEvent2 = new WeekViewEvent(id, "CSE 110 Lab", null, null,
-                2015, 11, 6, 10, 30, 2015, 11, 6, 12, 30);
-        id++;
-        events.add(newEvent1);
-        events.add(newEvent2);
-        System.out.println(events.size());
-
+        events = new ArrayList<WeekViewEvent>();
+        
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
 
@@ -85,7 +72,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_schedule, menu);
+        getMenuInflater().inflate(R.menu.menu_editschedule, menu);
         this.viewMenu = menu.findItem(R.id.change_view);
         return true;
     }
@@ -117,8 +104,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         int id = item.getItemId();
         setupDateTimeInterpreter(id == R.id.action_week_view);
         switch (id){
-            case R.id.edit_button:
-                startActivity(new Intent(this, EditScheduleActivity.class));
+            case R.id.view_button:
+                startActivity(new Intent(EditScheduleActivity.this, ScheduleActivity.class));
                 return true;
             case R.id.action_add_event:
                 startActivityForResult(new Intent( this, InputEventActivity.class ), 1 );
