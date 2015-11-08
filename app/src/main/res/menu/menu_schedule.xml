@@ -7,13 +7,8 @@
         android:orderInCategory="0"
         app:showAsAction="always" />
     <item android:id="@+id/action_today"
-        android:title="@string/action_today"
+        android:title="Curr Week"
         android:orderInCategory="100"
-        app:showAsAction="always"/>
-    <item android:id="@+id/action_add_event"
-        android:title=""
-        android:icon="@android:drawable/ic_menu_more"
-        android:orderInCategory="200"
         app:showAsAction="always"/>
     <item android:id="@+id/change_view"
         android:title="3 Day"
@@ -28,5 +23,20 @@
                 android:title="Week" />
         </menu>
     </item>
+    <item android:id="@+id/action_add_event"
+        android:title=""
+        android:icon="@android:drawable/ic_menu_add"
+        android:orderInCategory="200"
+        app:showAsAction="always"/>
+    <item android:id="@+id/action_prev_week"
+        android:title=""
+        android:icon="@drawable/ic_menu_back"
+        android:orderInCategory="200"
+        app:showAsAction="always"/>
+    <item android:id="@+id/action_next_week"
+        android:title=""
+        android:icon="@drawable/ic_menu_forward"
+        android:orderInCategory="200"
+        app:showAsAction="always"/>
 
 </menu>

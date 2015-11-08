@@ -34,7 +34,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     private static final int TYPE_THREE_DAY_VIEW = 2;
     private static final int TYPE_WEEK_VIEW = 3;
     private static final String TAG = "PROFILE";
-    private int mWeekViewType = TYPE_DAY_VIEW;
+    private int mWeekViewType = TYPE_THREE_DAY_VIEW;
     private WeekView mWeekView;
     private MenuItem viewMenu;
     private List<WeekViewEvent> events;
@@ -92,12 +92,12 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        id++;
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 if(tapped != null) {
                     events.remove(tapped);
                 }
+                id++;
                 int year = data.getIntExtra("year", 0);
                 int month = data.getIntExtra("month", 0);
                 int day = data.getIntExtra("day", 0);
@@ -125,6 +125,12 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 return true;
             case R.id.action_today:
                 mWeekView.goToToday();
+                return true;
+            case R.id.action_next_week:
+                mWeekView.incrementWeek();
+                return true;
+            case R.id.action_prev_week:
+                mWeekView.decrementWeek();
                 return true;
             case R.id.action_day_view:
                 if (mWeekViewType != TYPE_DAY_VIEW) {
