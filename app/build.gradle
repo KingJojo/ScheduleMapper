@@ -27,6 +27,6 @@ dependencies {
     compile 'com.google.android.gms:play-services:8.1.0'
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.parse:parse-android:1.+'
-    //compile 'com.github.alamkanak:android-week-view:1.2.3'
+    compile 'com.larswerkman:HoloColorPicker:1.5'
     compile project(':weekview:library')
 }

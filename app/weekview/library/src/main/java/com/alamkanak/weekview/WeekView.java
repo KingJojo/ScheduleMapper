@@ -1582,10 +1582,25 @@ public class WeekView extends View {
      * Show today on the week view.
      */
     public void goToToday() {
-        goToDate(getSunday());
-        mCurrentOrigin.x = 0;
-        mCurrentOrigin.y = 0;
         currentSunday = getSunday();
+        Calendar today = today();
+        int dayDiff = today.get(Calendar.DAY_OF_WEEK) - currentSunday.get(Calendar.DAY_OF_WEEK);
+        System.out.println(dayDiff);
+        if(mNumberOfVisibleDays == 3) {
+            if(dayDiff == 6) {
+                dayDiff = 4;
+                today.add(Calendar.DAY_OF_WEEK, -2);
+            } else if(dayDiff == 5) {
+                dayDiff = 4;
+                today.add(Calendar.DAY_OF_WEEK, -1);
+            }
+        } else if(mNumberOfVisibleDays == 7) {
+            dayDiff = 0;
+            today = getSunday();
+        }
+        mCurrentOrigin.x = - dayDiff * (mWidthPerDay + mColumnGap);
+        mCurrentOrigin.y = 0;
+        goToDate(today);
     }
 
     /**

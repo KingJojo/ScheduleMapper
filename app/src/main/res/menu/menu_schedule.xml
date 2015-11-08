@@ -7,7 +7,7 @@
         android:orderInCategory="0"
         app:showAsAction="always" />
     <item android:id="@+id/action_today"
-        android:title="Curr Week"
+        android:title="Today"
         android:orderInCategory="100"
         app:showAsAction="always"/>
     <item android:id="@+id/change_view"
