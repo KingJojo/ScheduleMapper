@@ -70,10 +70,6 @@
             android:label="" >
         </activity>
         <activity
-            android:name=".EditScheduleActivity"
-            android:label="" >
-        </activity>
-        <activity
             android:name=".InputEventActivity"
             android:label="@string/title_activity_input_event"
             android:parentActivityName=".ScheduleActivity"

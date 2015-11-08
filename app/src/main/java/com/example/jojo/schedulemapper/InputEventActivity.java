@@ -18,6 +18,8 @@ import android.text.format.DateFormat;
 import android.app.DatePickerDialog;
 import android.widget.DatePicker;
 
+import com.alamkanak.weekview.WeekViewEvent;
+
 import java.util.Calendar;
 
 public class InputEventActivity extends AppCompatActivity {
@@ -28,11 +30,14 @@ public class InputEventActivity extends AppCompatActivity {
     private boolean start;
     TextView startTime, endTime;
     TextView dateView;
+    private static WeekViewEvent currEvent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_event);
+
+        currEvent = ScheduleActivity.getCurrentEvent();
 
         startTime = (TextView)findViewById(R.id.textView);
         endTime = (TextView)findViewById(R.id.textView3);
@@ -62,6 +67,28 @@ public class InputEventActivity extends AppCompatActivity {
             }
         });
 
+        if (currEvent != null) {
+            EditText title, location, note;
+            title = (EditText) findViewById(R.id.name);
+            location = (EditText) findViewById(R.id.location);
+            note = (EditText) findViewById(R.id.note);
+            title.setText(currEvent.getName());
+            location.setText(currEvent.getLocation());
+            note.setText(currEvent.getNote());
+            int year = currEvent.getStartTime().get(Calendar.YEAR);
+            int month = currEvent.getStartTime().get(Calendar.MONTH);
+            int day = currEvent.getStartTime().get(Calendar.DAY_OF_MONTH);
+            updateDate(year, month, day);
+            int startHour = currEvent.getStartTime().get(Calendar.HOUR);
+            int startMinute = currEvent.getStartTime().get(Calendar.MINUTE);
+            int endHour = currEvent.getEndTime().get(Calendar.HOUR);
+            int endMinute = currEvent.getEndTime().get(Calendar.MINUTE);
+            start = true;
+            updateStartTime(startHour, startMinute);
+            start = false;
+            updateEndTime(endHour, endMinute);
+        }
+
     }
 
     public class DatePickerFragment extends DialogFragment
@@ -71,10 +98,18 @@ public class InputEventActivity extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current date as the default date in the picker
             final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
+            int year, month, day;
+            if (currEvent != null) {
+                year = currEvent.getStartTime().get(Calendar.YEAR);
+                month = currEvent.getStartTime().get(Calendar.MONTH);
+                day = currEvent.getStartTime().get(Calendar.DAY_OF_MONTH);
+                updateDate(year, month, day);
+            }
+            else {
+                year = c.get(Calendar.YEAR);
+                month = c.get(Calendar.MONTH);
+                day = c.get(Calendar.DAY_OF_MONTH);
+            }
             // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
@@ -91,8 +126,15 @@ public class InputEventActivity extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the current time as the default values for the picker
             final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
+            int hour, minute;
+            if (currEvent != null) {
+                hour = currEvent.getStartTime().get(Calendar.HOUR);
+                minute = currEvent.getStartTime().get(Calendar.MINUTE);
+            }
+            else {
+                hour = c.get(Calendar.HOUR_OF_DAY);
+                minute = 0;
+            }
 
             // Create a new instance of TimePickerDialog and return it
             return new TimePickerDialog(getActivity(), this, hour, minute,
@@ -100,7 +142,8 @@ public class InputEventActivity extends AppCompatActivity {
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            updateTime(hourOfDay, minute);
+            updateStartTime(hourOfDay, minute);
+            updateEndTime(hourOfDay, minute);
         }
 
     }
@@ -112,17 +155,19 @@ public class InputEventActivity extends AppCompatActivity {
         dateView.setText(this.month + "/" + day + "/" + year);
     }
 
-    public void updateTime( int hourOfDay, int minute) {
-        if(start) {
+    public void updateStartTime( int hourOfDay, int minute) {
+        if (start) {
             startHour = hourOfDay;
             startMinute = minute;
-            if(minute < 10)
+            if (minute < 10)
                 startTime.setText(hourOfDay + ":0" + minute);
             else
                 startTime.setText(hourOfDay + ":" + minute);
         }
-        else
-        {
+    }
+
+    public void updateEndTime( int hourOfDay, int minute ) {
+        if (!start) {
             endHour = hourOfDay;
             endMinute = minute;
             if(minute < 10)

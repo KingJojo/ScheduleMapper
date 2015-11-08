@@ -9,7 +9,6 @@
     <string name="action_add_event">Add event</string>
     <string name="event_title">Event title</string>
     <string name="edit_string">Edit</string>
-    <string name="view_string">View</string>
     <string-array name="time_array">
         <item>Day</item>
         <item>3 Day</item>

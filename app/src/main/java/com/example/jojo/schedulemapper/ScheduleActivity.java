@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.util.Log;
+import android.widget.Button;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.WeekView;
@@ -38,7 +39,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     private WeekView mWeekView;
     private MenuItem viewMenu;
     private List<WeekViewEvent> events;
-    private WeekViewEvent tapped = null;
+    private static WeekViewEvent tapped = null;
+    private boolean editMode = false; // used to toggle between edit and view mode
     private int id = 0;
 
     @Override
@@ -118,9 +120,18 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         setupDateTimeInterpreter(id == R.id.action_week_view);
         switch (id){
             case R.id.edit_button:
-                startActivity(new Intent(this, EditScheduleActivity.class));
+                // change edit button appearance to show edit mode
+                if (editMode) {
+                    editMode = false;
+                    item.setTitle("Edit");
+                }
+                else {
+                    editMode = true;
+                    item.setTitle("View");
+                }
                 return true;
             case R.id.action_add_event:
+                tapped = null;
                 startActivityForResult(new Intent( this, InputEventActivity.class ), 1 );
                 return true;
             case R.id.action_today:
@@ -227,7 +238,14 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
-        tapped = event;
-        startActivityForResult(new Intent(this, InputEventActivity.class), 1);
+        if (editMode) {
+            tapped = event;
+            startActivityForResult(new Intent(this, InputEventActivity.class), 1);
+        }
+    }
+
+    // used to get event from inputeventactivity class
+    public static WeekViewEvent getCurrentEvent() {
+        return tapped;
     }
 }
