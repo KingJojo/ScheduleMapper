@@ -116,7 +116,7 @@ public class WeekView extends View {
     @Deprecated private int mDayNameLength = LENGTH_LONG;
     private int mOverlappingEventGap = 0;
     private int mEventMarginVertical = 0;
-    private float mXScrollingSpeed = 1f;
+    private float mXScrollingSpeed = 0.75f;
     private Calendar mFirstVisibleDay;
     private Calendar mLastVisibleDay;
     private Calendar mScrollToDay = null;
@@ -124,6 +124,9 @@ public class WeekView extends View {
     private ScaleGestureDetector mScaleDetector;
     private boolean mIsZooming;
     private int mEventCornerRadius = 0;
+    private float mMinOrigin = 1.0f;
+    private float mMaxOrigin = 0;
+    private Calendar currentSunday = getSunday();
 
     // Listeners.
     private EventClickListener mEventClickListener;
@@ -149,7 +152,10 @@ public class WeekView extends View {
             if (mCurrentScrollDirection == Direction.NONE) {
                 // allow scrolling only in one direction
                 if (Math.abs(distanceX) > Math.abs(distanceY)){
-                    mCurrentScrollDirection = Direction.HORIZONTAL;
+                    System.out.println(mCurrentOrigin.x + ", " + mMinOrigin + ", " + mMaxOrigin);
+                    if(mCurrentOrigin.x <= mMinOrigin && mCurrentOrigin.x >= mMaxOrigin) {
+                        mCurrentScrollDirection = Direction.HORIZONTAL;
+                    }
                 }
                 else {
                     mCurrentScrollDirection = Direction.VERTICAL;
@@ -158,7 +164,9 @@ public class WeekView extends View {
 
             switch (mCurrentScrollDirection) {
                 case HORIZONTAL:
-                    mCurrentOrigin.x -= distanceX * mXScrollingSpeed;
+                    if(mCurrentOrigin.x <= mMinOrigin && mCurrentOrigin.x >= mMaxOrigin) {
+                        mCurrentOrigin.x -= distanceX * mXScrollingSpeed;
+                    }
                     ViewCompat.postInvalidateOnAnimation(WeekView.this);
 
                     break;
@@ -174,7 +182,7 @@ public class WeekView extends View {
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            mScroller.forceFinished(true);
+            /*mScroller.forceFinished(true);
 
             mCurrentFlingDirection = mCurrentScrollDirection;
             if (mCurrentFlingDirection == Direction.HORIZONTAL){
@@ -184,7 +192,7 @@ public class WeekView extends View {
                 mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, 0, (int) velocityY, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderTextHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight/2 - getHeight()), 0);
             }
 
-            ViewCompat.postInvalidateOnAnimation(WeekView.this);
+            ViewCompat.postInvalidateOnAnimation(WeekView.this);*/
             return true;
         }
 
@@ -404,6 +412,7 @@ public class WeekView extends View {
                 return true;
             }
         });
+
     }
 
     // fix rotation changes
@@ -465,7 +474,7 @@ public class WeekView extends View {
         mWidthPerDay = getWidth() - mHeaderColumnWidth - mColumnGap * (mNumberOfVisibleDays - 1);
         mWidthPerDay = mWidthPerDay/mNumberOfVisibleDays;
 
-        Calendar today = today();
+        Calendar today = currentSunday;
 
         if (mAreDimensionsInvalid) {
             mEffectiveMinHourHeight= Math.max(mMinHourHeight, (int) ((getHeight() - mHeaderTextHeight - mHeaderRowPadding * 2 - mHeaderMarginBottom) / 24));
@@ -635,6 +644,9 @@ public class WeekView extends View {
             canvas.drawText(dayLabel, startPixel + mWidthPerDay / 2, mHeaderTextHeight + mHeaderRowPadding, sameDay ? mTodayHeaderTextPaint : mHeaderTextPaint);
             startPixel += mWidthPerDay + mColumnGap;
         }
+
+        mMaxOrigin = -(7 - mNumberOfVisibleDays) * (mWidthPerDay + mColumnGap);
+        mMaxOrigin--;
 
     }
 
@@ -1570,8 +1582,10 @@ public class WeekView extends View {
      * Show today on the week view.
      */
     public void goToToday() {
-        Calendar today = Calendar.getInstance();
-        goToDate(today);
+        goToDate(getSunday());
+        mCurrentOrigin.x = 0;
+        mCurrentOrigin.y = 0;
+        currentSunday = getSunday();
     }
 
     /**
@@ -1636,6 +1650,16 @@ public class WeekView extends View {
             verticalOffset = (int)(mHourHeight * 24 - getHeight() + mHeaderTextHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom);
 
         mCurrentOrigin.y = -verticalOffset;
+        invalidate();
+    }
+
+    public void incrementWeek() {
+        currentSunday.add(Calendar.DAY_OF_MONTH, 7);
+        invalidate();
+    }
+
+    public void decrementWeek() {
+        currentSunday.add(Calendar.DAY_OF_MONTH, -7);
         invalidate();
     }
 
@@ -1756,4 +1780,9 @@ public class WeekView extends View {
         return today;
     }
 
+    private Calendar getSunday(){
+        Calendar today = today();
+        today.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+        return today;
+    }
 }
