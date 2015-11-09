@@ -118,6 +118,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                                 year, month, day+i-firstDay, data.getIntExtra("startHour", 0),
                                 data.getIntExtra("startMinute", 0), year, month, day+i-firstDay,
                                 data.getIntExtra("endHour", 0), data.getIntExtra("endMinute", 0));
+                        newEvent.setColor(colorArray[colorIndex]);
                         id++;
                         events.add(newEvent);
                         mWeekView.notifyDatasetChanged();

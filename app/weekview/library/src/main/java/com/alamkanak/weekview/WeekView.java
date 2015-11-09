@@ -182,17 +182,17 @@ public class WeekView extends View {
 
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            /*mScroller.forceFinished(true);
+            mScroller.forceFinished(true);
 
             mCurrentFlingDirection = mCurrentScrollDirection;
             if (mCurrentFlingDirection == Direction.HORIZONTAL){
-                mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, (int) (velocityX * mXScrollingSpeed), 0, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderTextHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight/2 - getHeight()), 0);
+                mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, (int) (velocityX * mXScrollingSpeed), 0, (int) mMaxOrigin, (int) mMinOrigin, (int) -(mHourHeight * 24 + mHeaderTextHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight / 2 - getHeight()), 0);
             }
             else if (mCurrentFlingDirection == Direction.VERTICAL){
                 mScroller.fling((int) mCurrentOrigin.x, (int) mCurrentOrigin.y, 0, (int) velocityY, Integer.MIN_VALUE, Integer.MAX_VALUE, (int) -(mHourHeight * 24 + mHeaderTextHeight + mHeaderRowPadding * 2 + mHeaderMarginBottom + mTimeTextHeight/2 - getHeight()), 0);
             }
 
-            ViewCompat.postInvalidateOnAnimation(WeekView.this);*/
+            ViewCompat.postInvalidateOnAnimation(WeekView.this);
             return true;
         }
 
@@ -1600,7 +1600,7 @@ public class WeekView extends View {
         }
         mCurrentOrigin.x = - dayDiff * (mWidthPerDay + mColumnGap);
         mCurrentOrigin.y = 0;
-        goToDate(today);
+        invalidate();
     }
 
     /**
