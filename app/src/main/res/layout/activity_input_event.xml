@@ -1,144 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+    android:fillViewport="true">
 
-    <TextView
-        android:id="@+id/nameText"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="19dp"
-        android:layout_marginTop="27dp"
-        android:text="@string/event_title"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="19dp" />
+        android:fitsSystemWindows="true">
 
-    <EditText
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10" android:inputType="text"
-        android:layout_alignTop="@+id/nameText"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_alignStart="@+id/textView2" />
+        <TextView
+            android:id="@+id/nameText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="19dp"
+            android:layout_marginStart="19dp"
+            android:layout_marginTop="27dp"
+            android:text="@string/event_title" />
 
-    <TextView
-        android:id="@+id/locationText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Location"
-        android:layout_marginTop="16dp"
-        android:layout_below="@+id/name"
-        android:layout_alignLeft="@+id/nameText"
-        android:layout_alignStart="@+id/nameText" />
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView2"
+            android:layout_alignStart="@+id/textView2"
+            android:layout_alignTop="@+id/nameText"
+            android:ems="10"
+            android:inputType="text" />
 
-    <EditText
-        android:id="@+id/location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10" android:inputType="text"
-        android:layout_alignTop="@+id/locationText"
-        android:layout_alignLeft="@+id/name"
-        android:layout_alignStart="@+id/name" />
+        <TextView
+            android:id="@+id/locationText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/nameText"
+            android:layout_alignStart="@+id/nameText"
+            android:layout_below="@+id/name"
+            android:layout_marginTop="16dp"
+            android:text="Location" />
 
-    <Button
-        android:id="@+id/dateButton"
-        android:text="Date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="showDatePickerDialog"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_alignLeft="@+id/startButton"
-        android:layout_alignStart="@+id/startButton"
-        android:layout_alignRight="@+id/startButton"
-        android:layout_alignEnd="@+id/startButton" />
+        <EditText
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/name"
+            android:layout_alignStart="@+id/name"
+            android:layout_alignTop="@+id/locationText"
+            android:ems="10"
+            android:inputType="text" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="No date selected"
-        android:id="@+id/textView2"
-        android:layout_marginBottom="18dp"
-        android:layout_marginLeft="18dp"
-        android:layout_above="@+id/startButton"
-        android:layout_toRightOf="@+id/dateButton" />
+        <Button
+            android:id="@+id/dateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView2"
+            android:layout_alignEnd="@+id/startButton"
+            android:layout_alignLeft="@+id/startButton"
+            android:layout_alignRight="@+id/startButton"
+            android:layout_alignStart="@+id/startButton"
+            android:onClick="showDatePickerDialog"
+            android:text="Date" />
 
-    <Button
-        android:id="@+id/startButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="start time"
-        android:onClick="showStartTimePicker"
-        android:layout_alignBottom="@+id/textView"
-        android:layout_alignLeft="@+id/locationText"
-        android:layout_alignStart="@+id/locationText" />
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/startButton"
+            android:layout_marginBottom="18dp"
+            android:layout_marginLeft="18dp"
+            android:layout_toRightOf="@+id/dateButton"
+            android:text="No date selected"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="No time selected"
-        android:id="@+id/textView"
-        android:textAlignment="center"
-        android:layout_marginTop="104dp"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_below="@+id/location"
-        android:layout_toRightOf="@+id/startButton" />
+        <Button
+            android:id="@+id/startButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView"
+            android:layout_alignLeft="@+id/locationText"
+            android:layout_alignStart="@+id/locationText"
+            android:onClick="showStartTimePicker"
+            android:text="start time" />
 
-    <Button
-        android:text="End time"
-        android:id="@+id/endButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="showEndTimePicker"
-        android:layout_alignBottom="@+id/textView3"
-        android:layout_alignLeft="@+id/startButton"
-        android:layout_alignStart="@+id/startButton"
-        android:layout_alignRight="@+id/startButton"
-        android:layout_alignEnd="@+id/startButton" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView2"
+            android:layout_below="@+id/location"
+            android:layout_marginTop="104dp"
+            android:layout_toRightOf="@+id/startButton"
+            android:text="No time selected"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="No time selected"
-        android:id="@+id/textView3"
-        android:layout_marginTop="39dp"
-        android:layout_below="@+id/textView"
-        android:layout_alignLeft="@+id/textView2"
-        android:layout_toRightOf="@+id/endButton"/>
+        <Button
+            android:id="@+id/endButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/textView3"
+            android:layout_alignEnd="@+id/startButton"
+            android:layout_alignLeft="@+id/startButton"
+            android:layout_alignRight="@+id/startButton"
+            android:layout_alignStart="@+id/startButton"
+            android:onClick="showEndTimePicker"
+            android:text="End time" />
 
-    <TextView
-        android:id="@+id/noteText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Note"
-        android:layout_below="@+id/endButton"
-        android:layout_alignLeft="@+id/endButton"
-        android:layout_alignStart="@+id/endButton"
-        android:layout_marginTop="35dp" />
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/textView2"
+            android:layout_below="@+id/textView"
+            android:layout_marginTop="39dp"
+            android:layout_toRightOf="@+id/endButton"
+            android:text="No time selected"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <EditText
-        android:id="@+id/note"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10" android:inputType="text"
-        android:layout_alignTop="@+id/noteText"
-        android:layout_alignLeft="@+id/submit"
-        android:layout_alignStart="@+id/submit" />
+        <TextView
+            android:id="@+id/noteText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/endButton"
+            android:layout_alignStart="@+id/endButton"
+            android:layout_below="@+id/endButton"
+            android:layout_marginTop="35dp"
+            android:text="Note" />
 
-    <Button
-        android:id="@+id/submit"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Event"
-        android:layout_marginBottom="30dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        <EditText
+            android:id="@+id/note"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/submit"
+            android:layout_alignStart="@+id/submit"
+            android:layout_alignTop="@+id/noteText"
+            android:ems="10"
+            android:inputType="text" />
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Event"
+            android:layout_alignParentBottom="true"
+            android:layout_alignLeft="@+id/textView3"
+            android:layout_alignStart="@+id/textView3"
+            android:layout_marginBottom="35dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Repeat Days"
+            android:id="@+id/textView6"
+            android:layout_marginTop="33dp"
+            android:layout_below="@+id/note"
+            android:layout_alignLeft="@+id/noteText"
+            android:layout_alignStart="@+id/noteText" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mon"
+            android:id="@+id/checkBoxMon"
+            android:checked="false"
+            android:layout_below="@+id/textView6"
+            android:layout_toLeftOf="@+id/checkBoxTues"
+            android:layout_toStartOf="@+id/checkBoxTues" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tues"
+            android:id="@+id/checkBoxTues"
+            android:checked="false"
+            android:layout_below="@+id/textView6"
+            android:layout_toLeftOf="@+id/checkBoxWed"
+            android:layout_toStartOf="@+id/checkBoxWed" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Wed"
+            android:id="@+id/checkBoxWed"
+            android:checked="false"
+            android:layout_alignTop="@+id/checkBoxTues"
+            android:layout_toLeftOf="@+id/checkBoxThurs"
+            android:layout_toStartOf="@+id/checkBoxThurs" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thurs"
+            android:id="@+id/checkBoxThurs"
+            android:checked="false"
+            android:layout_alignTop="@+id/checkBoxWed"
+            android:layout_alignRight="@+id/note"
+            android:layout_alignEnd="@+id/note" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sun"
+            android:id="@+id/checkBoxSun"
+            android:checked="false"
+            android:layout_below="@+id/checkBoxTues"
+            android:layout_alignRight="@+id/checkBoxThurs"
+            android:layout_alignEnd="@+id/checkBoxThurs" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sat"
+            android:id="@+id/checkBoxSat"
+            android:checked="false"
+            android:layout_below="@+id/checkBoxWed"
+            android:layout_toLeftOf="@+id/checkBoxSun"
+            android:layout_toStartOf="@+id/checkBoxSun" />
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fri"
+            android:id="@+id/checkBoxFri"
+            android:checked="false"
+            android:layout_below="@+id/checkBoxMon"
+            android:layout_toLeftOf="@+id/checkBoxSat"
+            android:layout_toStartOf="@+id/checkBoxSat" />
+
+
+    </RelativeLayout>
+
+</ScrollView>
