@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="match_parent"
+    android:layout_height="fill_parent"
     android:fillViewport="true">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:id="@+id/container"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true">
+        android:orientation="vertical"
+        android:longClickable="false">
 
         <TextView
             android:id="@+id/nameText"
@@ -63,7 +66,7 @@
             android:layout_alignRight="@+id/startButton"
             android:layout_alignStart="@+id/startButton"
             android:onClick="showDatePickerDialog"
-            android:text="Date" />
+            android:text="Start Date" />
 
         <TextView
             android:id="@+id/textView2"
@@ -146,93 +149,92 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Event"
-            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/checkBoxFri"
             android:layout_alignLeft="@+id/textView3"
             android:layout_alignStart="@+id/textView3"
-            android:layout_marginBottom="35dp" />
+            android:layout_marginTop="30dp" />
 
         <TextView
+            android:id="@+id/textView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Repeat Days"
-            android:id="@+id/textView6"
-            android:layout_marginTop="33dp"
-            android:layout_below="@+id/note"
             android:layout_alignLeft="@+id/noteText"
-            android:layout_alignStart="@+id/noteText" />
+            android:layout_alignStart="@+id/noteText"
+            android:layout_below="@+id/note"
+            android:layout_marginTop="33dp"
+            android:text="Repeat Days"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <CheckBox
+            android:id="@+id/checkBoxMon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Mon"
-            android:id="@+id/checkBoxMon"
-            android:checked="false"
             android:layout_below="@+id/textView6"
             android:layout_toLeftOf="@+id/checkBoxTues"
-            android:layout_toStartOf="@+id/checkBoxTues" />
+            android:layout_toStartOf="@+id/checkBoxTues"
+            android:checked="false"
+            android:text="Mon" />
 
         <CheckBox
+            android:id="@+id/checkBoxTues"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Tues"
-            android:id="@+id/checkBoxTues"
-            android:checked="false"
             android:layout_below="@+id/textView6"
             android:layout_toLeftOf="@+id/checkBoxWed"
-            android:layout_toStartOf="@+id/checkBoxWed" />
+            android:layout_toStartOf="@+id/checkBoxWed"
+            android:checked="false"
+            android:text="Tues" />
 
         <CheckBox
+            android:id="@+id/checkBoxWed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Wed"
-            android:id="@+id/checkBoxWed"
-            android:checked="false"
             android:layout_alignTop="@+id/checkBoxTues"
             android:layout_toLeftOf="@+id/checkBoxThurs"
-            android:layout_toStartOf="@+id/checkBoxThurs" />
+            android:layout_toStartOf="@+id/checkBoxThurs"
+            android:checked="false"
+            android:text="Wed" />
 
         <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Thurs"
             android:id="@+id/checkBoxThurs"
-            android:checked="false"
-            android:layout_alignTop="@+id/checkBoxWed"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/note"
             android:layout_alignRight="@+id/note"
-            android:layout_alignEnd="@+id/note" />
+            android:layout_alignTop="@+id/checkBoxWed"
+            android:checked="false"
+            android:text="Thurs" />
 
         <CheckBox
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sun"
             android:id="@+id/checkBoxSun"
-            android:checked="false"
-            android:layout_below="@+id/checkBoxTues"
-            android:layout_alignRight="@+id/checkBoxThurs"
-            android:layout_alignEnd="@+id/checkBoxThurs" />
-
-        <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Sat"
-            android:id="@+id/checkBoxSat"
+            android:layout_alignEnd="@+id/checkBoxThurs"
+            android:layout_alignRight="@+id/checkBoxThurs"
+            android:layout_below="@+id/checkBoxTues"
             android:checked="false"
+            android:text="Sun" />
+
+        <CheckBox
+            android:id="@+id/checkBoxSat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/checkBoxWed"
             android:layout_toLeftOf="@+id/checkBoxSun"
-            android:layout_toStartOf="@+id/checkBoxSun" />
+            android:layout_toStartOf="@+id/checkBoxSun"
+            android:checked="false"
+            android:text="Sat" />
 
         <CheckBox
+            android:id="@+id/checkBoxFri"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Fri"
-            android:id="@+id/checkBoxFri"
-            android:checked="false"
             android:layout_below="@+id/checkBoxMon"
             android:layout_toLeftOf="@+id/checkBoxSat"
-            android:layout_toStartOf="@+id/checkBoxSat" />
-
-
+            android:layout_toStartOf="@+id/checkBoxSat"
+            android:checked="false"
+            android:text="Fri" />
     </RelativeLayout>
+
 
 </ScrollView>
