@@ -1,6 +1,7 @@
 package com.alamkanak.weekview;
 
 import java.util.Calendar;
+import android.graphics.Color;
 
 /**
  * Created by Raquib-ul-Alam Kanak on 7/21/2014.
@@ -14,7 +15,8 @@ public class WeekViewEvent {
     private String mLocation;
     private String mNote;
     private int mColor;
-
+    private int prevColor = Color.parseColor("#e6e6e6");
+    boolean enabled = true;
     public WeekViewEvent(){
 
     }
@@ -138,6 +140,13 @@ public class WeekViewEvent {
 
     public void setId(long id) {
         this.mId = id;
+    }
+
+    public void changeColor() {
+        int temp = mColor;
+        mColor = prevColor;
+        prevColor = temp;
+        enabled = !enabled;
     }
 
     @Override

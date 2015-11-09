@@ -18,6 +18,8 @@ import android.widget.TimePicker;
 import android.text.format.DateFormat;
 import android.app.DatePickerDialog;
 import android.widget.DatePicker;
+import android.content.Context;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.WeekViewEvent;
 
@@ -73,20 +75,34 @@ public class InputEventActivity extends AppCompatActivity {
                     System.out.println(i);
                 }
 
-                intent.putExtra("eventTitle", eventText.getText().toString());
-                intent.putExtra("location", eventLocation.getText().toString());
-                intent.putExtra("note", eventNote.getText().toString());
-                intent.putExtra("year", year);
-                intent.putExtra("month", month);
-                intent.putExtra("day", day);
-                intent.putExtra("startHour", startHour);
-                intent.putExtra("startMinute", startMinute);
-                intent.putExtra("endHour", endHour);
-                intent.putExtra("endMinute", endMinute);
-                intent.putExtra("daysOfWeek", daysOfWeek);
+                if(eventText.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please enter an event title.", Toast.LENGTH_SHORT).show();
+                } else if(eventLocation.getText().toString().equals("")) {
+                    Toast.makeText(getApplicationContext(), "Please enter an event location.", Toast.LENGTH_SHORT).show();
+                } else if(dateView.getText().toString().equals("No date selected")) {
+                    Toast.makeText(getApplicationContext(), "Please enter an event date.", Toast.LENGTH_SHORT).show();
+                } else if(startTime.getText().toString().equals("No time selected")) {
+                    Toast.makeText(getApplicationContext(), "Please enter an event start time.", Toast.LENGTH_SHORT).show();
+                } else if(endTime.getText().toString().equals("No time selected")) {
+                    Toast.makeText(getApplicationContext(), "Please enter an event end time.", Toast.LENGTH_SHORT).show();
+                } else if(startHour > endHour || (startHour == endHour && startMinute > endMinute)) {
+                    Toast.makeText(getApplicationContext(), "Please enter a valid start and end time.", Toast.LENGTH_SHORT).show();
+                } else {
+                    intent.putExtra("eventTitle", eventText.getText().toString());
+                    intent.putExtra("location", eventLocation.getText().toString());
+                    intent.putExtra("note", eventNote.getText().toString());
+                    intent.putExtra("year", year);
+                    intent.putExtra("month", month);
+                    intent.putExtra("day", day);
+                    intent.putExtra("startHour", startHour);
+                    intent.putExtra("startMinute", startMinute);
+                    intent.putExtra("endHour", endHour);
+                    intent.putExtra("endMinute", endMinute);
+                    intent.putExtra("daysOfWeek", daysOfWeek);
 
-                setResult(RESULT_OK, intent);
-                finish();
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
             }
         });
 

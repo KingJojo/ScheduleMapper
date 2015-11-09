@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.util.Log;
 import android.widget.Button;
+import android.graphics.Color;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.WeekView;
@@ -42,6 +43,9 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     private static WeekViewEvent tapped = null;
     private boolean editMode = false; // used to toggle between edit and view mode
     private int id = 0;
+    private int[] colorArray = {Color.parseColor("#59dbe0"), Color.parseColor("#f57f68"),
+                                        Color.parseColor("#87d288"), Color.parseColor("#f8b552")};
+    private int colorIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -119,6 +123,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                         mWeekView.notifyDatasetChanged();
                     }
                 }
+                colorIndex = (colorIndex + 1) % 4;
 
 
             }
@@ -250,7 +255,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-
+        event.changeColor();
+        mWeekView.notifyDatasetChanged();
     }
 
     @Override
