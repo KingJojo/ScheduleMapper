@@ -103,13 +103,24 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 int year = data.getIntExtra("year", 0);
                 int month = data.getIntExtra("month", 0);
                 int day = data.getIntExtra("day", 0);
-                WeekViewEvent newEvent = new WeekViewEvent(id, data.getStringExtra("eventTitle"),
-                        data.getStringExtra("location"), data.getStringExtra("note"),
-                        year, month, day, data.getIntExtra("startHour", 0),
-                        data.getIntExtra("startMinute", 0), year, month, day,
-                        data.getIntExtra("endHour", 0), data.getIntExtra("endMinute", 0) );
-                events.add(newEvent);
-                mWeekView.notifyDatasetChanged();
+                boolean[] daysOfWeek = data.getBooleanArrayExtra("daysOfWeek");
+                int firstDay = -1;
+                for (int i=0; i<daysOfWeek.length; i++) {
+                    if (daysOfWeek[i]) {
+                        if (firstDay == -1) firstDay = i;
+                        System.out.println("Making new event for day" + (day+i-firstDay));
+                        WeekViewEvent newEvent = new WeekViewEvent(id, data.getStringExtra("eventTitle"),
+                                data.getStringExtra("location"), data.getStringExtra("note"),
+                                year, month, day+i-firstDay, data.getIntExtra("startHour", 0),
+                                data.getIntExtra("startMinute", 0), year, month, day+i-firstDay,
+                                data.getIntExtra("endHour", 0), data.getIntExtra("endMinute", 0));
+                        id++;
+                        events.add(newEvent);
+                        mWeekView.notifyDatasetChanged();
+                    }
+                }
+
+
             }
         }
     }

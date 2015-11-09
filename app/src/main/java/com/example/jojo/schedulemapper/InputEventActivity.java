@@ -11,6 +11,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -51,6 +52,27 @@ public class InputEventActivity extends AppCompatActivity {
                 EditText eventLocation = (EditText) findViewById(R.id.location);
                 EditText eventNote = (EditText) findViewById(R.id.note);
 
+                CheckBox sunday = (CheckBox) findViewById(R.id.checkBoxSun);
+                CheckBox monday = (CheckBox) findViewById(R.id.checkBoxMon);
+                CheckBox tuesday = (CheckBox) findViewById(R.id.checkBoxTues);
+                CheckBox wednesday = (CheckBox) findViewById(R.id.checkBoxWed);
+                CheckBox thursday = (CheckBox) findViewById(R.id.checkBoxThurs);
+                CheckBox friday = (CheckBox) findViewById(R.id.checkBoxFri);
+                CheckBox saturday = (CheckBox) findViewById(R.id.checkBoxSat);
+
+                // get values from checkboxes
+                boolean[] daysOfWeek = new boolean[7];
+                daysOfWeek[0] = (sunday.isChecked());
+                daysOfWeek[1] = (monday.isChecked());
+                daysOfWeek[2] = (tuesday.isChecked());
+                daysOfWeek[3] = (wednesday.isChecked());
+                daysOfWeek[4] = (thursday.isChecked());
+                daysOfWeek[5] = (friday.isChecked());
+                daysOfWeek[6] = (saturday.isChecked());
+                for ( boolean i : daysOfWeek ) {
+                    System.out.println(i);
+                }
+
                 intent.putExtra("eventTitle", eventText.getText().toString());
                 intent.putExtra("location", eventLocation.getText().toString());
                 intent.putExtra("note", eventNote.getText().toString());
@@ -61,6 +83,7 @@ public class InputEventActivity extends AppCompatActivity {
                 intent.putExtra("startMinute", startMinute);
                 intent.putExtra("endHour", endHour);
                 intent.putExtra("endMinute", endMinute);
+                intent.putExtra("daysOfWeek", daysOfWeek);
 
                 setResult(RESULT_OK, intent);
                 finish();
