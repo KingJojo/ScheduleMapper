@@ -12,7 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:longClickable="false">
+        android:longClickable="false"
+        android:paddingBottom="30dp">
 
         <TextView
             android:id="@+id/nameText"
@@ -165,7 +166,8 @@
             android:layout_below="@+id/checkBoxSun"
             android:layout_alignRight="@+id/checkBoxThurs"
             android:layout_alignEnd="@+id/checkBoxThurs"
-            android:layout_marginTop="50dp"/>
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="30dp" />
 
         <TextView
             android:id="@+id/textView6"
