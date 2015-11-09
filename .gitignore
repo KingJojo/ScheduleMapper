@@ -2,11 +2,12 @@
 /local.properties
 /.idea/workspace.xml
 /.idea/libraries
-.idea/gradle.xml
-.idea/modules.xml
+/.idea/gradle.xml
+/.idea/modules.xml
+/.idea/misc.xml
 .DS_Store
 /build
 /captures
 /app/build
-app/app.iml
+/app/app.iml
 
