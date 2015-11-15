@@ -67,7 +67,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         location = (EditText) findViewById(R.id.location);
         note = (EditText) findViewById(R.id.note);
         title.setText(currEvent.getName());
-        location.setText(currEvent.getLocation());
+        location.setText(currEvent.getBuildingNumber());
         note.setText(currEvent.getNote());
         year = currEvent.getStartTime().get(Calendar.YEAR);
         month = currEvent.getStartTime().get(Calendar.MONTH);
