@@ -133,6 +133,12 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         }
     }
 
+    public void deleteEvent(View view) {
+        Intent intent = new Intent();
+        setResult(RESULT_CANCELED, intent);
+        finish();
+    }
+
     public class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 

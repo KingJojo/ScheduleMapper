@@ -474,7 +474,7 @@ public class WeekView extends View {
         mWidthPerDay = getWidth() - mHeaderColumnWidth - mColumnGap * (mNumberOfVisibleDays - 1);
         mWidthPerDay = mWidthPerDay/mNumberOfVisibleDays;
 
-        Calendar today = currentSunday;
+        Calendar today = today();
 
         if (mAreDimensionsInvalid) {
             mEffectiveMinHourHeight= Math.max(mMinHourHeight, (int) ((getHeight() - mHeaderTextHeight - mHeaderRowPadding * 2 - mHeaderMarginBottom) / 24));

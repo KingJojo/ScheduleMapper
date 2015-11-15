@@ -174,18 +174,39 @@
         </LinearLayout>
 
 
-        <Button
-            android:id="@+id/editEventButton"
+        <LinearLayout
+            android:id="@+id/buttonFields"
+            android:layout_marginTop="18dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop= "30dp"
-            android:layout_marginLeft="120dp"
-            android:text="Edit Event"
-            android:onClick="editEvent"
+            android:orientation="horizontal" >
 
-            android:singleLine="false"
-            android:textColor="#303F9F"
-            android:background="@drawable/button" />
+            <Button
+                android:id="@+id/editEventButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop= "30dp"
+                android:layout_marginLeft="30dp"
+                android:text="Edit Event"
+                android:onClick="editEvent"
+
+                android:singleLine="false"
+                android:textColor="#303F9F"
+                android:background="@drawable/button" />
+
+            <Button
+                android:id="@+id/deleteEventButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop= "30dp"
+                android:layout_marginLeft="80dp"
+                android:text="Delete Event"
+                android:onClick="deleteEvent"
+
+                android:singleLine="false"
+                android:textColor="#303F9F"
+                android:background="@drawable/button" />
+        </LinearLayout>
 
     </LinearLayout>
 

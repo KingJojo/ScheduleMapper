@@ -186,8 +186,14 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
                 minute = currEvent.getStartTime().get(Calendar.MINUTE);
             }
             else {
-                hour = c.get(Calendar.HOUR_OF_DAY);
-                minute = 0;
+                if (start) {
+                    hour = c.get(Calendar.HOUR_OF_DAY);
+                    minute = 0;
+                }
+                else {
+                    hour = startHour + 1;
+                    minute = startMinute;
+                }
             }
 
             // Create a new instance of TimePickerDialog and return it
