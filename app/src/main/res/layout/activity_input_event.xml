@@ -22,7 +22,8 @@
             android:id="@+id/eventFields"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:weightSum="1">
 
 
             <TextView
@@ -30,94 +31,95 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="18dp"
-                android:text="@string/event_title" />
+                android:text="@string/event_title"
+                android:layout_marginLeft="20dp" />
 
-             <EditText
+            <EditText
                 android:id="@+id/name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                                            />
+                android:layout_marginRight="20dp" />
         </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/locationFields"
-        android:layout_marginTop="18dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:weightSum="1">
-
-        <TextView
-            android:id="@+id/locationText"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/locationFields"
+            android:layout_marginTop="18dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginRight="28dp"
-            android:text="Location" />
+            android:orientation="horizontal"
+            android:weightSum="1">
 
-        <Spinner
-            android:id="@+id/buildingLocation"
-            android:layout_width="107dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="18dp"
-                                />
+            <TextView
+                android:id="@+id/locationText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="28dp"
+                android:text="Location"
+                android:layout_marginLeft="20dp" />
 
-        <EditText
-            android:id="@+id/location"
-            android:layout_width="81dp"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="text"
-            android:layout_weight="0.43" />
+            <Spinner
+                android:id="@+id/buildingLocation"
+                android:layout_width="107dp"
+                android:layout_height="29dp"
+                android:layout_marginRight="18dp"
+                />
 
-    </LinearLayout>
+            <EditText
+                android:id="@+id/location"
+                android:layout_width="81dp"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:layout_weight="0.43" />
 
-    <LinearLayout
-        android:id="@+id/repeatableTextFields"
-        android:layout_marginTop="18dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/repeatableText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="18dp"
-            android:text="Repeatable?"
-            />
-
-        <RadioGroup
-            android:id="@+id/repeatableButtons"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/repeatableTextFields"
+            android:layout_marginTop="18dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
-            <RadioButton
-                android:id="@+id/repeatableYes"
+            <TextView
+                android:id="@+id/repeatableText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onRadioButtonClicked"
-                android:text="Yes" />
+                android:layout_marginRight="18dp"
+                android:text="Repeatable?"
+                android:layout_marginLeft="20dp" />
 
-            <RadioButton
-                android:id="@+id/repeatableNo"
+            <RadioGroup
+                android:id="@+id/repeatableButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:onClick="onRadioButtonClicked"
-                android:text="No" />
+                android:orientation="horizontal" >
 
-        </RadioGroup>
+                <RadioButton
+                    android:id="@+id/repeatableYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Yes" />
 
-    </LinearLayout>
+                <RadioButton
+                    android:id="@+id/repeatableNo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="No" />
+
+            </RadioGroup>
+
+        </LinearLayout>
 
 
         <LinearLayout
             android:id="@+id/forRepeating"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
             android:orientation="vertical" >
 
         </LinearLayout>

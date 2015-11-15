@@ -19,9 +19,10 @@
 
         <LinearLayout
             android:id="@+id/eventFields"
-            android:layout_width="wrap_content"
+            android:layout_width="359dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:weightSum="1">
 
 
             <TextView
@@ -29,20 +30,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="18dp"
-                android:text="@string/event_title" />
+                android:text="@string/event_title"
+                android:layout_marginLeft="20dp" />
 
              <EditText
                 android:id="@+id/name"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="text" />
+                android:inputType="text"
+                 android:layout_marginRight="20dp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/locationFields"
             android:layout_marginTop="18dp"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1">
@@ -52,28 +55,29 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="28dp"
-                android:text="Location" />
+                android:text="Location"
+                android:layout_marginLeft="20dp" />
 
             <Spinner
                 android:id="@+id/buildingLocation"
-                android:layout_width="107dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="18dp"
-                                    />
+                android:layout_width="92dp"
+                android:layout_height="45dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginLeft="20dp" />
 
             <EditText
                 android:id="@+id/location"
-                android:layout_width="81dp"
+                android:layout_width="110dp"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:layout_weight="0.43" />
+                android:layout_marginRight="20dp" />
 
         </LinearLayout>
         <LinearLayout
             android:id="@+id/startDateFields"
             android:layout_marginTop="18dp"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
@@ -86,7 +90,8 @@
                 android:text="Start Date"
                 android:singleLine="true"
                 android:textColor="#303F9F"
-                android:background="@drawable/button"/>
+                android:background="@drawable/button"
+                android:layout_marginLeft="20dp" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -95,13 +100,14 @@
                 android:layout_marginBottom="18dp"
                 android:text="No date selected"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginRight="20dp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/startTimeFields"
             android:layout_marginTop="18dp"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
@@ -113,7 +119,8 @@
                 android:onClick="showStartTimePicker"
                 android:text="start time"
                 android:textColor="#303F9F"
-                android:background="@drawable/button" />
+                android:background="@drawable/button"
+                android:layout_marginLeft="20dp" />
 
             <TextView
                 android:id="@+id/textView"
@@ -121,14 +128,15 @@
                 android:layout_height="wrap_content"
                 android:text="No time selected"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginRight="20dp" />
 
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/endTimeFields"
             android:layout_marginTop="18dp"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
 
@@ -140,7 +148,8 @@
                 android:onClick="showEndTimePicker"
                 android:text="End time"
                 android:textColor="#303F9F"
-                android:background="@drawable/button" />
+                android:background="@drawable/button"
+                android:layout_marginLeft="20dp" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -148,65 +157,64 @@
                 android:layout_height="wrap_content"
                 android:text="No time selected"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:textColor="@android:color/darker_gray" />
+                android:textColor="@android:color/darker_gray"
+                android:layout_marginRight="20dp" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/noteFields"
             android:layout_marginTop="18dp"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal"
+            android:weightSum="1">
 
             <TextView
                 android:id="@+id/noteText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="18dp"
-                android:text="Note" />
+                android:text="Note"
+                android:layout_marginLeft="20dp" />
 
             <EditText
                 android:id="@+id/note"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:inputType="text" />
+                android:inputType="text"
+                android:layout_weight="1.11"
+                android:layout_marginRight="20dp" />
         </LinearLayout>
 
 
-        <LinearLayout
-            android:id="@+id/buttonFields"
-            android:layout_marginTop="18dp"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/editEventButton"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_marginTop= "30dp"
+            android:text="Edit Event"
+            android:onClick="editEvent"
 
-            <Button
-                android:id="@+id/editEventButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop= "30dp"
-                android:layout_marginLeft="30dp"
-                android:text="Edit Event"
-                android:onClick="editEvent"
+            android:singleLine="false"
+            android:textColor="#303F9F"
+            android:background="@drawable/button"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp" />
 
-                android:singleLine="false"
-                android:textColor="#303F9F"
-                android:background="@drawable/button" />
+        <Button
+            android:id="@+id/deleteEventButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop= "30dp"
+            android:text="Delete Event"
+            android:onClick="deleteEvent"
 
-            <Button
-                android:id="@+id/deleteEventButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop= "30dp"
-                android:layout_marginLeft="80dp"
-                android:text="Delete Event"
-                android:onClick="deleteEvent"
-
-                android:singleLine="false"
-                android:textColor="#303F9F"
-                android:background="@drawable/button" />
-        </LinearLayout>
+            android:singleLine="false"
+            android:textColor="#303F9F"
+            android:background="@drawable/button"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp" />
 
     </LinearLayout>
 
