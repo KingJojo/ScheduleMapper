@@ -7,6 +7,7 @@ import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.ParseACL;
+import com.alamkanak.weekview.WeekViewEvent;
 
 public class Application extends android.app.Application {
 
@@ -18,12 +19,8 @@ public class Application extends android.app.Application {
         super.onCreate();
         // Enable Local Datastore.
         Parse.enableLocalDatastore(getApplicationContext());
-        ParseUser.enableAutomaticUser();
-        ParseACL defaultACL = new ParseACL();
-        ParseACL.setDefaultACL(defaultACL, true);
-        Parse.enableLocalDatastore(this);
+        ParseObject.registerSubclass(WeekViewEvent.class);
         Parse.initialize(this, "FKw3bE2VYt6bGQtvX8znzUa59p8EvbfZ9o9fwCJ6", "zxqFBO3QVFZQBU1Onyekp3X7n736wPe2sqdm5p1j");
-        ParseObject.registerSubclass(Event.class);
     }
 
 }

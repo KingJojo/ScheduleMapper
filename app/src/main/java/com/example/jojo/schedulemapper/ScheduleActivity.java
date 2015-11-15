@@ -16,6 +16,10 @@ import android.graphics.Color;
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.parse.ParseQuery;
+import com.parse.ParseException;
+import com.parse.FindCallback;
+import com.parse.ParseObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -55,15 +59,23 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
         events = new ArrayList<WeekViewEvent>();
 
-        // Sample events specifically for lab day
-        WeekViewEvent newEvent1 = new WeekViewEvent(id, "5:30 Morning Jog", 1, null, null,
-                2015, 11, 6, 5, 30, 2015, 11, 6, 6, 30);
-        id++;
-        WeekViewEvent newEvent2 = new WeekViewEvent(id, "CSE 110 Lab", 1, null, null,
-                2015, 11, 6, 10, 30, 2015, 11, 6, 12, 30);
-        id++;
-        events.add(newEvent1);
-        events.add(newEvent2);
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("WeekViewEvent");
+        query.fromLocalDatastore();
+        query.findInBackground(new FindCallback<ParseObject>() {
+                                   public void done(List<ParseObject> eventList, ParseException e) {
+                                       if (e == null) {
+                                           System.out.println("found " + eventList.size());
+                                           for(int i = 0; i < eventList.size(); i++) {
+                                               System.out.println("name: " + ((WeekViewEvent)eventList.get(i)).getName());
+                                               events.add((WeekViewEvent)eventList.get(i));
+                                           }
+                                           mWeekView.notifyDatasetChanged();
+                                       } else {
+                                           // handle Parse Exception here
+                                       }
+                                   }
+                               });
+
         System.out.println(events.size());
 
         // Get a reference for the week view in the layout.
@@ -115,6 +127,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                             data.getIntExtra("endHour", 0), data.getIntExtra("endMinute", 0));
                 newEvent.setColor(colorArray[colorIndex]);
                 events.add(newEvent);
+                newEvent.saveInBackground();
+                newEvent.pinInBackground();
                 mWeekView.notifyDatasetChanged();
                 colorIndex = (colorIndex + 1) % 4;
             }
@@ -234,6 +248,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
             {
                 weekviewEvents.add(event);
             }
+
         }
         return weekviewEvents;
 
@@ -247,6 +262,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         event.changeColor();
+        event.saveInBackground();
+        event.pinInBackground();
         mWeekView.notifyDatasetChanged();
     }
 
