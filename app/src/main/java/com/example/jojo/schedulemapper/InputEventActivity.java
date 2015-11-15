@@ -10,6 +10,9 @@ import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -20,12 +23,16 @@ import android.app.DatePickerDialog;
 import android.widget.DatePicker;
 import android.content.Context;
 import android.widget.Toast;
-
+import android.widget.Spinner;
+import android.widget.ArrayAdapter;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.RadioButton;
+import android.widget.LinearLayout;
 import com.alamkanak.weekview.WeekViewEvent;
 
 import java.util.Calendar;
 
-public class InputEventActivity extends AppCompatActivity {
+public class InputEventActivity extends AppCompatActivity implements OnItemSelectedListener{
 
     private int year, month, day;
     private int startHour, startMinute;
@@ -34,77 +41,27 @@ public class InputEventActivity extends AppCompatActivity {
     TextView startTime, endTime;
     TextView dateView;
     private static WeekViewEvent currEvent = null;
+    private LinearLayout myLayout = null;
+    private View hiddenInfo = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_event);
 
+        String[] buildingsList = {"CSE", "Center", "WLH"};
+        Spinner buildings = (Spinner) findViewById(R.id.buildingLocation);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(InputEventActivity.this,
+                    android.R.layout.simple_spinner_item, buildingsList);
+
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
+        buildings.setAdapter(adapter);
+        buildings.setOnItemSelectedListener(this);
         currEvent = ScheduleActivity.getCurrentEvent();
 
         startTime = (TextView)findViewById(R.id.textView);
         endTime = (TextView)findViewById(R.id.textView3);
         dateView = (TextView)findViewById(R.id.textView2);
-        Button button = (Button) findViewById(R.id.submit);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent();
-
-                EditText eventText = (EditText) findViewById(R.id.name);
-                EditText eventLocation = (EditText) findViewById(R.id.location);
-                EditText eventNote = (EditText) findViewById(R.id.note);
-
-                CheckBox sunday = (CheckBox) findViewById(R.id.checkBoxSun);
-                CheckBox monday = (CheckBox) findViewById(R.id.checkBoxMon);
-                CheckBox tuesday = (CheckBox) findViewById(R.id.checkBoxTues);
-                CheckBox wednesday = (CheckBox) findViewById(R.id.checkBoxWed);
-                CheckBox thursday = (CheckBox) findViewById(R.id.checkBoxThurs);
-                CheckBox friday = (CheckBox) findViewById(R.id.checkBoxFri);
-                CheckBox saturday = (CheckBox) findViewById(R.id.checkBoxSat);
-
-                // get values from checkboxes
-                boolean[] daysOfWeek = new boolean[7];
-                daysOfWeek[0] = (sunday.isChecked());
-                daysOfWeek[1] = (monday.isChecked());
-                daysOfWeek[2] = (tuesday.isChecked());
-                daysOfWeek[3] = (wednesday.isChecked());
-                daysOfWeek[4] = (thursday.isChecked());
-                daysOfWeek[5] = (friday.isChecked());
-                daysOfWeek[6] = (saturday.isChecked());
-                for ( boolean i : daysOfWeek ) {
-                    System.out.println(i);
-                }
-
-                if(eventText.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "Please enter an event title.", Toast.LENGTH_SHORT).show();
-                } else if(eventLocation.getText().toString().equals("")) {
-                    Toast.makeText(getApplicationContext(), "Please enter an event location.", Toast.LENGTH_SHORT).show();
-                } else if(dateView.getText().toString().equals("No date selected")) {
-                    Toast.makeText(getApplicationContext(), "Please enter an event date.", Toast.LENGTH_SHORT).show();
-                } else if(startTime.getText().toString().equals("No time selected")) {
-                    Toast.makeText(getApplicationContext(), "Please enter an event start time.", Toast.LENGTH_SHORT).show();
-                } else if(endTime.getText().toString().equals("No time selected")) {
-                    Toast.makeText(getApplicationContext(), "Please enter an event end time.", Toast.LENGTH_SHORT).show();
-                } else if(startHour > endHour || (startHour == endHour && startMinute > endMinute)) {
-                    Toast.makeText(getApplicationContext(), "Please enter a valid start and end time.", Toast.LENGTH_SHORT).show();
-                } else {
-                    intent.putExtra("eventTitle", eventText.getText().toString());
-                    intent.putExtra("location", eventLocation.getText().toString());
-                    intent.putExtra("note", eventNote.getText().toString());
-                    intent.putExtra("year", year);
-                    intent.putExtra("month", month);
-                    intent.putExtra("day", day);
-                    intent.putExtra("startHour", startHour);
-                    intent.putExtra("startMinute", startMinute);
-                    intent.putExtra("endHour", endHour);
-                    intent.putExtra("endMinute", endMinute);
-                    intent.putExtra("daysOfWeek", daysOfWeek);
-
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
-            }
-        });
 
         if (currEvent != null) {
             EditText title, location, note;
@@ -129,6 +86,103 @@ public class InputEventActivity extends AppCompatActivity {
         }
 
     }
+
+    public void onItemSelected(AdapterView<?> parent, View v, int position, long id){}
+    public void onNothingSelected(AdapterView<?> parent){}
+
+    public void submitEvent(View view)
+    {
+        Intent intent = new Intent();
+
+        EditText eventText = (EditText) findViewById(R.id.name);
+        EditText eventLocation = (EditText) findViewById(R.id.location);
+        EditText eventNote = (EditText) findViewById(R.id.note);
+        Spinner building = (Spinner) findViewById(R.id.buildingLocation);
+
+/*      CheckBox sunday = (CheckBox) findViewById(R.id.checkBoxSun);
+        CheckBox monday = (CheckBox) findViewById(R.id.checkBoxMon);
+        CheckBox tuesday = (CheckBox) findViewById(R.id.checkBoxTues);
+        CheckBox wednesday = (CheckBox) findViewById(R.id.checkBoxWed);
+        CheckBox thursday = (CheckBox) findViewById(R.id.checkBoxThurs);
+        CheckBox friday = (CheckBox) findViewById(R.id.checkBoxFri);
+        CheckBox saturday = (CheckBox) findViewById(R.id.checkBoxSat);
+
+        // get values from checkboxes
+        boolean[] daysOfWeek = new boolean[7];
+        daysOfWeek[0] = (sunday.isChecked());
+        daysOfWeek[1] = (monday.isChecked());
+        daysOfWeek[2] = (tuesday.isChecked());
+        daysOfWeek[3] = (wednesday.isChecked());
+        daysOfWeek[4] = (thursday.isChecked());
+        daysOfWeek[5] = (friday.isChecked());
+        daysOfWeek[6] = (saturday.isChecked());
+        for ( boolean i : daysOfWeek ) {
+            System.out.println(i);
+        } */
+
+        if(eventText.getText().toString().equals("")) {
+            Toast.makeText(getApplicationContext(), "Please enter an event title.", Toast.LENGTH_SHORT).show();
+        } else if(eventLocation.getText().toString().equals("")) {
+            Toast.makeText(getApplicationContext(), "Please enter an event location.", Toast.LENGTH_SHORT).show();
+        } else if(dateView.getText().toString().equals("No date selected")) {
+            Toast.makeText(getApplicationContext(), "Please enter an event date.", Toast.LENGTH_SHORT).show();
+        } else if(startTime.getText().toString().equals("No time selected")) {
+            Toast.makeText(getApplicationContext(), "Please enter an event start time.", Toast.LENGTH_SHORT).show();
+        } else if(endTime.getText().toString().equals("No time selected")) {
+            Toast.makeText(getApplicationContext(), "Please enter an event end time.", Toast.LENGTH_SHORT).show();
+        } else if(startHour > endHour || (startHour == endHour && startMinute > endMinute)) {
+            Toast.makeText(getApplicationContext(), "Please enter a valid start and end time.", Toast.LENGTH_SHORT).show();
+        } else {
+            String location =building.getSelectedItem().toString() ;
+            location += " " +eventLocation.getText().toString() ;
+            intent.putExtra("eventTitle", eventText.getText().toString());
+            intent.putExtra("location", location);
+            intent.putExtra("note", eventNote.getText().toString());
+            intent.putExtra("year", year);
+            intent.putExtra("month", month);
+            intent.putExtra("day", day);
+            intent.putExtra("startHour", startHour);
+            intent.putExtra("startMinute", startMinute);
+            intent.putExtra("endHour", endHour);
+            intent.putExtra("endMinute", endMinute);
+
+            setResult(RESULT_OK, intent);
+            finish();
+        }
+    }
+    public void onRadioButtonClicked(View view)
+    {
+        boolean checked = ((RadioButton) view).isChecked();
+        myLayout = (LinearLayout) findViewById(R.id.forRepeating);
+
+        switch(view.getId())
+        {
+            case R.id.repeatableYes:
+                if(checked){
+                        if(hiddenInfo != null)
+                        {
+                            myLayout.removeView(hiddenInfo);
+                        }
+
+                            hiddenInfo = getLayoutInflater().inflate(R.layout.activity_input_repeatable
+                                    , myLayout, false);
+                            myLayout.addView(hiddenInfo);
+                }
+                break;
+            case R.id.repeatableNo:
+                if(checked){
+                    if(hiddenInfo != null)
+                    {
+                        myLayout.removeView(hiddenInfo);
+                    }
+                        hiddenInfo = getLayoutInflater().inflate(R.layout.activity_input_nonrepeatable
+                                , myLayout, false);
+                        myLayout.addView(hiddenInfo);
+                    }
+                break;
+            }
+
+        }
 
     public class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
