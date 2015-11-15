@@ -10,37 +10,6 @@
     android:layout_marginTop="18dp"
     android:orientation="vertical">
 
-    <LinearLayout
-
-
-        android:id="@+id/startDateFields"
-        android:layout_marginTop="18dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <Button
-            android:id="@+id/dateButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="18dp"
-            android:onClick="showDatePickerDialog"
-            android:text="Start Date"
-            android:singleLine="true"
-            android:textColor="#303F9F"
-            android:background="@drawable/button"/>
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="18dp"
-            android:text="No date selected"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@android:color/darker_gray"
-            />
-
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/startTimeFields"
@@ -64,7 +33,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="No time selected"
-            android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@android:color/darker_gray" />
 
