@@ -126,7 +126,7 @@ public class WeekView extends View {
     private int mEventCornerRadius = 0;
     private float mMinOrigin = 1.0f;
     private float mMaxOrigin = 0;
-    private Calendar currentSunday = getSunday();
+    private Calendar currentSunday;
 
     // Listeners.
     private EventClickListener mEventClickListener;
@@ -474,7 +474,11 @@ public class WeekView extends View {
         mWidthPerDay = getWidth() - mHeaderColumnWidth - mColumnGap * (mNumberOfVisibleDays - 1);
         mWidthPerDay = mWidthPerDay/mNumberOfVisibleDays;
 
-        Calendar today = today();
+        Calendar today = currentSunday;
+        if(currentSunday == null) {
+            today = today();
+            currentSunday = getSunday();
+        }
 
         if (mAreDimensionsInvalid) {
             mEffectiveMinHourHeight= Math.max(mMinHourHeight, (int) ((getHeight() - mHeaderTextHeight - mHeaderRowPadding * 2 - mHeaderMarginBottom) / 24));

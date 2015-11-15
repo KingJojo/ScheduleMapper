@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 /*
  * Created by Raquib-ul-Alam Kanak on 7/21/2014.
@@ -50,6 +51,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     private int[] colorArray = {Color.parseColor("#59dbe0"), Color.parseColor("#f57f68"),
                                         Color.parseColor("#87d288"), Color.parseColor("#f8b552")};
     private int colorIndex = 0;
+    Random rand = new Random();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +62,6 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         events = new ArrayList<WeekViewEvent>();
 
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("WeekViewEvent");
-        query.fromLocalDatastore();
         query.findInBackground(new FindCallback<ParseObject>() {
                                    public void done(List<ParseObject> eventList, ParseException e) {
                                        if (e == null) {
@@ -115,11 +116,10 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 if(tapped != null) {
                     events.remove(tapped);
                 }
-                id++;
                 int year = data.getIntExtra("year", 0);
                 int month = data.getIntExtra("month", 0);
                 int day = data.getIntExtra("day", 0);
-                WeekViewEvent newEvent = new WeekViewEvent(id, data.getStringExtra("eventTitle"),
+                WeekViewEvent newEvent = new WeekViewEvent(rand.nextInt(1000000), data.getStringExtra("eventTitle"),
                             data.getIntExtra("buildingLocation", 0), data.getStringExtra("location"),
                             data.getStringExtra("note"),
                             year, month, day, data.getIntExtra("startHour", 0),
@@ -128,7 +128,6 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 newEvent.setColor(colorArray[colorIndex]);
                 events.add(newEvent);
                 newEvent.saveInBackground();
-                newEvent.pinInBackground();
                 mWeekView.notifyDatasetChanged();
                 colorIndex = (colorIndex + 1) % 4;
             }
@@ -270,7 +269,6 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
         event.changeColor();
         event.saveInBackground();
-        event.pinInBackground();
         mWeekView.notifyDatasetChanged();
     }
 

@@ -18,7 +18,9 @@ public class Application extends android.app.Application {
     public void onCreate() {
         super.onCreate();
         // Enable Local Datastore.
-        Parse.enableLocalDatastore(getApplicationContext());
+        ParseUser.enableAutomaticUser();
+        ParseACL defaultACL = new ParseACL();
+        ParseACL.setDefaultACL(defaultACL, true);
         ParseObject.registerSubclass(WeekViewEvent.class);
         Parse.initialize(this, "FKw3bE2VYt6bGQtvX8znzUa59p8EvbfZ9o9fwCJ6", "zxqFBO3QVFZQBU1Onyekp3X7n736wPe2sqdm5p1j");
     }
