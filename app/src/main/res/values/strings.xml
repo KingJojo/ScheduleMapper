@@ -15,6 +15,7 @@
         <item>Week</item>
     </string-array>
     <string name="title_activity_input_event">InputEvent</string>
+    <string name="title_activity_edit_event">InputEvent</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

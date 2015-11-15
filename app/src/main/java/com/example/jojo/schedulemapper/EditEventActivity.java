@@ -1,38 +1,33 @@
 package com.example.jojo.schedulemapper;
 
-/*
- * Created by kevinkuo on 11/1/15
- */
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.os.Bundle;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.CheckBox;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.text.format.DateFormat;
-import android.app.DatePickerDialog;
-import android.widget.DatePicker;
-import android.content.Context;
 import android.widget.Toast;
-import android.widget.Spinner;
-import android.widget.ArrayAdapter;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.RadioButton;
-import android.widget.LinearLayout;
+
 import com.alamkanak.weekview.WeekViewEvent;
 
 import java.util.Calendar;
 
-public class InputEventActivity extends AppCompatActivity implements OnItemSelectedListener{
+/**
+ * Created by Lucy on 11/14/2015.
+ */
+public class EditEventActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     private int year, month, day;
     private int startHour, startMinute;
@@ -43,28 +38,55 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
     private static WeekViewEvent currEvent = null;
     private LinearLayout myLayout = null;
     private View hiddenInfo = null;
-    private ArrayAdapter<String> adapter;
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_input_event);
+        setContentView(R.layout.activity_edit_event);
 
         String[] buildingsList = {"CSE", "Center", "WLH"};
         Spinner buildings = (Spinner) findViewById(R.id.buildingLocation);
-        adapter = new ArrayAdapter<String>(InputEventActivity.this,
-                    android.R.layout.simple_spinner_item, buildingsList);
+        adapter = new ArrayAdapter<String>(EditEventActivity.this,
+                android.R.layout.simple_spinner_item, buildingsList);
 
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         buildings.setAdapter(adapter);
         buildings.setOnItemSelectedListener(this);
+
         currEvent = ScheduleActivity.getCurrentEvent();
+
+        buildings.setSelection(currEvent.getBuildingLocation());
+
+        startTime = (TextView)findViewById(R.id.textView);
+        endTime = (TextView)findViewById(R.id.textView3);
+        dateView = (TextView)findViewById(R.id.textView2);
+
+        EditText title, location, note;
+        title = (EditText) findViewById(R.id.name);
+        location = (EditText) findViewById(R.id.location);
+        note = (EditText) findViewById(R.id.note);
+        title.setText(currEvent.getName());
+        location.setText(currEvent.getLocation());
+        note.setText(currEvent.getNote());
+        year = currEvent.getStartTime().get(Calendar.YEAR);
+        month = currEvent.getStartTime().get(Calendar.MONTH);
+        day = currEvent.getStartTime().get(Calendar.DAY_OF_MONTH);
+        updateDate(year, month, day);
+        startHour = currEvent.getStartTime().get(Calendar.HOUR);
+        startMinute = currEvent.getStartTime().get(Calendar.MINUTE);
+        endHour = currEvent.getEndTime().get(Calendar.HOUR);
+        endMinute = currEvent.getEndTime().get(Calendar.MINUTE);
+        start = true;
+        updateStartTime(startHour, startMinute);
+        start = false;
+        updateEndTime(endHour, endMinute);
     }
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id){}
     public void onNothingSelected(AdapterView<?> parent){}
 
-    public void submitEvent(View view)
+    public void editEvent(View view)
     {
         Intent intent = new Intent();
 
@@ -94,7 +116,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
             String location =building.getSelectedItem().toString() ;
             location += " " +eventLocation.getText().toString() ;
             intent.putExtra("eventTitle", eventText.getText().toString());
-            intent.putExtra("locationBuilding", building.getSelectedItem().toString());
+            intent.putExtra("buildingLocation", adapter.getPosition(building.getSelectedItem().toString()));
             intent.putExtra("location", location);
             intent.putExtra("note", eventNote.getText().toString());
             intent.putExtra("year", year);
@@ -105,43 +127,9 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
             intent.putExtra("endHour", endHour);
             intent.putExtra("endMinute", endMinute);
 
+            System.out.println("Finishing up edit");
             setResult(RESULT_OK, intent);
             finish();
-        }
-    }
-    public void onRadioButtonClicked(View view)
-    {
-        boolean checked = ((RadioButton) view).isChecked();
-        myLayout = (LinearLayout) findViewById(R.id.forRepeating);
-
-        switch(view.getId())
-        {
-            case R.id.repeatableYes:
-                if(checked){
-                    if(hiddenInfo != null) {
-                        myLayout.removeView(hiddenInfo);
-                    }
-
-                    hiddenInfo = getLayoutInflater().inflate(R.layout.activity_input_repeatable
-                            , myLayout, false);
-                    myLayout.addView(hiddenInfo);
-                    startTime = (TextView)findViewById(R.id.textView);
-                    endTime = (TextView)findViewById(R.id.textView3);
-                }
-                break;
-            case R.id.repeatableNo:
-                if(checked){
-                    if(hiddenInfo != null) {
-                        myLayout.removeView(hiddenInfo);
-                    }
-                    hiddenInfo = getLayoutInflater().inflate(R.layout.activity_input_nonrepeatable
-                            , myLayout, false);
-                    myLayout.addView(hiddenInfo);
-                    dateView = (TextView)findViewById(R.id.textView2);
-                    startTime = (TextView)findViewById(R.id.textView);
-                    endTime = (TextView)findViewById(R.id.textView3);
-                }
-                break;
         }
     }
 
@@ -186,7 +174,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
                 minute = currEvent.getStartTime().get(Calendar.MINUTE);
             }
             else {
-                hour = c.get(Calendar.HOUR_OF_DAY);
+                hour = c.get(Calendar.HOUR_OF_DAY) + 1;
                 minute = 0;
             }
 

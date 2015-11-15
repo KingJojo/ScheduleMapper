@@ -15,6 +15,7 @@ public class WeekViewEvent {
     private String mLocation;
     private String mNote;
     private int mColor;
+    private int buildingLocation;
     private int prevColor = Color.parseColor("#e6e6e6");
     boolean enabled = true;
     public WeekViewEvent(){
@@ -36,13 +37,14 @@ public class WeekViewEvent {
      * @param endHour Hour (in 24-hour format) when the event ends.
      * @param endMinute Minute when the event ends.
      */
-    public WeekViewEvent(long id, String name, String location, String note, int startYear,
+    public WeekViewEvent(long id, String name, int buildingLocation, String location, String note, int startYear,
                          int startMonth, int startDay, int startHour, int startMinute, int endYear,
                          int endMonth, int endDay, int endHour, int endMinute) {
 
         this.mId = id;
 
         this.mName = name;
+        this.buildingLocation = buildingLocation;
         this.mLocation = location;
         this.mNote = note;
 
@@ -112,6 +114,14 @@ public class WeekViewEvent {
 
     public void setName(String name) {
         this.mName = name;
+    }
+
+    public void setBuildingLocation(int buildingLocation) { this.buildingLocation = buildingLocation; }
+
+    public int getBuildingLocation() { return buildingLocation; }
+
+    public String getBuildingNumber() {
+        return mLocation.substring(mLocation.indexOf(' ')+1);
     }
 
     public String getLocation() {

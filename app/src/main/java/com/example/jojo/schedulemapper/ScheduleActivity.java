@@ -56,10 +56,10 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         events = new ArrayList<WeekViewEvent>();
 
         // Sample events specifically for lab day
-        WeekViewEvent newEvent1 = new WeekViewEvent(id, "5:30 Morning Jog", null, null,
+        WeekViewEvent newEvent1 = new WeekViewEvent(id, "5:30 Morning Jog", 1, null, null,
                 2015, 11, 6, 5, 30, 2015, 11, 6, 6, 30);
         id++;
-        WeekViewEvent newEvent2 = new WeekViewEvent(id, "CSE 110 Lab", null, null,
+        WeekViewEvent newEvent2 = new WeekViewEvent(id, "CSE 110 Lab", 1, null, null,
                 2015, 11, 6, 10, 30, 2015, 11, 6, 12, 30);
         id++;
         events.add(newEvent1);
@@ -107,26 +107,16 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 int year = data.getIntExtra("year", 0);
                 int month = data.getIntExtra("month", 0);
                 int day = data.getIntExtra("day", 0);
-                boolean[] daysOfWeek = data.getBooleanArrayExtra("daysOfWeek");
-                int firstDay = -1;
-                for (int i=0; i<daysOfWeek.length; i++) {
-                    if (daysOfWeek[i]) {
-                        if (firstDay == -1) firstDay = i;
-                        System.out.println("Making new event for day" + (day+i-firstDay));
-                        WeekViewEvent newEvent = new WeekViewEvent(id, data.getStringExtra("eventTitle"),
-                                data.getStringExtra("location"), data.getStringExtra("note"),
-                                year, month, day+i-firstDay, data.getIntExtra("startHour", 0),
-                                data.getIntExtra("startMinute", 0), year, month, day+i-firstDay,
-                                data.getIntExtra("endHour", 0), data.getIntExtra("endMinute", 0));
-                        newEvent.setColor(colorArray[colorIndex]);
-                        id++;
-                        events.add(newEvent);
-                        mWeekView.notifyDatasetChanged();
-                    }
-                }
+                WeekViewEvent newEvent = new WeekViewEvent(id, data.getStringExtra("eventTitle"),
+                            data.getIntExtra("buildingLocation", 0), data.getStringExtra("location"),
+                            data.getStringExtra("note"),
+                            year, month, day, data.getIntExtra("startHour", 0),
+                            data.getIntExtra("startMinute", 0), year, month, day,
+                            data.getIntExtra("endHour", 0), data.getIntExtra("endMinute", 0));
+                newEvent.setColor(colorArray[colorIndex]);
+                events.add(newEvent);
+                mWeekView.notifyDatasetChanged();
                 colorIndex = (colorIndex + 1) % 4;
-
-
             }
         }
     }
@@ -230,7 +220,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
             @Override
             public String interpretTime(int hour) {
-                return hour > 11 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
+                return hour > 12 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
             }
         });
     }
@@ -264,7 +254,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
         if (editMode) {
             tapped = event;
-            startActivityForResult(new Intent(this, InputEventActivity.class), 1);
+            startActivityForResult(new Intent(this, EditEventActivity.class), 1);
         }
     }
 
