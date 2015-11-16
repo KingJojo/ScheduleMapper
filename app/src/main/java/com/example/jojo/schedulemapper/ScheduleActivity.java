@@ -134,6 +134,15 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
+                if(data == null) {
+                    if (tapped != null) {
+                        tapped.deleteInBackground();
+                        events.remove(tapped);
+                        mWeekView.notifyDatasetChanged();
+                        return;
+                    }
+                }
+
                 if(tapped != null) {
                     events.remove(tapped);
                 }
@@ -179,15 +188,6 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
                 mWeekView.notifyDatasetChanged();
                 colorIndex = (colorIndex + 1) % 4;
-            }
-            else {
-                /*
-                if (tapped != null) {
-                    tapped.deleteInBackground();
-                    events.remove(tapped);
-                    mWeekView.notifyDatasetChanged();
-                }
-                */
             }
         }
     }

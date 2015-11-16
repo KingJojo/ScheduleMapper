@@ -134,8 +134,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
     }
 
     public void deleteEvent(View view) {
-        Intent intent = new Intent();
-        setResult(RESULT_CANCELED, intent);
+        setResult(RESULT_OK, null);
         finish();
     }
 
