@@ -43,6 +43,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     private int mWeekViewType = TYPE_THREE_DAY_VIEW;
     private WeekView mWeekView;
     private MenuItem viewMenu;
+    private MenuItem editMenu;
     private List<WeekViewEvent> events;
     private List<WeekViewEventRepeatable> repeats;
     private static WeekViewEvent tapped = null;
@@ -127,6 +128,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_schedule, menu);
         this.viewMenu = menu.findItem(R.id.change_view);
+        this.editMenu = menu.findItem(R.id.edit_menu);
         return true;
     }
 
@@ -199,15 +201,12 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         setupDateTimeInterpreter(id == R.id.action_week_view);
         switch (id){
             case R.id.edit_button:
-                // change edit button appearance to show edit mode
-                if (editMode) {
-                    editMode = false;
-                    item.setTitle("Edit");
-                }
-                else {
-                    editMode = true;
-                    item.setTitle("View");
-                }
+                editMode = true;
+                editMenu.setTitle("Edit");
+                return true;
+            case R.id.view_button:
+                editMode = false;
+                editMenu.setTitle("View");
                 return true;
             case R.id.action_add_event:
                 tapped = null;

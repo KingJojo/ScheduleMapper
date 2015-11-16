@@ -43,21 +43,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="1">
+            android:weightSum="4">
 
-            <EditText
-                android:id="@+id/location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:hint="Location"
-                android:textColor="#6f797979" />
+                <Spinner
+                    android:id="@+id/buildingLocation"
+                    android:layout_width="0dp"
+                    android:layout_height="29dp"
+                    android:layout_weight="3"/>
 
-            <Spinner
-                android:id="@+id/buildingLocation"
-                android:layout_width="match_parent"
-                android:layout_height="29dp" />
+                <EditText
+                    android:id="@+id/location"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:inputType="text"
+                    android:hint="Location"
+                    android:textColor="#6f797979" />
 
         </LinearLayout>
 
