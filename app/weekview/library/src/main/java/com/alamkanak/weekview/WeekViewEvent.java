@@ -20,7 +20,7 @@ public class WeekViewEvent extends ParseObject{
     private String mLocation;
     private String mNote;
     private int mColor;
-    private int buildingLocation;
+    private int mBuildingLocation;
     private int prevColor;
     private boolean mRepeatable;
     boolean enabled = true;
@@ -29,21 +29,6 @@ public class WeekViewEvent extends ParseObject{
 
     }
 
-    /**
-     * Initializes the event for week view.
-     * @param id The id of the event.
-     * @param name Name of the event.
-     * @param startYear Year when the event starts.
-     * @param startMonth Month when the event starts.
-     * @param startDay Day when the event starts.
-     * @param startHour Hour (in 24-hour format) when the event starts.
-     * @param startMinute Minute when the event starts.
-     * @param endYear Year when the event ends.
-     * @param endMonth Month when the event ends.
-     * @param endDay Day when the event ends.
-     * @param endHour Hour (in 24-hour format) when the event ends.
-     * @param endMinute Minute when the event ends.
-     */
     public WeekViewEvent(long id, String name, int buildingLocation, String location,
                          String note, boolean repeatable, int startYear, int startMonth,
                          int startDay, int startHour, int startMinute, int endYear, int endMonth,
@@ -58,8 +43,8 @@ public class WeekViewEvent extends ParseObject{
         this.mName = name;
         put("name", mName);
 
-        this.buildingLocation = buildingLocation;
-        put("builingLocation", buildingLocation);
+        this.mBuildingLocation = buildingLocation;
+        put("buildingLocation", mBuildingLocation);
 
         this.mLocation = location;
         put("location", mLocation);
@@ -158,15 +143,15 @@ public class WeekViewEvent extends ParseObject{
 
     public int getBuildingLocation() {
 
-        if(buildingLocation == 0)
-            buildingLocation = getInt("buildingLocation");
-        return buildingLocation;
+        if(mBuildingLocation == 0)
+            mBuildingLocation = getInt("buildingLocation");
+        return mBuildingLocation;
     }
 
     public void setBuildingLocation(int buildingLocation) {
 
-        this.buildingLocation = buildingLocation;
-        put("buildingLocation", buildingLocation);
+        this.mBuildingLocation = buildingLocation;
+        put("buildingLocation", mBuildingLocation);
     }
 
     public String getBuildingNumber() {

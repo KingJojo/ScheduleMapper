@@ -63,35 +63,12 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("WeekViewEvent");
         query.findInBackground(new FindCallback<ParseObject>() {
-                                   public void done(List<ParseObject> eventList, ParseException e) {
-                                       if (e == null) {
-                                           System.out.println("found " + eventList.size());
-                                           for(int i = 0; i < eventList.size(); i++) {
-                                               System.out.println("name: " + ((WeekViewEvent)eventList.get(i)).getName());
-                                               events.add((WeekViewEvent)eventList.get(i));
-                                           }
-                                           mWeekView.notifyDatasetChanged();
-                                       } else {
-                                           // handle Parse Exception here
-                                       }
-                                   }
-                               });
-
-        System.out.println(events.size());
-
-        repeats = new ArrayList<WeekViewEventRepeatable>();
-
-        /* Nathan can figure this out
-
-        ParseQuery<ParseObject> query2 = new ParseQuery<ParseObject>("WeekViewEventRepeatable");
-        query2.fromLocalDatastore();
-        query2.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> eventList, ParseException e) {
                 if (e == null) {
                     System.out.println("found " + eventList.size());
-                    for (int i = 0; i < eventList.size(); i++) {
-                        System.out.println("name: " + ((WeekViewEventRepeatable) eventList.get(i)).getName());
-                        repeats.add((WeekViewEventRepeatable) eventList.get(i));
+                    for(int i = 0; i < eventList.size(); i++) {
+                        System.out.println("name: " + ((WeekViewEvent)eventList.get(i)).getName());
+                        events.add((WeekViewEvent)eventList.get(i));
                     }
                     mWeekView.notifyDatasetChanged();
                 } else {
@@ -99,10 +76,29 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 }
             }
         });
-        System.out.println(repeats.size());
+
+        Log.v("Profile", "Event size: " + events.size());
+
+        repeats = new ArrayList<WeekViewEventRepeatable>();
+
+        ParseQuery<ParseObject> query2 = new ParseQuery<ParseObject>("WeekViewEventRepeatable");
+        query2.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> eventList, ParseException e) {
+                if (e == null) {
+                    System.out.println("found " + eventList.size());
+                    for (int i = 0; i < eventList.size(); i++) {
+                        System.out.println("name: " + ((WeekViewEventRepeatable)eventList.get(i)).getName());
+                        repeats.add((WeekViewEventRepeatable)eventList.get(i));
+                    }
+                    mWeekView.notifyDatasetChanged();
+                } else {
+                    // handle Parse Exception here
+                }
+            }
+        });
+        Log.v("Profile", "repeats size: " + repeats.size());
 
         populateRepeatable();
-        */
 
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
@@ -163,6 +159,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                             endMinute, days, quarter);
                     newRepeatable.setColor(colorArray[colorIndex]);
                     repeats.add(newRepeatable);
+                    newRepeatable.saveInBackground();
                     populateRepeatable();
                 }
 
@@ -178,7 +175,6 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                     newEvent.setColor(colorArray[colorIndex]);
                     events.add(newEvent);
                     newEvent.saveInBackground();
-                    newEvent.pinInBackground();
                 }
 
                 mWeekView.notifyDatasetChanged();
