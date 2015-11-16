@@ -113,9 +113,9 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
 
                 days[0] = ((CheckBox)findViewById(R.id.checkBoxSun)).isChecked();
                 days[1] = ((CheckBox)findViewById(R.id.checkBoxMon)).isChecked();
-                days[2] = ((CheckBox)findViewById(R.id.checkBoxTues)).isChecked();
+                days[2] = ((CheckBox)findViewById(R.id.checkBoxTue)).isChecked();
                 days[3] = ((CheckBox)findViewById(R.id.checkBoxWed)).isChecked();
-                days[4] = ((CheckBox)findViewById(R.id.checkBoxThurs)).isChecked();
+                days[4] = ((CheckBox)findViewById(R.id.checkBoxThu)).isChecked();
                 days[5] = ((CheckBox)findViewById(R.id.checkBoxFri)).isChecked();
                 days[6] = ((CheckBox)findViewById(R.id.checkBoxSat)).isChecked();
 

@@ -102,7 +102,7 @@
             android:layout_marginTop="5dp">
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/checkBoxSun"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
@@ -110,14 +110,14 @@
                 android:layout_marginRight="5dp" />
 
             <CheckBox
-                android:id="@+id/checkBox2"
+                android:id="@+id/checkBoxMon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:text="Mon" />
 
             <CheckBox
-                android:id="@+id/checkBox3"
+                android:id="@+id/checkBoxTue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
@@ -125,7 +125,7 @@
                 android:layout_marginRight="5dp" />
 
             <CheckBox
-                android:id="@+id/checkBox4"
+                android:id="@+id/checkBoxWed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
@@ -139,7 +139,7 @@
             android:layout_height="wrap_content" >
 
             <CheckBox
-                android:id="@+id/checkBox5"
+                android:id="@+id/checkBoxThu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
@@ -147,7 +147,7 @@
                 android:layout_marginRight="5dp" />
 
             <CheckBox
-                android:id="@+id/checkBox6"
+                android:id="@+id/checkBoxFri"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
@@ -155,7 +155,7 @@
                 android:layout_marginRight="12dp" />
 
             <CheckBox
-                android:id="@+id/checkBox7"
+                android:id="@+id/checkBoxSat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
