@@ -2,20 +2,18 @@ package com.example.jojo.schedulemapper;
 
 import android.graphics.RectF;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.content.Intent;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.util.Log;
-import android.widget.Button;
 import android.graphics.Color;
+import android.util.Log;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
+import com.alamkanak.weekview.WeekViewEventRepeatable;
 import com.parse.ParseQuery;
 import com.parse.ParseException;
 import com.parse.FindCallback;
@@ -27,6 +25,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
+
 
 /*
  * Created by Raquib-ul-Alam Kanak on 7/21/2014.
@@ -45,6 +44,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     private WeekView mWeekView;
     private MenuItem viewMenu;
     private List<WeekViewEvent> events;
+    private List<WeekViewEventRepeatable> repeats;
     private static WeekViewEvent tapped = null;
     private boolean editMode = false; // used to toggle between edit and view mode
     private int id = 0;
@@ -78,6 +78,31 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                                });
 
         System.out.println(events.size());
+
+        repeats = new ArrayList<WeekViewEventRepeatable>();
+
+        /* Nathan can figure this out
+
+        ParseQuery<ParseObject> query2 = new ParseQuery<ParseObject>("WeekViewEventRepeatable");
+        query2.fromLocalDatastore();
+        query2.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> eventList, ParseException e) {
+                if (e == null) {
+                    System.out.println("found " + eventList.size());
+                    for (int i = 0; i < eventList.size(); i++) {
+                        System.out.println("name: " + ((WeekViewEventRepeatable) eventList.get(i)).getName());
+                        repeats.add((WeekViewEventRepeatable) eventList.get(i));
+                    }
+                    mWeekView.notifyDatasetChanged();
+                } else {
+                    // handle Parse Exception here
+                }
+            }
+        });
+        System.out.println(repeats.size());
+
+        populateRepeatable();
+        */
 
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
@@ -116,18 +141,46 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 if(tapped != null) {
                     events.remove(tapped);
                 }
-                int year = data.getIntExtra("year", 0);
-                int month = data.getIntExtra("month", 0);
-                int day = data.getIntExtra("day", 0);
-                WeekViewEvent newEvent = new WeekViewEvent(rand.nextInt(1000000), data.getStringExtra("eventTitle"),
-                            data.getIntExtra("buildingLocation", 0), data.getStringExtra("location"),
-                            data.getStringExtra("note"),
-                            year, month, day, data.getIntExtra("startHour", 0),
-                            data.getIntExtra("startMinute", 0), year, month, day,
-                            data.getIntExtra("endHour", 0), data.getIntExtra("endMinute", 0));
-                newEvent.setColor(colorArray[colorIndex]);
-                events.add(newEvent);
-                newEvent.saveInBackground();
+
+                String title = data.getStringExtra("eventTitle");
+                int buildingLocation = data.getIntExtra("buildingLocation", 0);
+                String location = data.getStringExtra("location");
+                String note = data.getStringExtra("note");
+
+                boolean repeatable = data.getBooleanExtra("repeatable", false);
+
+                int startHour = data.getIntExtra("startHour", 0);
+                int startMinute = data.getIntExtra("startMinute", 0);
+                int endHour = data.getIntExtra("endHour", 0);
+                int endMinute = data.getIntExtra("endMinute", 0);
+
+                if( repeatable ) {
+                    boolean days[] = data.getBooleanArrayExtra("days");
+                    String quarter = data.getStringExtra("quarter");
+
+                    WeekViewEventRepeatable newRepeatable = new WeekViewEventRepeatable(title,
+                            buildingLocation, location, note, startHour, startMinute, endHour,
+                            endMinute, days, quarter);
+                    newRepeatable.setColor(colorArray[colorIndex]);
+                    repeats.add(newRepeatable);
+                    populateRepeatable();
+                }
+
+                else {
+                    int year = data.getIntExtra("year", 0);
+                    int month = data.getIntExtra("month", 0);
+                    int day = data.getIntExtra("day", 0);
+
+                    WeekViewEvent newEvent = new WeekViewEvent(rand.nextInt(1000000), title, buildingLocation, location,
+                            note, false, year, month, day, startHour, startMinute, year, month,
+                            day, endHour, endMinute);
+
+                    newEvent.setColor(colorArray[colorIndex]);
+                    events.add(newEvent);
+                    newEvent.saveInBackground();
+                    newEvent.pinInBackground();
+                }
+
                 mWeekView.notifyDatasetChanged();
                 colorIndex = (colorIndex + 1) % 4;
             }
@@ -247,6 +300,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
     @Override
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
+        /*
+        Log.v("Profile", "DEBUG: " + newMonth);
         List<WeekViewEvent> weekviewEvents = new ArrayList<WeekViewEvent>();
         for(WeekViewEvent event: events){
             if(event.getStartTime().get(Calendar.MONTH) == newMonth &&
@@ -257,7 +312,45 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
         }
         return weekviewEvents;
+        */
+        return events;
 
+    }
+
+    private void populateRepeatable(){
+
+        if(!events.isEmpty()) {
+            for (int i = events.size() - 1; i < 0; --i) {
+                if (events.get(i).isRepeatable())
+                    events.remove(i);
+            }
+        }
+
+        for( int i=0; i<repeats.size(); ++i) {
+            WeekViewEventRepeatable source = repeats.get(i);
+            Calendar date = Calendar.getInstance();
+            for( int index=0; index<6; ++index) {
+                // This is 9/20/15. Calendar is 0-11 while WeekView is 1-12
+                date.set(2015, 8, 20);
+                if( source.getDay(index) ) {
+                    date.add(Calendar.DAY_OF_YEAR, index);
+                    for( int count=index; count<84; count+=7) {
+                        id++;
+                        //Log.v("PROFILE", "Date: " + (date.get(Calendar.MONTH)+1) + "/" + date.get(Calendar.DAY_OF_MONTH));
+                        WeekViewEvent newEvent = new WeekViewEvent(id, source.getName(), source.getBuildingLocation(),
+                                source.getLocation(), source.getNote(), true, date.get(Calendar.YEAR),
+                                date.get(Calendar.MONTH)+1, date.get(Calendar.DAY_OF_MONTH), source.getStartHour(),
+                                source.getStartMinute(), date.get(Calendar.YEAR), date.get(Calendar.MONTH)+1,
+                                date.get(Calendar.DAY_OF_MONTH), source.getEndHour(), source.getEndMinute());
+                        events.add(newEvent);
+                        date.add(Calendar.DAY_OF_YEAR, 7);
+                    }
+
+                }
+
+            } // days of week loop
+
+        } // repeat arrayList loop
     }
 
     private String getEventTitle(Calendar time) {

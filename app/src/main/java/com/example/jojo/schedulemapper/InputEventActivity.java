@@ -3,6 +3,7 @@ package com.example.jojo.schedulemapper;
 /*
  * Created by kevinkuo on 11/1/15
  */
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
     private LinearLayout myLayout = null;
     private View hiddenInfo = null;
     private ArrayAdapter<String> adapter;
+    private boolean repeatable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,11 +93,12 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         } else if(startHour > endHour || (startHour == endHour && startMinute > endMinute)) {
             Toast.makeText(getApplicationContext(), "Please enter a valid start and end time.", Toast.LENGTH_SHORT).show();
         } else {
-            String location =building.getSelectedItem().toString() ;
-            location += " " +eventLocation.getText().toString() ;
+            String location = building.getSelectedItem().toString();
+            location += " " + eventLocation.getText().toString();
             intent.putExtra("eventTitle", eventText.getText().toString());
             intent.putExtra("locationBuilding", building.getSelectedItem().toString());
             intent.putExtra("location", location);
+            intent.putExtra("repeatable", repeatable);
             intent.putExtra("note", eventNote.getText().toString());
             intent.putExtra("year", year);
             intent.putExtra("month", month);
@@ -104,6 +107,20 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
             intent.putExtra("startMinute", startMinute);
             intent.putExtra("endHour", endHour);
             intent.putExtra("endMinute", endMinute);
+
+            if (repeatable) {
+                boolean days[] = new boolean[7];
+
+                days[0] = ((CheckBox)findViewById(R.id.checkBoxSun)).isChecked();
+                days[1] = ((CheckBox)findViewById(R.id.checkBoxMon)).isChecked();
+                days[2] = ((CheckBox)findViewById(R.id.checkBoxTues)).isChecked();
+                days[3] = ((CheckBox)findViewById(R.id.checkBoxWed)).isChecked();
+                days[4] = ((CheckBox)findViewById(R.id.checkBoxThurs)).isChecked();
+                days[5] = ((CheckBox)findViewById(R.id.checkBoxFri)).isChecked();
+                days[6] = ((CheckBox)findViewById(R.id.checkBoxSat)).isChecked();
+
+                intent.putExtra("days", days);
+            }
 
             setResult(RESULT_OK, intent);
             finish();
@@ -127,6 +144,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
                     myLayout.addView(hiddenInfo);
                     startTime = (TextView)findViewById(R.id.textView);
                     endTime = (TextView)findViewById(R.id.textView3);
+                    repeatable = true;
                 }
                 break;
             case R.id.repeatableNo:
@@ -140,11 +158,14 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
                     dateView = (TextView)findViewById(R.id.textView2);
                     startTime = (TextView)findViewById(R.id.textView);
                     endTime = (TextView)findViewById(R.id.textView3);
+                    repeatable = false;
                 }
                 break;
         }
     }
 
+
+    @SuppressLint("ValidFragment")
     public class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
@@ -173,6 +194,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         }
     }
 
+    @SuppressLint("ValidFragment")
     public class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
 

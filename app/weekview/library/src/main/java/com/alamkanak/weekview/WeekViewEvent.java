@@ -22,7 +22,9 @@ public class WeekViewEvent extends ParseObject{
     private int mColor;
     private int buildingLocation;
     private int prevColor;
+    private boolean mRepeatable;
     boolean enabled = true;
+
     public WeekViewEvent(){
 
     }
@@ -42,9 +44,10 @@ public class WeekViewEvent extends ParseObject{
      * @param endHour Hour (in 24-hour format) when the event ends.
      * @param endMinute Minute when the event ends.
      */
-    public WeekViewEvent(long id, String name, int buildingLocation, String location, String note, int startYear,
-                         int startMonth, int startDay, int startHour, int startMinute, int endYear,
-                         int endMonth, int endDay, int endHour, int endMinute) {
+    public WeekViewEvent(long id, String name, int buildingLocation, String location,
+                         String note, boolean repeatable, int startYear, int startMonth,
+                         int startDay, int startHour, int startMinute, int endYear, int endMonth,
+                         int endDay, int endHour, int endMinute) {
 
         prevColor = Color.parseColor("#e6e6e6");
         put("prevColor", prevColor);
@@ -60,6 +63,10 @@ public class WeekViewEvent extends ParseObject{
 
         this.mLocation = location;
         put("location", mLocation);
+
+        this.mRepeatable = repeatable;
+        put("repeatable", mRepeatable);
+
         this.mNote = note;
         put("note", mNote);
 
@@ -149,17 +156,17 @@ public class WeekViewEvent extends ParseObject{
         put("name", mName);
     }
 
-    public void setBuildingLocation(int buildingLocation) {
-
-        this.buildingLocation = buildingLocation;
-        put("buildingLocation", buildingLocation);
-    }
-
     public int getBuildingLocation() {
 
         if(buildingLocation == 0)
             buildingLocation = getInt("buildingLocation");
         return buildingLocation;
+    }
+
+    public void setBuildingLocation(int buildingLocation) {
+
+        this.buildingLocation = buildingLocation;
+        put("buildingLocation", buildingLocation);
     }
 
     public String getBuildingNumber() {
@@ -229,6 +236,8 @@ public class WeekViewEvent extends ParseObject{
         put("prevColor", prevColor);
         enabled = !enabled;
     }
+
+    public boolean isRepeatable(){ return mRepeatable; }
 
     @Override
     public boolean equals(Object o) {
