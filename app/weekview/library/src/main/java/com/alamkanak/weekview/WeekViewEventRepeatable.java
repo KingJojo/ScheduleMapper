@@ -7,6 +7,7 @@ import com.parse.ParseObject;
 /**
  * Created by kevinkuo on 11/15/15.
  */
+
 @ParseClassName("WeekViewEventRepeatable")
 public class WeekViewEventRepeatable extends ParseObject{
     private int mStartHour, mStartMinute;
@@ -19,8 +20,8 @@ public class WeekViewEventRepeatable extends ParseObject{
     private int prevColor;
     //private String mQuarter;
     private boolean sunday, monday, tuesday, wednesday, thursday, friday, saturday;
-    boolean enabled = true;
 
+    // not used, included for Parse
     public WeekViewEventRepeatable() {
 
     }

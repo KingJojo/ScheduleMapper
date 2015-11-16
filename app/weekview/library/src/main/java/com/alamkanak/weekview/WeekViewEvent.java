@@ -9,8 +9,10 @@ import com.parse.ParseObject;
 
 /**
  * Created by Raquib-ul-Alam Kanak on 7/21/2014.
+ * Modified by Jojo Chen, Kevin Kuo, Lucy Li, Nathan Ng, Thomas Gui on 11/16/2015.
  * Website: http://april-shower.com
  */
+
 @ParseClassName("WeekViewEvent")
 public class WeekViewEvent extends ParseObject{
     private long mId;
@@ -25,10 +27,25 @@ public class WeekViewEvent extends ParseObject{
     private boolean mRepeatable;
     boolean enabled = true;
 
+    // not used, included for Parse
     public WeekViewEvent(){
 
     }
 
+    /*
+     * Purpose: main constructor used to input events into the calendar
+     *
+     * Parameters:
+     * @long id: WeekView ID, must be unique
+     * @String name: Name of event to be displayed
+     * @int buildingLocation: Building according to stored array of buildings
+     * @String location: Room number
+     * @String note: Optional note to be attached to event
+     * @boolean repeatable: Determines whether not event is single event or a populated event from
+     *          WeekViewEventRepeatable
+     * @int start_____: the start date and time stored in a Calendar object
+     * @int end_____: the end date and time stored in a Calendar object
+     */
     public WeekViewEvent(long id, String name, int buildingLocation, String location,
                          String note, boolean repeatable, int startYear, int startMonth,
                          int startDay, int startHour, int startMinute, int endYear, int endMonth,
@@ -124,7 +141,6 @@ public class WeekViewEvent extends ParseObject{
     }
 
     public void setEndTime(Calendar endTime) {
-
         this.mEndTime = endTime;
         put("endTime", mEndTime.getTime());
     }
@@ -136,20 +152,17 @@ public class WeekViewEvent extends ParseObject{
     }
 
     public void setName(String name) {
-
         this.mName = name;
         put("name", mName);
     }
 
     public int getBuildingLocation() {
-
         if(mBuildingLocation == 0)
             mBuildingLocation = getInt("buildingLocation");
         return mBuildingLocation;
     }
 
     public void setBuildingLocation(int buildingLocation) {
-
         this.mBuildingLocation = buildingLocation;
         put("buildingLocation", mBuildingLocation);
     }
@@ -165,7 +178,6 @@ public class WeekViewEvent extends ParseObject{
     }
 
     public void setLocation(String location) {
-
         this.mLocation = location;
         put("location", mLocation);
     }
@@ -173,12 +185,10 @@ public class WeekViewEvent extends ParseObject{
     public String getNote() {
         if(mNote == null)
             mNote = getString("note");
-
         return mNote;
     }
 
     public void setNote(String note) {
-
         this.mNote = note;
         put("note", mNote);
     }
@@ -190,7 +200,6 @@ public class WeekViewEvent extends ParseObject{
     }
 
     public void setColor(int color) {
-
         this.mColor = color;
         put("color", mColor);
     }
@@ -202,7 +211,6 @@ public class WeekViewEvent extends ParseObject{
     }
 
     public void setId(long id) {
-
         this.mId = id;
         put("eventId", mId);
     }
@@ -222,7 +230,9 @@ public class WeekViewEvent extends ParseObject{
         enabled = !enabled;
     }
 
-    public boolean isRepeatable(){ return mRepeatable; }
+    public boolean isRepeatable(){
+        return mRepeatable;
+    }
 
     @Override
     public boolean equals(Object o) {

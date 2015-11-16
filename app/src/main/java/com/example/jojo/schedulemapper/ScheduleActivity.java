@@ -169,6 +169,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                     WeekViewEventRepeatable newRepeatable = new WeekViewEventRepeatable(title,
                             buildingLocation, location, note, startHour, startMinute, endHour,
                             endMinute, days, quarter);
+
                     newRepeatable.setColor(colorArray[colorIndex]);
                     repeats.add(newRepeatable);
                     newRepeatable.saveInBackground();
