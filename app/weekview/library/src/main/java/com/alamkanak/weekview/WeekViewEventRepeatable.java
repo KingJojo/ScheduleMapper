@@ -21,13 +21,16 @@ public class WeekViewEventRepeatable extends ParseObject{
     //private String mQuarter;
     private boolean sunday, monday, tuesday, wednesday, thursday, friday, saturday;
 
+    private long mRepeatableId = -1;
+    boolean enabled = true;
+
     // not used, included for Parse
     public WeekViewEventRepeatable() {
 
     }
 
     public WeekViewEventRepeatable(String name, int buildingLocation, String location, String note,
-                                   int startHour, int startMinute, int endHour, int endMinute,
+                                   long repeatableId, int startHour, int startMinute, int endHour, int endMinute,
                                    boolean days[], String quarter) {
 
         prevColor = Color.parseColor("#e6e6e6");
@@ -41,6 +44,8 @@ public class WeekViewEventRepeatable extends ParseObject{
         put("location", mLocation);
         mNote = note;
         put("note", mNote);
+        mRepeatableId = repeatableId;
+        put("repeatableId", mRepeatableId);
 
         mStartHour = startHour;
         put("startHour", mStartHour);
@@ -92,6 +97,10 @@ public class WeekViewEventRepeatable extends ParseObject{
     public void setBuildingLocation(int buildingLocation) {
         this.mBuildingLocation = buildingLocation;
         put("buildingLocation", mBuildingLocation);
+    }
+
+    public String getBuildingNumber() {
+        return mLocation.substring(mLocation.indexOf(' ')+1);
     }
 
     public String getLocation() {
@@ -183,5 +192,20 @@ public class WeekViewEventRepeatable extends ParseObject{
             default:
                 return false;
         }
+    }
+
+    public void setRepeatableId(long repeatableId) {
+
+        this.mRepeatableId = repeatableId;
+        put("repeatableId", mRepeatableId);
+
+    }
+
+    public long getRepeatableId() {
+
+        if(getLong("repeatableId") == -1)
+            mRepeatableId = getLong("repeatableId");
+
+        return mRepeatableId;
     }
 }

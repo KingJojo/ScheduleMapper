@@ -46,7 +46,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     private MenuItem editMenu;
     private List<WeekViewEvent> events;
     private List<WeekViewEventRepeatable> repeats;
-    private static WeekViewEvent tapped = null;
+    private static WeekViewEvent tappedSingle = null;
+    private static WeekViewEventRepeatable tappedRepeat = null;
     private boolean editMode = false; // used to toggle between edit and view mode
     private int id = 0;
     private int[] colorArray = {Color.parseColor("#59dbe0"), Color.parseColor("#f57f68"),
@@ -137,17 +138,17 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 if(data == null) {
-                    if (tapped != null) {
-                        tapped.deleteInBackground();
-                        events.remove(tapped);
+                    if (tappedSingle != null) {
+                        tappedSingle.deleteInBackground();
+                        events.remove(tappedSingle);
                         mWeekView.notifyDatasetChanged();
                         return;
                     }
                 }
 
-                if(tapped != null) {
-                    events.remove(tapped);
-                    tapped.deleteInBackground();
+                if(tappedSingle != null) {
+                    events.remove(tappedSingle);
+                    tappedSingle.deleteInBackground();
                 }
 
                 String title = data.getStringExtra("eventTitle");
@@ -167,7 +168,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                     String quarter = data.getStringExtra("quarter");
 
                     WeekViewEventRepeatable newRepeatable = new WeekViewEventRepeatable(title,
-                            buildingLocation, location, note, startHour, startMinute, endHour,
+                            buildingLocation, location, note, Math.abs(rand.nextLong()), startHour, startMinute, endHour,
                             endMinute, days, quarter);
 
                     newRepeatable.setColor(colorArray[colorIndex]);
@@ -181,8 +182,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                     int month = data.getIntExtra("month", 0);
                     int day = data.getIntExtra("day", 0);
 
-                    WeekViewEvent newEvent = new WeekViewEvent(rand.nextInt(1000000), title, buildingLocation, location,
-                            note, false, year, month, day, startHour, startMinute, year, month,
+                    WeekViewEvent newEvent = new WeekViewEvent(Math.abs(rand.nextLong()), title, buildingLocation, location,
+                            note, -1, year, month, day, startHour, startMinute, year, month,
                             day, endHour, endMinute);
 
                     newEvent.setColor(colorArray[colorIndex]);
@@ -192,6 +193,49 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
                 mWeekView.notifyDatasetChanged();
                 colorIndex = (colorIndex + 1) % 4;
+            }
+        }
+        if(requestCode == 2) {
+            if (resultCode == RESULT_OK) {
+                if(data == null) {
+                    if (tappedRepeat != null) {
+                        tappedRepeat.deleteInBackground();
+                        repeats.remove(tappedRepeat);
+                        populateRepeatable();
+                        mWeekView.notifyDatasetChanged();
+                        return;
+                    }
+                }
+
+                if(tappedRepeat != null) {
+                    repeats.remove(tappedRepeat);
+                    tappedRepeat.deleteInBackground();
+                }
+
+                String title = data.getStringExtra("eventTitle");
+                int buildingLocation = data.getIntExtra("buildingLocation", 0);
+                String location = data.getStringExtra("location");
+                String note = data.getStringExtra("note");
+
+                int startHour = data.getIntExtra("startHour", 0);
+                int startMinute = data.getIntExtra("startMinute", 0);
+                int endHour = data.getIntExtra("endHour", 0);
+                int endMinute = data.getIntExtra("endMinute", 0);
+
+                boolean days[] = data.getBooleanArrayExtra("days");
+                String quarter = data.getStringExtra("quarter");
+
+                WeekViewEventRepeatable newRepeatable = new WeekViewEventRepeatable(title,
+                        buildingLocation, location, note, Math.abs(rand.nextLong()), startHour, startMinute, endHour,
+                        endMinute, days, quarter);
+                newRepeatable.setColor(colorArray[colorIndex]);
+                repeats.add(newRepeatable);
+                newRepeatable.saveInBackground();
+                populateRepeatable();
+
+                mWeekView.notifyDatasetChanged();
+                colorIndex = (colorIndex + 1) % 4;
+
             }
         }
     }
@@ -210,7 +254,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 editMenu.setTitle("View");
                 return true;
             case R.id.action_add_event:
-                tapped = null;
+                tappedSingle = null;
                 startActivityForResult(new Intent( this, InputEventActivity.class ), 1 );
                 return true;
             case R.id.action_today:
@@ -304,12 +348,14 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
     private void populateRepeatable(){
 
-        if(!events.isEmpty()) {
-            for (int i = events.size() - 1; i < 0; --i) {
-                if (events.get(i).isRepeatable())
-                    events.remove(i);
-            }
+
+        for (int i = events.size() - 1; i >= 0; --i) {
+            if (events.get(i).isRepeatable())
+                events.remove(i);
         }
+
+
+        mWeekView.notifyDatasetChanged();
 
         for( int i=0; i<repeats.size(); ++i) {
             WeekViewEventRepeatable source = repeats.get(i);
@@ -321,8 +367,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                     date.add(Calendar.DAY_OF_YEAR, index);
                     for( int count=index; count<84; count+=7) {
                         //Log.v("PROFILE", "Date: " + (date.get(Calendar.MONTH)+1) + "/" + date.get(Calendar.DAY_OF_MONTH));
-                        WeekViewEvent newEvent = new WeekViewEvent(rand.nextInt(1000000), source.getName(), source.getBuildingLocation(),
-                                source.getLocation(), source.getNote(), true, date.get(Calendar.YEAR),
+                        WeekViewEvent newEvent = new WeekViewEvent(Math.abs(rand.nextLong()), source.getName(), source.getBuildingLocation(),
+                                source.getLocation(), source.getNote(), source.getRepeatableId(), date.get(Calendar.YEAR),
                                 date.get(Calendar.MONTH)+1, date.get(Calendar.DAY_OF_MONTH), source.getStartHour(),
                                 source.getStartMinute(), date.get(Calendar.YEAR), date.get(Calendar.MONTH)+1,
                                 date.get(Calendar.DAY_OF_MONTH), source.getEndHour(), source.getEndMinute());
@@ -335,6 +381,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
             } // days of week loop
 
         } // repeat arrayList loop
+
+        mWeekView.notifyDatasetChanged();
     }
 
     private String getEventTitle(Calendar time) {
@@ -352,13 +400,27 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
         if (editMode) {
-            tapped = event;
-            startActivityForResult(new Intent(this, EditEventActivity.class), 1);
+            if(event.isRepeatable()) {
+                System.out.println(event.getRepeatableId());
+                for(int i = 0; i < repeats.size(); i++) {
+                    System.out.println(repeats.get(i).getRepeatableId());
+                    if(repeats.get(i).getRepeatableId() == event.getRepeatableId())
+                        tappedRepeat = repeats.get(i);
+                    
+                }
+                System.out.println(tappedRepeat.getRepeatableId());
+                startActivityForResult(new Intent(this, EditRepeatableEventActivity.class), 2);
+            } else {
+                tappedSingle = event;
+                startActivityForResult(new Intent(this, EditEventActivity.class), 1);
+            }
         }
     }
 
     // used to get event from inputeventactivity class
     public static WeekViewEvent getCurrentEvent() {
-        return tapped;
+        return tappedSingle;
     }
+
+    public static WeekViewEventRepeatable getCurrentRepeatableEvent() { return tappedRepeat; }
 }

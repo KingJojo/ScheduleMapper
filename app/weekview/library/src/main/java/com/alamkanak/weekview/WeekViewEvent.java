@@ -24,7 +24,7 @@ public class WeekViewEvent extends ParseObject{
     private int mColor;
     private int mBuildingLocation;
     private int prevColor;
-    private boolean mRepeatable;
+    private long mRepeatableId = - 1;
     boolean enabled = true;
 
     // not used, included for Parse
@@ -47,7 +47,7 @@ public class WeekViewEvent extends ParseObject{
      * @int end_____: the end date and time stored in a Calendar object
      */
     public WeekViewEvent(long id, String name, int buildingLocation, String location,
-                         String note, boolean repeatable, int startYear, int startMonth,
+                         String note, long repeatable, int startYear, int startMonth,
                          int startDay, int startHour, int startMinute, int endYear, int endMonth,
                          int endDay, int endHour, int endMinute) {
 
@@ -66,8 +66,7 @@ public class WeekViewEvent extends ParseObject{
         this.mLocation = location;
         put("location", mLocation);
 
-        this.mRepeatable = repeatable;
-        put("repeatable", mRepeatable);
+        this.mRepeatableId = repeatable;
 
         this.mNote = note;
         put("note", mNote);
@@ -230,8 +229,17 @@ public class WeekViewEvent extends ParseObject{
         enabled = !enabled;
     }
 
-    public boolean isRepeatable(){
-        return mRepeatable;
+    public boolean isRepeatable(){ return (mRepeatableId != -1); }
+
+    public void setRepeatableId(long repeatableId) {
+
+        this.mRepeatableId = repeatableId;
+
+    }
+
+    public long getRepeatableId() {
+
+        return mRepeatableId;
     }
 
     @Override
