@@ -298,21 +298,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
     @Override
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-        /*
-        Log.v("Profile", "DEBUG: " + newMonth);
-        List<WeekViewEvent> weekviewEvents = new ArrayList<WeekViewEvent>();
-        for(WeekViewEvent event: events){
-            if(event.getStartTime().get(Calendar.MONTH) == newMonth &&
-                    event.getStartTime().get(Calendar.YEAR) == newYear)
-            {
-                weekviewEvents.add(event);
-            }
-
-        }
-        return weekviewEvents;
-        */
         return events;
-
     }
 
     private void populateRepeatable(){
