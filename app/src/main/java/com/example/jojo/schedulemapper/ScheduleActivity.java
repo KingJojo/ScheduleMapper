@@ -181,11 +181,13 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 colorIndex = (colorIndex + 1) % 4;
             }
             else {
+                /*
                 if (tapped != null) {
                     tapped.deleteInBackground();
                     events.remove(tapped);
                     mWeekView.notifyDatasetChanged();
                 }
+                */
             }
         }
     }
