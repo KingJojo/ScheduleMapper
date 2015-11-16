@@ -145,6 +145,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
                 if(tapped != null) {
                     events.remove(tapped);
+                    tapped.deleteInBackground();
                 }
 
                 String title = data.getStringExtra("eventTitle");
