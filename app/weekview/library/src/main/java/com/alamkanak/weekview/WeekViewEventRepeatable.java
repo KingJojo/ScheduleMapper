@@ -70,63 +70,117 @@ public class WeekViewEventRepeatable extends ParseObject{
     }
 
     public String getName() {
+        if(mName == null)
+            mName = getString("name");
         return mName;
     }
 
     public void setName(String name) {
+
         this.mName = name;
+        put("name", mName);
     }
 
     public int getBuildingLocation() {
+
+        if(mBuildingLocation == 0)
+            mBuildingLocation = getInt("buildingLocation");
         return mBuildingLocation;
     }
 
     public void setBuildingLocation(int buildingLocation) {
         this.mBuildingLocation = buildingLocation;
+        put("buildingLocation", mBuildingLocation);
     }
 
     public String getLocation() {
+
+        if(mLocation == null)
+            mLocation = getString("location");
         return mLocation;
     }
 
     public void setLocation(String location) {
+
         this.mLocation = location;
+        put("location", mLocation);
     }
 
     public String getNote() {
+
+        if(mNote == null)
+            mNote = getString("note");
         return mNote;
     }
 
     public void setNote(String note) {
+
         this.mNote = note;
+        put("note", mNote);
     }
 
-    public int getStartHour() { return mStartHour; }
+    public int getStartHour() {
 
-    public int getStartMinute() { return mStartMinute; }
+        mStartHour = getInt("startHour");
+        return mStartHour;
+    }
 
-    public int getEndHour() { return mEndHour; }
+    public int getStartMinute() {
 
-    public int getEndMinute() { return mEndMinute; }
+        mStartMinute = getInt("startMinute");
+        return mStartMinute;
+    }
+
+    public int getEndHour() {
+
+        mEndHour = getInt("endHour");
+        return mEndHour;
+    }
+
+    public int getEndMinute() {
+
+        mEndMinute = getInt("endMinute");
+        return mEndMinute;
+    }
 
     public int getColor() {
+
+        if(mColor == 0)
+            mColor = getInt("color");
         return mColor;
     }
 
     public void setColor(int color) {
+
         this.mColor = color;
+        put("color", mColor);
     }
 
     public boolean getDay(int index) {
         switch(index) {
-            case 0: return sunday;
-            case 1: return monday;
-            case 2: return tuesday;
-            case 3: return wednesday;
-            case 4: return thursday;
-            case 5: return friday;
-            case 6: return saturday;
+            case 0:
+                sunday = getBoolean("sunday");
+                return sunday;
+            case 1:
+                monday = getBoolean("monday");
+                return monday;
+            case 2:
+                tuesday = getBoolean("tuesday");
+                return tuesday;
+            case 3:
+                wednesday = getBoolean("wednesday");
+                return wednesday;
+            case 4:
+                thursday = getBoolean("thursday");
+                return thursday;
+            case 5:
+                friday = getBoolean("friday");
+                return friday;
+            case 6:
+                saturday = getBoolean("saturday");
+                return saturday;
+            default:
+                return false;
         }
-        return false;
     }
 }

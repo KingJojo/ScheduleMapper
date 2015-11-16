@@ -66,9 +66,9 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
             public void done(List<ParseObject> eventList, ParseException e) {
                 if (e == null) {
                     System.out.println("found " + eventList.size());
-                    for(int i = 0; i < eventList.size(); i++) {
-                        System.out.println("name: " + ((WeekViewEvent)eventList.get(i)).getName());
-                        events.add((WeekViewEvent)eventList.get(i));
+                    for (int i = 0; i < eventList.size(); i++) {
+                        System.out.println("name: " + ((WeekViewEvent) eventList.get(i)).getName());
+                        events.add((WeekViewEvent) eventList.get(i));
                     }
                     mWeekView.notifyDatasetChanged();
                 } else {
@@ -87,18 +87,18 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 if (e == null) {
                     System.out.println("found " + eventList.size());
                     for (int i = 0; i < eventList.size(); i++) {
-                        System.out.println("name: " + ((WeekViewEventRepeatable)eventList.get(i)).getName());
-                        repeats.add((WeekViewEventRepeatable)eventList.get(i));
+                        System.out.println("name: " + ((WeekViewEventRepeatable) eventList.get(i)).getName());
+                        repeats.add((WeekViewEventRepeatable) eventList.get(i));
                     }
                     mWeekView.notifyDatasetChanged();
+                    populateRepeatable();
+
                 } else {
                     // handle Parse Exception here
                 }
             }
         });
         Log.v("Profile", "repeats size: " + repeats.size());
-
-        populateRepeatable();
 
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
@@ -325,15 +325,14 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         for( int i=0; i<repeats.size(); ++i) {
             WeekViewEventRepeatable source = repeats.get(i);
             Calendar date = Calendar.getInstance();
-            for( int index=0; index<6; ++index) {
+            for( int index=0; index<7; ++index) {
                 // This is 9/20/15. Calendar is 0-11 while WeekView is 1-12
                 date.set(2015, 8, 20);
                 if( source.getDay(index) ) {
                     date.add(Calendar.DAY_OF_YEAR, index);
                     for( int count=index; count<84; count+=7) {
-                        id++;
                         //Log.v("PROFILE", "Date: " + (date.get(Calendar.MONTH)+1) + "/" + date.get(Calendar.DAY_OF_MONTH));
-                        WeekViewEvent newEvent = new WeekViewEvent(id, source.getName(), source.getBuildingLocation(),
+                        WeekViewEvent newEvent = new WeekViewEvent(rand.nextInt(1000000), source.getName(), source.getBuildingLocation(),
                                 source.getLocation(), source.getNote(), true, date.get(Calendar.YEAR),
                                 date.get(Calendar.MONTH)+1, date.get(Calendar.DAY_OF_MONTH), source.getStartHour(),
                                 source.getStartMinute(), date.get(Calendar.YEAR), date.get(Calendar.MONTH)+1,
