@@ -3,7 +3,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:id="@+id/nonRepeatingEvents"
     android:layout_marginTop="18dp"
     android:orientation="vertical">
@@ -11,7 +11,7 @@
     <LinearLayout
         android:id="@+id/startDateFields"
         android:layout_marginTop="18dp"
-        android:layout_width="396dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
@@ -24,8 +24,7 @@
             android:text="Start Date"
             android:singleLine="true"
             android:textColor="#303F9F"
-            android:background="@drawable/button"
-            android:layout_marginLeft="20dp" />
+            android:background="@drawable/button" />
 
         <TextView
             android:id="@+id/textView2"
@@ -52,8 +51,7 @@
             android:onClick="showStartTimePicker"
             android:text="start time"
             android:textColor="#303F9F"
-            android:background="@drawable/button"
-            android:layout_marginLeft="20dp" />
+            android:background="@drawable/button" />
 
         <TextView
             android:id="@+id/textView"
@@ -80,8 +78,7 @@
             android:onClick="showEndTimePicker"
             android:text="End time"
             android:textColor="#303F9F"
-            android:background="@drawable/button"
-            android:layout_marginLeft="20dp" />
+            android:background="@drawable/button" />
 
         <TextView
             android:id="@+id/textView3"
@@ -100,21 +97,14 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <TextView
-            android:id="@+id/noteText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="18dp"
-            android:text="Note"
-            android:layout_marginLeft="20dp" />
-
         <EditText
             android:id="@+id/note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text"
-            android:layout_marginRight="20dp" />
+            android:hint="Note"
+            android:layout_weight="1.73" />
     </LinearLayout>
 
 
@@ -129,9 +119,7 @@
         android:singleLine="false"
         android:textColor="#303F9F"
         android:background="@drawable/button"
-        android:layout_gravity="right"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp" />
+        android:layout_gravity="right" />
 
 </LinearLayout>
 

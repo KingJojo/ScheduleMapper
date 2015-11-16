@@ -3,7 +3,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="wrap_content"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:id="@+id/repeatingEvents"
     android:layout_marginTop="18dp"
     android:orientation="vertical">
@@ -12,7 +12,7 @@
     <LinearLayout
         android:id="@+id/startTimeFields"
         android:layout_marginTop="18dp"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
@@ -24,8 +24,7 @@
             android:onClick="showStartTimePicker"
             android:text="start time"
             android:textColor="#303F9F"
-            android:background="@drawable/button"
-            android:layout_marginLeft="20dp" />
+            android:background="@drawable/button" />
 
         <TextView
             android:id="@+id/textView"
@@ -40,7 +39,7 @@
     <LinearLayout
         android:id="@+id/endTimeFields"
         android:layout_marginTop="18dp"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:weightSum="1">
@@ -53,8 +52,7 @@
             android:onClick="showEndTimePicker"
             android:text="End time"
             android:textColor="#303F9F"
-            android:background="@drawable/button"
-            android:layout_marginLeft="20dp" />
+            android:background="@drawable/button" />
 
         <TextView
             android:id="@+id/textView3"
@@ -73,21 +71,13 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <TextView
-            android:id="@+id/noteText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="18dp"
-            android:text="Note"
-            android:layout_marginLeft="20dp" />
-
         <EditText
             android:id="@+id/note"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text"
-            android:layout_marginRight="20dp" />
+            android:hint="Note" />
     </LinearLayout>
 
     <LinearLayout
@@ -103,8 +93,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="18dp"
             android:text="Repeat Days"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:layout_marginLeft="20dp" />
+            android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <LinearLayout
             android:orientation="horizontal"
@@ -118,8 +107,7 @@
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:text="Sun"
-                android:layout_marginRight="5dp"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginRight="5dp" />
 
             <CheckBox
                 android:id="@+id/checkBox2"
@@ -156,7 +144,6 @@
                 android:layout_height="wrap_content"
                 android:checked="false"
                 android:text="Thu"
-                android:layout_marginLeft="20dp"
                 android:layout_marginRight="5dp" />
 
             <CheckBox
@@ -179,7 +166,7 @@
 
     <Button
         android:id="@+id/submit"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop= "30dp"
         android:text="Add Event"
@@ -188,8 +175,6 @@
         android:singleLine="false"
         android:textColor="#303F9F"
         android:background="@drawable/button"
-        android:layout_gravity="right"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp" />
+        android:layout_gravity="right" />
 
 </LinearLayout>

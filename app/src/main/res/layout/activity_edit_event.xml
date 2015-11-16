@@ -17,61 +17,47 @@
         android:longClickable="false"
         android:paddingBottom="30dp">
 
+
+
         <LinearLayout
             android:id="@+id/eventFields"
-            android:layout_width="359dp"
+            android:layout_width="326dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:weightSum="1">
 
 
-            <TextView
-                android:id="@+id/nameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="18dp"
-                android:text="@string/event_title"
-                android:layout_marginLeft="20dp" />
-
-             <EditText
+            <EditText
                 android:id="@+id/name"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                 android:layout_marginRight="20dp" />
+                android:hint="Event title"
+                android:textSize="30dp"
+                android:textColor="#6f797979" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/locationFields"
             android:layout_marginTop="18dp"
-            android:layout_width="fill_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <TextView
-                android:id="@+id/locationText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="28dp"
-                android:text="Location"
-                android:layout_marginLeft="20dp" />
-
-            <Spinner
-                android:id="@+id/buildingLocation"
-                android:layout_width="92dp"
-                android:layout_height="45dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginLeft="20dp" />
-
             <EditText
                 android:id="@+id/location"
-                android:layout_width="110dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:layout_marginRight="20dp" />
+                android:hint="Location"
+                android:textColor="#6f797979" />
+
+            <Spinner
+                android:id="@+id/buildingLocation"
+                android:layout_width="match_parent"
+                android:layout_height="29dp" />
 
         </LinearLayout>
         <LinearLayout
@@ -90,12 +76,11 @@
                 android:text="Start Date"
                 android:singleLine="true"
                 android:textColor="#303F9F"
-                android:background="@drawable/button"
-                android:layout_marginLeft="20dp" />
+                android:background="@drawable/button" />
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="18dp"
                 android:text="No date selected"
@@ -119,8 +104,7 @@
                 android:onClick="showStartTimePicker"
                 android:text="start time"
                 android:textColor="#303F9F"
-                android:background="@drawable/button"
-                android:layout_marginLeft="20dp" />
+                android:background="@drawable/button" />
 
             <TextView
                 android:id="@+id/textView"
@@ -148,8 +132,7 @@
                 android:onClick="showEndTimePicker"
                 android:text="End time"
                 android:textColor="#303F9F"
-                android:background="@drawable/button"
-                android:layout_marginLeft="20dp" />
+                android:background="@drawable/button" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -169,22 +152,13 @@
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <TextView
-                android:id="@+id/noteText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="18dp"
-                android:text="Note"
-                android:layout_marginLeft="20dp" />
-
             <EditText
                 android:id="@+id/note"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:layout_weight="1.11"
-                android:layout_marginRight="20dp" />
+                android:hint="Note" />
         </LinearLayout>
 
 
@@ -198,9 +172,7 @@
 
             android:singleLine="false"
             android:textColor="#303F9F"
-            android:background="@drawable/button"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp" />
+            android:background="@drawable/button" />
 
         <Button
             android:id="@+id/deleteEventButton"
@@ -212,9 +184,7 @@
 
             android:singleLine="false"
             android:textColor="#303F9F"
-            android:background="@drawable/button"
-            android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp" />
+            android:background="@drawable/button" />
 
     </LinearLayout>
 

@@ -3,7 +3,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
 
@@ -20,59 +20,44 @@
 
         <LinearLayout
             android:id="@+id/eventFields"
-            android:layout_width="wrap_content"
+            android:layout_width="326dp"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:weightSum="1">
 
 
-            <TextView
-                android:id="@+id/nameText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="18dp"
-                android:text="@string/event_title"
-                android:layout_marginLeft="20dp" />
-
             <EditText
                 android:id="@+id/name"
-                android:layout_width="match_parent"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:layout_marginRight="20dp" />
+                android:hint="Event title"
+                android:layout_weight="1.70"
+                android:textSize="30dp"
+                android:textColor="#6f797979" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/locationFields"
             android:layout_marginTop="18dp"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <TextView
-                android:id="@+id/locationText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="28dp"
-                android:text="Location"
-                android:layout_marginLeft="20dp" />
-
-            <Spinner
-                android:id="@+id/buildingLocation"
-                android:layout_width="107dp"
-                android:layout_height="29dp"
-                android:layout_marginRight="18dp"
-                />
-
             <EditText
                 android:id="@+id/location"
-                android:layout_width="81dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="text"
-                android:layout_weight="0.43" />
+                android:hint="Location"
+                android:textColor="#6f797979" />
+
+            <Spinner
+                android:id="@+id/buildingLocation"
+                android:layout_width="match_parent"
+                android:layout_height="29dp" />
 
         </LinearLayout>
 
@@ -89,7 +74,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="18dp"
                 android:text="Repeatable?"
-                android:layout_marginLeft="20dp" />
+                android:layout_marginLeft="3dp" />
 
             <RadioGroup
                 android:id="@+id/repeatableButtons"
@@ -106,7 +91,7 @@
 
                 <RadioButton
                     android:id="@+id/repeatableNo"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:onClick="onRadioButtonClicked"
                     android:text="No" />
@@ -118,7 +103,7 @@
 
         <LinearLayout
             android:id="@+id/forRepeating"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
