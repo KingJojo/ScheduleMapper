@@ -25,35 +25,38 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private LocationManager locationManager;
+    private LatLng myPosition;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
+        mMap.setMyLocationEnabled(true);
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String provider = locationManager.getBestProvider(criteria, true);
+        if ( ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED ) {
+            Location location = locationManager.getLastKnownLocation(provider);
+            if(location != null) {
+                // Getting latitude of the current location
+                double latitude = location.getLatitude();
 
-        if (mMap!=null){
-            System.out.println("success");
-            LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            Criteria criteria = new Criteria();
-            if ( ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
+                // Getting longitude of the current location
+                double longitude = location.getLongitude();
 
-                Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, true));
-                if (location != null) {
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                            new LatLng(location.getLatitude(), location.getLongitude()), 13));
+                // Creating a LatLng object for the current location
+                myPosition = new LatLng(latitude, longitude);
 
-                    CameraPosition cameraPosition = new CameraPosition.Builder()
-                            .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
-                            .zoom(17)                   // Sets the zoom
-                            .bearing(90)                // Sets the orientation of the camera to east
-                            .tilt(40)                   // Sets the tilt of the camera to 30 degrees
-                            .build();                   // Creates a CameraPosition from the builder
-                    mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-                }
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, 15));
             }
+
         }
+
+
     }
 
 
@@ -70,24 +73,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        if ( ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
 
-            Location location = locationManager.getLastKnownLocation(locationManager.getBestProvider(criteria, false));
-            if (location != null) {
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-                        new LatLng(location.getLatitude(), location.getLongitude()), 13));
-
-                CameraPosition cameraPosition = new CameraPosition.Builder()
-                        .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
-                        .zoom(17)                   // Sets the zoom
-                        .bearing(90)                // Sets the orientation of the camera to east
-                        .tilt(40)                   // Sets the tilt of the camera to 30 degrees
-                        .build();                   // Creates a CameraPosition from the builder
-                mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
-            }
-        }
     }
 }
