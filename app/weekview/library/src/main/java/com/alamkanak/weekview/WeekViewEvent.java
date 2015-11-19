@@ -22,7 +22,7 @@ public class WeekViewEvent extends ParseObject{
     private String mLocation;
     private String mNote;
     private int mColor;
-    private int mBuildingLocation;
+    private String mBuildingLocation;
     private int prevColor;
     private long mRepeatableId = - 1;
     boolean enabled = true;
@@ -46,7 +46,7 @@ public class WeekViewEvent extends ParseObject{
      * @int start_____: the start date and time stored in a Calendar object
      * @int end_____: the end date and time stored in a Calendar object
      */
-    public WeekViewEvent(long id, String name, int buildingLocation, String location,
+    public WeekViewEvent(long id, String name, String buildingLocation, String location,
                          String note, long repeatable, int startYear, int startMonth,
                          int startDay, int startHour, int startMinute, int endYear, int endMonth,
                          int endDay, int endHour, int endMinute) {
@@ -155,13 +155,13 @@ public class WeekViewEvent extends ParseObject{
         put("name", mName);
     }
 
-    public int getBuildingLocation() {
-        if(mBuildingLocation == 0)
-            mBuildingLocation = getInt("buildingLocation");
+    public String getBuildingLocation() {
+        if(mBuildingLocation == null)
+            mBuildingLocation = getString("buildingLocation");
         return mBuildingLocation;
     }
 
-    public void setBuildingLocation(int buildingLocation) {
+    public void setBuildingLocation(String buildingLocation) {
         this.mBuildingLocation = buildingLocation;
         put("buildingLocation", mBuildingLocation);
     }

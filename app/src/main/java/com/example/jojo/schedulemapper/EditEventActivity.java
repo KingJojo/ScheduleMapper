@@ -56,7 +56,16 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
 
         currEvent = ScheduleActivity.getCurrentEvent();
 
-        buildings.setSelection(currEvent.getBuildingLocation());
+        int index = 0;
+
+        for (int i=0;i<buildings.getCount();i++){
+            if (buildings.getItemAtPosition(i).toString().equalsIgnoreCase(currEvent.getBuildingLocation())){
+                index = i;
+                break;
+            }
+        }
+
+        buildings.setSelection(index);
 
         startTime = (TextView)findViewById(R.id.textView);
         endTime = (TextView)findViewById(R.id.textView3);
@@ -116,7 +125,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
             String location =building.getSelectedItem().toString() ;
             location += " " +eventLocation.getText().toString() ;
             intent.putExtra("eventTitle", eventText.getText().toString());
-            intent.putExtra("buildingLocation", adapter.getPosition(building.getSelectedItem().toString()));
+            intent.putExtra("buildingLocation", building.getSelectedItem().toString());
             intent.putExtra("location", location);
             intent.putExtra("note", eventNote.getText().toString());
             intent.putExtra("year", year);

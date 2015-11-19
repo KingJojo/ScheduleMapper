@@ -59,8 +59,16 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
 
         currEvent = ScheduleActivity.getCurrentRepeatableEvent();
 
-        buildings.setSelection(currEvent.getBuildingLocation());
+        int index = 0;
 
+        for (int i=0;i<buildings.getCount();i++){
+            if (buildings.getItemAtPosition(i).toString().equalsIgnoreCase(currEvent.getBuildingLocation())){
+                index = i;
+                break;
+            }
+        }
+
+        buildings.setSelection(index);
         startTime = (TextView)findViewById(R.id.textView);
         endTime = (TextView)findViewById(R.id.textView3);
         dateView = (TextView)findViewById(R.id.textView2);
@@ -134,7 +142,7 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
             String location =building.getSelectedItem().toString() ;
             location += " " +eventLocation.getText().toString() ;
             intent.putExtra("eventTitle", eventText.getText().toString());
-            intent.putExtra("buildingLocation", adapter.getPosition(building.getSelectedItem().toString()));
+            intent.putExtra("buildingLocation", building.getSelectedItem().toString());
             intent.putExtra("location", location);
             intent.putExtra("note", eventNote.getText().toString());
             intent.putExtra("startHour", startHour);

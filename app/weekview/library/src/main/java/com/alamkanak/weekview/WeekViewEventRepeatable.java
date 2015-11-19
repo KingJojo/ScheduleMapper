@@ -16,7 +16,7 @@ public class WeekViewEventRepeatable extends ParseObject{
     private String mLocation;
     private String mNote;
     private int mColor;
-    private int mBuildingLocation;
+    private String mBuildingLocation;
     private int prevColor;
     //private String mQuarter;
     private boolean sunday, monday, tuesday, wednesday, thursday, friday, saturday;
@@ -29,7 +29,7 @@ public class WeekViewEventRepeatable extends ParseObject{
 
     }
 
-    public WeekViewEventRepeatable(String name, int buildingLocation, String location, String note,
+    public WeekViewEventRepeatable(String name, String buildingLocation, String location, String note,
                                    long repeatableId, int startHour, int startMinute, int endHour, int endMinute,
                                    boolean days[], String quarter) {
 
@@ -87,14 +87,14 @@ public class WeekViewEventRepeatable extends ParseObject{
         put("name", mName);
     }
 
-    public int getBuildingLocation() {
+    public String getBuildingLocation() {
 
-        if(mBuildingLocation == 0)
-            mBuildingLocation = getInt("buildingLocation");
+        if(mBuildingLocation == null)
+            mBuildingLocation = getString("buildingLocation");
         return mBuildingLocation;
     }
 
-    public void setBuildingLocation(int buildingLocation) {
+    public void setBuildingLocation(String buildingLocation) {
         this.mBuildingLocation = buildingLocation;
         put("buildingLocation", mBuildingLocation);
     }
