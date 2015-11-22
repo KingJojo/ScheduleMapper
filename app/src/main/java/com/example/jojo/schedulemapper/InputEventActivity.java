@@ -259,6 +259,14 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
             else
                 endTime.setText(hourOfDay + ":" + minute);
         }
+        else {
+            endHour = hourOfDay+1;
+            endMinute = minute;
+            if(minute < 10)
+                endTime.setText(endHour + ":0" + minute);
+            else
+                endTime.setText(hourOfDay + ":" + minute);
+        }
     }
 
     public void showDatePickerDialog(View v) {

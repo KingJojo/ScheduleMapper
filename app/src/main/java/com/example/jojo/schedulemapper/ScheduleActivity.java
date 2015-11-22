@@ -415,6 +415,10 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 startActivityForResult(new Intent(this, EditEventActivity.class), 1);
             }
         }
+        else {
+            tappedSingle = event;
+            startActivity(new Intent(this, ViewEventActivity.class));
+        }
     }
 
     // used to get event from inputeventactivity class

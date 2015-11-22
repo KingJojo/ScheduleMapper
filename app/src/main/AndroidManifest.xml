@@ -98,6 +98,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.jojo.schedulemapper.ScheduleActivity" />
         </activity>
+        <activity
+            android:name=".ViewEventActivity"
+            android:label="@string/title_activity_view_event"
+            android:parentActivityName=".ScheduleActivity"
+            android:theme="@style/AppTheme.NoActionBar" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.jojo.schedulemapper.ScheduleActivity" />
+        </activity>
     </application>
 
 </manifest>
