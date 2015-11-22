@@ -54,7 +54,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
 
         String[] buildingsList = {"CSE", "Center", "WLH", "LEDDN", "PRICE", "York",
                                     "Galbraith", "Peterson", "Cogs", "Sequoyah", "AP&M",
-                                        "Mandler", "McGill"};
+                                        "Mandler", "McGill", "SOLIS"};
         Spinner buildings = (Spinner) findViewById(R.id.buildingLocation);
         adapter = new ArrayAdapter<String>(InputEventActivity.this,
                     android.R.layout.simple_spinner_item, buildingsList);
