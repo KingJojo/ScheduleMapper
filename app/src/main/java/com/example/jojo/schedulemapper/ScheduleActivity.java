@@ -213,7 +213,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 }
 
                 String title = data.getStringExtra("eventTitle");
-                String buildingLocation = data.getStringExtra("locationBuilding");
+                String buildingLocation = data.getStringExtra("buildingLocation");
                 String location = data.getStringExtra("location");
                 String note = data.getStringExtra("note");
 

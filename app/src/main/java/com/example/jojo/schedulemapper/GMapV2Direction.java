@@ -43,15 +43,11 @@ public class GMapV2Direction {
             HttpClient httpClient = new DefaultHttpClient();
             HttpContext localContext = new BasicHttpContext();
             HttpPost httpPost = new HttpPost(url);
-            System.out.println("2");
             HttpResponse response = httpClient.execute(httpPost, localContext);
-            System.out.println("1");
             InputStream in = response.getEntity().getContent();
-            System.out.println("3");
             DocumentBuilder builder = DocumentBuilderFactory.newInstance()
                     .newDocumentBuilder();
             Document doc = builder.parse(in);
-            System.out.println("GOT THE FUCKING DOCUMENT\n\n\n");
             return doc;
         } catch (Exception e) {
             e.printStackTrace();
