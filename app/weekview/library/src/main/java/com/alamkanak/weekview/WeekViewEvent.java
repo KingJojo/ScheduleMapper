@@ -49,7 +49,7 @@ public class WeekViewEvent extends ParseObject{
     public WeekViewEvent(long id, String name, String buildingLocation, String location,
                          String note, long repeatable, int startYear, int startMonth,
                          int startDay, int startHour, int startMinute, int endYear, int endMonth,
-                         int endDay, int endHour, int endMinute) {
+                         int endDay, int endHour, int endMinute, boolean enabled) {
 
         prevColor = Color.parseColor("#e6e6e6");
         put("prevColor", prevColor);
@@ -70,6 +70,17 @@ public class WeekViewEvent extends ParseObject{
 
         this.mNote = note;
         put("note", mNote);
+
+        this.enabled = enabled;
+        put("enabled", enabled);
+
+        if(enabled == false) {
+            int temp = getColor();
+            mColor = getPrevColor();
+            prevColor = temp;
+            put("color", mColor);
+            put("prevColor", prevColor);
+        }
 
         this.mStartTime = Calendar.getInstance();
         this.mStartTime.set(Calendar.YEAR, startYear);
@@ -227,6 +238,12 @@ public class WeekViewEvent extends ParseObject{
         put("color", mColor);
         put("prevColor", prevColor);
         enabled = !enabled;
+        put("enabled", enabled);
+    }
+
+    public boolean isEnabled() {
+        enabled = getBoolean("enabled");
+        return enabled;
     }
 
     public boolean isRepeatable(){ return (mRepeatableId != -1); }

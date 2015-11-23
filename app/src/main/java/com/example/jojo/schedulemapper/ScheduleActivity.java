@@ -12,9 +12,11 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
+import com.alamkanak.weekview.DisabledRepeatable;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.alamkanak.weekview.WeekViewEventRepeatable;
+import com.parse.GetCallback;
 import com.parse.ParseQuery;
 import com.parse.ParseException;
 import com.parse.FindCallback;
@@ -47,6 +49,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     private MenuItem editMenu;
     private List<WeekViewEvent> events;
     private List<WeekViewEventRepeatable> repeats;
+    private List<DisabledRepeatable> disabled;
     private static WeekViewEvent tappedSingle = null;
     private static WeekViewEventRepeatable tappedRepeat = null;
     private boolean editMode = false; // used to toggle between edit and view mode
@@ -93,15 +96,32 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                         System.out.println("name: " + ((WeekViewEventRepeatable) eventList.get(i)).getName());
                         repeats.add((WeekViewEventRepeatable) eventList.get(i));
                     }
-                    mWeekView.notifyDatasetChanged();
                     populateRepeatable();
-
+                    mWeekView.notifyDatasetChanged();
                 } else {
                     // handle Parse Exception here
                 }
             }
         });
         //Log.v("Profile", "repeats size: " + repeats.size());
+
+        disabled = new ArrayList<DisabledRepeatable>();
+
+        ParseQuery<ParseObject> query3 = new ParseQuery<ParseObject>("DisabledRepeatable");
+        query3.findInBackground(new FindCallback<ParseObject>() {
+            public void done(List<ParseObject> eventList, ParseException e) {
+                if (e == null) {
+                    System.out.println("found " + eventList.size());
+                    for (int i = 0; i < eventList.size(); i++) {
+                        disabled.add((DisabledRepeatable) eventList.get(i));
+                    }
+                    populateRepeatable();
+                    mWeekView.notifyDatasetChanged();
+                } else {
+                    // handle Parse Exception here
+                }
+            }
+        });
 
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
@@ -185,7 +205,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
                     WeekViewEvent newEvent = new WeekViewEvent(Math.abs(rand.nextLong()), title, buildingLocation, location,
                             note, -1, year, month, day, startHour, startMinute, year, month,
-                            day, endHour, endMinute);
+                            day, endHour, endMinute, true);
 
                     newEvent.setColor(colorArray[colorIndex]);
                     events.add(newEvent);
@@ -375,12 +395,38 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 if( source.getDay(index) ) {
                     date.add(Calendar.DAY_OF_YEAR, index);
                     for( int count=index; count<84; count+=7) {
+
+                        Calendar start = Calendar.getInstance();
+                        start.set(Calendar.YEAR, date.get(Calendar.YEAR));
+                        start.set(Calendar.MONTH, date.get(Calendar.MONTH));
+                        start.set(Calendar.DAY_OF_MONTH, date.get(Calendar.DAY_OF_MONTH));
+                        start.set(Calendar.HOUR_OF_DAY, source.getStartHour());
+                        start.set(Calendar.MINUTE, source.getStartMinute());
+
+                        Calendar end = Calendar.getInstance();
+                        end.set(Calendar.YEAR, date.get(Calendar.YEAR));
+                        end.set(Calendar.MONTH, date.get(Calendar.MONTH));
+                        end.set(Calendar.DAY_OF_MONTH, date.get(Calendar.DAY_OF_MONTH));
+                        end.set(Calendar.HOUR_OF_DAY, source.getEndHour());
+                        end.set(Calendar.MINUTE, source.getEndMinute());
+
+                        boolean enabled = true;
+                        System.out.println(disabled.size() + "testing");
+                        for(int j = 0; j < disabled.size(); j++) {
+                            if(disabledOverlapping(start, end, source.getRepeatableId(), disabled.get(j))) {
+                                System.out.println("Disabling an event");
+                                enabled = false;
+                                break;
+                            }
+                        }
+
                         //Log.v("PROFILE", "Date: " + (date.get(Calendar.MONTH)+1) + "/" + date.get(Calendar.DAY_OF_MONTH));
                         WeekViewEvent newEvent = new WeekViewEvent(Math.abs(rand.nextLong()), source.getName(), source.getBuildingLocation(),
                                 source.getLocation(), source.getNote(), source.getRepeatableId(), date.get(Calendar.YEAR),
                                 date.get(Calendar.MONTH)+1, date.get(Calendar.DAY_OF_MONTH), source.getStartHour(),
                                 source.getStartMinute(), date.get(Calendar.YEAR), date.get(Calendar.MONTH)+1,
-                                date.get(Calendar.DAY_OF_MONTH), source.getEndHour(), source.getEndMinute());
+                                date.get(Calendar.DAY_OF_MONTH), source.getEndHour(), source.getEndMinute(), enabled);
+
                         events.add(newEvent);
                         date.add(Calendar.DAY_OF_YEAR, 7);
                     }
@@ -401,6 +447,19 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         long end2 = event2.getEndTime().getTimeInMillis();
         return !((start1 >= end2) || (end1 <= start2));
     }
+
+    private boolean disabledOverlapping(Calendar start1, Calendar end1, long repeatableId, DisabledRepeatable disabled) {
+        return (start1.get(Calendar.MONTH) == disabled.getStartTime().get(Calendar.MONTH) &&
+                start1.get(Calendar.DAY_OF_MONTH) == disabled.getStartTime().get(Calendar.DAY_OF_MONTH) &&
+                start1.get(Calendar.HOUR) == disabled.getStartTime().get(Calendar.HOUR) &&
+                start1.get(Calendar.MINUTE) == disabled.getStartTime().get(Calendar.MINUTE) &&
+                end1.get(Calendar.MONTH) == disabled.getEndTime().get(Calendar.MONTH) &&
+                end1.get(Calendar.DAY_OF_MONTH) == disabled.getEndTime().get(Calendar.DAY_OF_MONTH) &&
+                end1.get(Calendar.HOUR) == disabled.getEndTime().get(Calendar.HOUR) &&
+                end1.get(Calendar.MINUTE) == disabled.getEndTime().get(Calendar.MINUTE) &&
+                repeatableId == disabled.getRepeatableId());
+    }
+
     private String getEventTitle(Calendar time) {
         return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY),
                 time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
@@ -408,9 +467,28 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
     @Override
     public void onEventClick(WeekViewEvent event, RectF eventRect) {
-        event.changeColor();
-        event.saveInBackground();
-        mWeekView.notifyDatasetChanged();
+        if(event.isRepeatable()) {
+            if(event.isEnabled()) {
+                DisabledRepeatable newDisabled = new DisabledRepeatable(event.getRepeatableId(),
+                        event.getStartTime(), event.getEndTime());
+                newDisabled.saveInBackground();
+                disabled.add(newDisabled);
+            } else {
+                for(int j = 0; j < disabled.size(); j++) {
+                    if(disabledOverlapping(event.getStartTime(), event.getEndTime(), event.getRepeatableId(), disabled.get(j))) {
+                        disabled.get(j).deleteInBackground();
+                        disabled.remove(j);
+                        break;
+                    }
+                }
+            }
+            populateRepeatable();
+            mWeekView.notifyDatasetChanged();
+        } else {
+            event.changeColor();
+            event.saveInBackground();
+            mWeekView.notifyDatasetChanged();
+        }
     }
 
     @Override
