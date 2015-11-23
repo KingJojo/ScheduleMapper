@@ -203,7 +203,7 @@ public class WeekViewEventRepeatable extends ParseObject{
 
     public long getRepeatableId() {
 
-        if(getLong("repeatableId") == -1)
+        if(mRepeatableId == -1)
             mRepeatableId = getLong("repeatableId");
 
         return mRepeatableId;

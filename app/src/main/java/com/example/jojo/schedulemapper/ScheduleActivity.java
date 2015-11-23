@@ -404,9 +404,10 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 System.out.println(event.getRepeatableId());
                 for(int i = 0; i < repeats.size(); i++) {
                     System.out.println(repeats.get(i).getRepeatableId());
-                    if(repeats.get(i).getRepeatableId() == event.getRepeatableId())
+                    if(repeats.get(i).getRepeatableId() == event.getRepeatableId()) {
                         tappedRepeat = repeats.get(i);
-                    
+                        break;
+                    }
                 }
                 System.out.println(tappedRepeat.getRepeatableId());
                 startActivityForResult(new Intent(this, EditRepeatableEventActivity.class), 2);
