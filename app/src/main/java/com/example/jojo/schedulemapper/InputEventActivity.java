@@ -105,6 +105,8 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
             Toast.makeText(getApplicationContext(), "Please enter an event end time.", Toast.LENGTH_SHORT).show();
         } else if(startHour > endHour || (startHour == endHour && startMinute > endMinute)) {
             Toast.makeText(getApplicationContext(), "Please enter a valid start and end time.", Toast.LENGTH_SHORT).show();
+        } else if(repeatable && !isADaySelected()) {
+            Toast.makeText(getApplicationContext(), "Please select at least one day.", Toast.LENGTH_SHORT).show();
         } else {
             String location = building.getSelectedItem().toString();
             location += " " + eventLocation.getText().toString();
@@ -145,6 +147,23 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
             finish();
         }
     }
+
+    private boolean isADaySelected() {
+        if (((CheckBox)findViewById(R.id.checkBoxSun)).isChecked() ||
+            ((CheckBox)findViewById(R.id.checkBoxMon)).isChecked() ||
+            ((CheckBox)findViewById(R.id.checkBoxTue)).isChecked() ||
+            ((CheckBox)findViewById(R.id.checkBoxWed)).isChecked() ||
+            ((CheckBox)findViewById(R.id.checkBoxThu)).isChecked() ||
+            ((CheckBox)findViewById(R.id.checkBoxFri)).isChecked() ||
+            ((CheckBox)findViewById(R.id.checkBoxSat)).isChecked() ) {
+
+            return true;
+        }
+        else{
+            return false;
+        }
+    }
+
     public void onRadioButtonClicked(View view)
     {
         boolean checked = ((RadioButton) view).isChecked();
