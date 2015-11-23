@@ -19,6 +19,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.util.Log;
 import android.text.format.DateFormat;
 import android.app.DatePickerDialog;
 import android.widget.DatePicker;
@@ -75,10 +76,11 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         EditText eventNote = (EditText) findViewById(R.id.note);
         Spinner building = (Spinner) findViewById(R.id.buildingLocation);
 
-/*      How to use the checkboxes:
+        /*
+        How to use the checkboxes:
         CheckBox sunday = (CheckBox) findViewById(R.id.checkBoxSun);
         daysOfWeek[0] = (sunday.isChecked());
-        } */
+        */
 
         if(eventText.getText().toString().equals("")) {
             Toast.makeText(getApplicationContext(), "Please enter an event title.", Toast.LENGTH_SHORT).show();
@@ -120,6 +122,12 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
                 days[6] = ((CheckBox)findViewById(R.id.checkBoxSat)).isChecked();
 
                 intent.putExtra("days", days);
+            }
+
+            else {
+                if(isBeforeToday()) {
+                    Toast.makeText(getApplicationContext(), "Warning: Date selected is before current date.", Toast.LENGTH_SHORT).show();
+                }
             }
 
             setResult(RESULT_OK, intent);
@@ -286,5 +294,18 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
     public void showEndTimePicker (View v) {
         start = false;
         showTimePickerDialog(v);
+    }
+
+    private boolean isBeforeToday() {
+        Calendar calobj = Calendar.getInstance();
+        if( year < calobj.get(Calendar.YEAR) || (year == calobj.get(Calendar.YEAR) && (month < (calobj.get(Calendar.MONTH)+1))) ||
+                (year == calobj.get(Calendar.YEAR) && month == (calobj.get(Calendar.MONTH)+1) && day < calobj.get(Calendar.DAY_OF_MONTH)) ) {
+            return true;
+        }
+        else{
+            //Log.v("Profile", "Debug: isBeforeToday false " + year + calobj.get(Calendar.YEAR) +
+            //      month + (calobj.get(Calendar.MONTH)+1) + day + calobj.get(Calendar.DAY_OF_MONTH));
+            return false;
+        }
     }
 }
