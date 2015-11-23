@@ -77,6 +77,8 @@ public class WeekViewEvent extends ParseObject{
         this.mStartTime.set(Calendar.DAY_OF_MONTH, startDay);
         this.mStartTime.set(Calendar.HOUR_OF_DAY, startHour);
         this.mStartTime.set(Calendar.MINUTE, startMinute);
+        this.mStartTime.set(Calendar.SECOND, 0);
+        this.mStartTime.set(Calendar.MILLISECOND, 0);
         put("startTime", mStartTime.getTime());
 
         this.mEndTime = Calendar.getInstance();
@@ -85,6 +87,8 @@ public class WeekViewEvent extends ParseObject{
         this.mEndTime.set(Calendar.DAY_OF_MONTH, endDay);
         this.mEndTime.set(Calendar.HOUR_OF_DAY, endHour);
         this.mEndTime.set(Calendar.MINUTE, endMinute);
+        this.mEndTime.set(Calendar.SECOND, 0);
+        this.mEndTime.set(Calendar.MILLISECOND, 0);
         put("endTime", mEndTime.getTime());
 
     }
