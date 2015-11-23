@@ -11,7 +11,7 @@ import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -52,6 +52,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_event);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         String[] buildingsList = getResources().getStringArray(R.array.buildingsArray);
         Spinner buildings = (Spinner) findViewById(R.id.buildingLocation);
@@ -62,6 +63,16 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         buildings.setAdapter(adapter);
         buildings.setOnItemSelectedListener(this);
         currEvent = ScheduleActivity.getCurrentEvent();
+
+        myLayout = (LinearLayout) findViewById(R.id.forRepeating);
+        hiddenInfo = getLayoutInflater().inflate(R.layout.activity_input_nonrepeatable
+                , myLayout, false);
+        myLayout.addView(hiddenInfo);
+        dateView = (TextView)findViewById(R.id.textView2);
+        startTime = (TextView)findViewById(R.id.textView);
+        endTime = (TextView)findViewById(R.id.textView3);
+        repeatable = false;
+
     }
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id){}
@@ -137,7 +148,6 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
     public void onRadioButtonClicked(View view)
     {
         boolean checked = ((RadioButton) view).isChecked();
-        myLayout = (LinearLayout) findViewById(R.id.forRepeating);
 
         switch(view.getId())
         {

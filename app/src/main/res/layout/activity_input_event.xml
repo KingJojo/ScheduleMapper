@@ -82,14 +82,8 @@
                 android:id="@+id/repeatableButtons"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <RadioButton
-                    android:id="@+id/repeatableYes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:onClick="onRadioButtonClicked"
-                    android:text="Yes" />
+                android:orientation="horizontal"
+                android:checkedButton="@+id/repeatableNo">
 
                 <RadioButton
                     android:id="@+id/repeatableNo"
@@ -97,6 +91,13 @@
                     android:layout_height="wrap_content"
                     android:onClick="onRadioButtonClicked"
                     android:text="No" />
+
+                <RadioButton
+                    android:id="@+id/repeatableYes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:onClick="onRadioButtonClicked"
+                    android:text="Yes" />
 
             </RadioGroup>
 
