@@ -30,6 +30,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.maps.android.ui.IconGenerator;
 import com.parse.FindCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -37,12 +38,14 @@ import com.parse.ParseQuery;
 
 import org.w3c.dom.Document;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -59,6 +62,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     int dayOfWeek;
     int hour;
     int minute;
+    private IconGenerator icnGenerator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +70,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         now = Calendar.getInstance();
 
+        icnGenerator = new IconGenerator(this);
         dayOfWeek = now.get(Calendar.DAY_OF_WEEK);
         hour = now.get(Calendar.HOUR);
         minute = now.get(Calendar.MINUTE);
@@ -245,6 +250,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         LatLng sequoyah = new LatLng(32.882142, -117.240613);
         LatLng apm = new LatLng(32.879013, -117.241084);
         LatLng solis = new LatLng(32.880832, -117.239640);
+        LatLng destination;
 
         if(events.size() != 0) {
             WeekViewEvent event = events.get(0);
@@ -254,35 +260,46 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             GMapV2Direction md = new GMapV2Direction();
             Document doc;
             if (event.getBuildingLocation().equals("CSE"))
-                doc = md.getDocument(myPosition, cse);
+                destination = cse;
             else if (event.getBuildingLocation().equals("Center"))
-                doc = md.getDocument(myPosition, center);
+                destination = center;
             else if (event.getBuildingLocation().equals("WLH"))
-                doc = md.getDocument(myPosition, wlh);
+                destination = wlh;
             else if (event.getBuildingLocation().equals("Ledden"))
-                doc = md.getDocument(myPosition, ledden);
+                destination = ledden;
             else if (event.getBuildingLocation().equals("Price"))
-                doc = md.getDocument(myPosition, price);
+                destination = price;
             else if (event.getBuildingLocation().equals("York"))
-                doc = md.getDocument(myPosition, york);
+                destination = york;
             else if (event.getBuildingLocation().equals("Galbraith"))
-                doc = md.getDocument(myPosition, galbraith);
+                destination = galbraith;
             else if (event.getBuildingLocation().equals("Peterson"))
-                doc = md.getDocument(myPosition, peterson);
+                destination = peterson;
             else if (event.getBuildingLocation().equals("Cogs"))
-                doc = md.getDocument(myPosition, cogs);
+                destination = cogs;
             else if (event.getBuildingLocation().equals("Sequoyah"))
-                doc = md.getDocument(myPosition, sequoyah);
+                destination = sequoyah;
             else if (event.getBuildingLocation().equals("APM"))
-                doc = md.getDocument(myPosition, apm);
+                destination = apm;
             else
-                doc = md.getDocument(myPosition, solis);
+                destination = solis;
 
+            doc = md.getDocument(myPosition, destination);
+
+            SimpleDateFormat fr = new SimpleDateFormat("HH:mm", Locale.US);
+            mMap.addMarker(new MarkerOptions().position(destination).visible(true)
+                    .icon(BitmapDescriptorFactory.fromBitmap(icnGenerator.makeIcon(event.getName() + " at " + fr.format(event.getStartTime().getTime())))));
+            
             ArrayList<LatLng> directionPoint = md.getDirection(doc);
             PolylineOptions rectLine = new PolylineOptions().width(15).color(
                     Color.RED);
 
             for (int k = 0; k < directionPoint.size(); k++) {
+                if(k == directionPoint.size()/2) {
+                    mMap.addMarker(new MarkerOptions().position(directionPoint.get(k)).visible(true)
+                            .icon(BitmapDescriptorFactory.fromBitmap(icnGenerator.makeIcon("ETA: " + md.getDurationText(doc)))));
+
+                }
                 rectLine.add(directionPoint.get(k));
             }
 
