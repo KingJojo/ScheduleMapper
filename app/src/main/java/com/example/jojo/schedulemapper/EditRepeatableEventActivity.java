@@ -48,7 +48,7 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_repeatable_event);
 
-        String[] buildingsList = {"CSE", "Center", "WLH"};
+        String[] buildingsList = getResources().getStringArray(R.array.buildingsArray);
         Spinner buildings = (Spinner) findViewById(R.id.buildingLocation);
         adapter = new ArrayAdapter<String>(EditRepeatableEventActivity.this,
                 android.R.layout.simple_spinner_item, buildingsList);

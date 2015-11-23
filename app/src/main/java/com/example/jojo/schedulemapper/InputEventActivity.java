@@ -52,9 +52,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_event);
 
-        String[] buildingsList = {"CSE", "Center", "WLH", "LEDDN", "PRICE", "York",
-                                    "Galbraith", "Peterson", "Cogs", "Sequoyah", "AP&M",
-                                        "Mandler", "McGill", "SOLIS"};
+        String[] buildingsList = getResources().getStringArray(R.array.buildingsArray);
         Spinner buildings = (Spinner) findViewById(R.id.buildingLocation);
         adapter = new ArrayAdapter<String>(InputEventActivity.this,
                     android.R.layout.simple_spinner_item, buildingsList);
@@ -144,6 +142,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
                     hiddenInfo = getLayoutInflater().inflate(R.layout.activity_input_repeatable
                             , myLayout, false);
                     myLayout.addView(hiddenInfo);
+                    dateView = null;
                     startTime = (TextView)findViewById(R.id.textView);
                     endTime = (TextView)findViewById(R.id.textView3);
                     repeatable = true;

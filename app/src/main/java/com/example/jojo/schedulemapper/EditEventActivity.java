@@ -45,7 +45,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_event);
 
-        String[] buildingsList = {"CSE", "Center", "WLH"};
+        String[] buildingsList = getResources().getStringArray(R.array.buildingsArray);
         Spinner buildings = (Spinner) findViewById(R.id.buildingLocation);
         adapter = new ArrayAdapter<String>(EditEventActivity.this,
                 android.R.layout.simple_spinner_item, buildingsList);
@@ -125,7 +125,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
             String location =building.getSelectedItem().toString() ;
             location += " " +eventLocation.getText().toString() ;
             intent.putExtra("eventTitle", eventText.getText().toString());
-            intent.putExtra("buildingLocation", building.getSelectedItem().toString());
+            intent.putExtra("locationBuilding", building.getSelectedItem().toString());
             intent.putExtra("location", location);
             intent.putExtra("note", eventNote.getText().toString());
             intent.putExtra("year", year);
