@@ -62,6 +62,16 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         buildings.setAdapter(adapter);
         buildings.setOnItemSelectedListener(this);
         currEvent = ScheduleActivity.getCurrentEvent();
+
+        myLayout = (LinearLayout) findViewById(R.id.forRepeating);
+        hiddenInfo = getLayoutInflater().inflate(R.layout.activity_input_nonrepeatable
+                , myLayout, false);
+        myLayout.addView(hiddenInfo);
+        dateView = (TextView)findViewById(R.id.textView2);
+        startTime = (TextView)findViewById(R.id.textView);
+        endTime = (TextView)findViewById(R.id.textView3);
+        repeatable = false;
+
     }
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id){}
@@ -137,7 +147,6 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
     public void onRadioButtonClicked(View view)
     {
         boolean checked = ((RadioButton) view).isChecked();
-        myLayout = (LinearLayout) findViewById(R.id.forRepeating);
 
         switch(view.getId())
         {

@@ -357,12 +357,10 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
     private void populateRepeatable(){
 
-
         for (int i = events.size() - 1; i >= 0; --i) {
             if (events.get(i).isRepeatable())
                 events.remove(i);
         }
-
 
         mWeekView.notifyDatasetChanged();
 
