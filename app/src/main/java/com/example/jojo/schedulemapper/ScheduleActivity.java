@@ -164,6 +164,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 int endHour = data.getIntExtra("endHour", 0);
                 int endMinute = data.getIntExtra("endMinute", 0);
 
+                // create a WeekViewEventRepeatable
                 if( repeatable ) {
                     boolean days[] = data.getBooleanArrayExtra("days");
                     String quarter = data.getStringExtra("quarter");
@@ -176,8 +177,22 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                     repeats.add(newRepeatable);
                     newRepeatable.saveInBackground();
                     populateRepeatable();
+
+                    // checks if new repeatable overlaps with events
+                    for(int i=0; i<events.size(); ++i) {
+                        if(events.get(i).getRepeatableId() == newRepeatable.getRepeatableId()){
+                            for(int j=0; j<events.size(); ++j) {
+                                if(!events.get(i).equals(events.get(j)) && areEventsOverlapping(events.get(i), events.get(j))) {
+                                    Toast.makeText(getApplicationContext(), "Warning: New repeatable event " +
+                                            "overlaps with existing event.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    }
+
                 }
 
+                // create a WeekViewEvent
                 else {
                     int year = data.getIntExtra("year", 0);
                     int month = data.getIntExtra("month", 0);
@@ -187,16 +202,17 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                             note, -1, year, month, day, startHour, startMinute, year, month,
                             day, endHour, endMinute);
 
-                    newEvent.setColor(colorArray[colorIndex]);
-                    events.add(newEvent);
-                    newEvent.saveInBackground();
-
+                    // warning message if new event overlaps with existing event
                     for(int i=0; i<events.size(); ++i){
                         if(areEventsOverlapping(newEvent, events.get(i))){
-                            Toast.makeText(getApplicationContext(), "Warning: New event overlaps with existing event.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplicationContext(), "Warning: New single event overlaps with existing event.", Toast.LENGTH_SHORT).show();
                             break;
                         }
                     }
+
+                    newEvent.setColor(colorArray[colorIndex]);
+                    events.add(newEvent);
+                    newEvent.saveInBackground();
 
                 }
 
@@ -204,6 +220,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 colorIndex = (colorIndex + 1) % 4;
             }
         }
+
+        // requestCode when editing a WeekViewEventRepeatable
         if(requestCode == 2) {
             if (resultCode == RESULT_OK) {
                 if(data == null) {
