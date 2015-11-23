@@ -4,16 +4,14 @@
         <item>"CSE"</item>
         <item>"Center"</item>
         <item>"WLH"</item>
-        <item>"LEDDN"</item>
-        <item>"PRICE"</item>
+        <item>"Ledden"</item>
+        <item>"Price"</item>
         <item>"York"</item>
         <item>"Galbraith"</item>
         <item>"Peterson"</item>
         <item>"Cogs"</item>
         <item>"Sequoyah"</item>
         <item>"APM"</item>
-        <item>"Mandler"</item>
-        <item>"McGill"</item>
-        <item>"SOLIS"};</item>
+        <item>"Solis"</item>
     </string-array>
 </resources>

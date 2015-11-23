@@ -137,6 +137,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
             intent.putExtra("startMinute", startMinute);
             intent.putExtra("endHour", endHour);
             intent.putExtra("endMinute", endMinute);
+            intent.putExtra("repeatable", false);
 
             System.out.println("Finishing up edit");
             setResult(RESULT_OK, intent);
