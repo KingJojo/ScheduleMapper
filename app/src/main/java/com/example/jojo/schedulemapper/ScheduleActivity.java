@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.graphics.Color;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
 import com.alamkanak.weekview.WeekView;
@@ -79,7 +80,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
             }
         });
 
-        Log.v("Profile", "Event size: " + events.size());
+        //Log.v("Profile", "Event size: " + events.size());
 
         repeats = new ArrayList<WeekViewEventRepeatable>();
 
@@ -100,7 +101,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 }
             }
         });
-        Log.v("Profile", "repeats size: " + repeats.size());
+        //Log.v("Profile", "repeats size: " + repeats.size());
 
         // Get a reference for the week view in the layout.
         mWeekView = (WeekView) findViewById(R.id.weekView);
@@ -189,6 +190,14 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                     newEvent.setColor(colorArray[colorIndex]);
                     events.add(newEvent);
                     newEvent.saveInBackground();
+
+                    for(int i=0; i<events.size(); ++i){
+                        if(areEventsOverlapping(newEvent, events.get(i))){
+                            Toast.makeText(getApplicationContext(), "Warning: New event overlaps with existing event.", Toast.LENGTH_SHORT).show();
+                            break;
+                        }
+                    }
+
                 }
 
                 mWeekView.notifyDatasetChanged();
@@ -385,6 +394,13 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         mWeekView.notifyDatasetChanged();
     }
 
+    private boolean areEventsOverlapping(WeekViewEvent event1, WeekViewEvent event2) {
+        long start1 = event1.getStartTime().getTimeInMillis();
+        long end1 = event1.getEndTime().getTimeInMillis();
+        long start2 = event2.getStartTime().getTimeInMillis();
+        long end2 = event2.getEndTime().getTimeInMillis();
+        return !((start1 >= end2) || (end1 <= start2));
+    }
     private String getEventTitle(Calendar time) {
         return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY),
                 time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
