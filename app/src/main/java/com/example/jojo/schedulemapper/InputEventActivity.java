@@ -11,7 +11,7 @@ import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -52,6 +52,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_event);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         String[] buildingsList = getResources().getStringArray(R.array.buildingsArray);
         Spinner buildings = (Spinner) findViewById(R.id.buildingLocation);
