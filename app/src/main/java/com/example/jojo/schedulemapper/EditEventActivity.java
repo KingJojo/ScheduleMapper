@@ -84,9 +84,9 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         month = currEvent.getStartTime().get(Calendar.MONTH);
         day = currEvent.getStartTime().get(Calendar.DAY_OF_MONTH);
         updateDate(year, month, day);
-        startHour = currEvent.getStartTime().get(Calendar.HOUR);
+        startHour = currEvent.getStartTime().get(Calendar.HOUR_OF_DAY);
         startMinute = currEvent.getStartTime().get(Calendar.MINUTE);
-        endHour = currEvent.getEndTime().get(Calendar.HOUR);
+        endHour = currEvent.getEndTime().get(Calendar.HOUR_OF_DAY);
         endMinute = currEvent.getEndTime().get(Calendar.MINUTE);
         start = true;
         updateStartTime(startHour, startMinute);
@@ -187,8 +187,14 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
             final Calendar c = Calendar.getInstance();
             int hour, minute;
             if (currEvent != null) {
-                hour = currEvent.getStartTime().get(Calendar.HOUR);
-                minute = currEvent.getStartTime().get(Calendar.MINUTE);
+                if (start) {
+                    hour = currEvent.getStartTime().get(Calendar.HOUR_OF_DAY);
+                    minute = currEvent.getStartTime().get(Calendar.MINUTE);
+                }
+                else {
+                    hour = currEvent.getEndTime().get(Calendar.HOUR_OF_DAY);
+                    minute = currEvent.getEndTime().get(Calendar.MINUTE);
+                }
             }
             else {
                 hour = c.get(Calendar.HOUR_OF_DAY) + 1;
