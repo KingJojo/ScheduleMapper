@@ -1173,33 +1173,36 @@ public class WeekView extends View {
      * @return The date, time interpreter.
      */
     public DateTimeInterpreter getDateTimeInterpreter() {
-        mDateTimeInterpreter = new DateTimeInterpreter() {
-            @Override
-            public String interpretDate(Calendar date) {
-                try {
-                    SimpleDateFormat sdf = (mNumberOfVisibleDays == SEVEN_DAY_VIEW) ? new SimpleDateFormat("EEEEE M/dd",
-                            Locale.getDefault()) : new SimpleDateFormat("EEE M/dd", Locale.getDefault());
-                    return sdf.format(date.getTime()).toUpperCase();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    return "";
+        if (mDateTimeInterpreter == null) {
+            mDateTimeInterpreter = new DateTimeInterpreter() {
+                @Override
+                public String interpretDate(Calendar date) {
+                    try {
+                        SimpleDateFormat sdf = (mNumberOfVisibleDays == SEVEN_DAY_VIEW) ? new SimpleDateFormat("EEEEE M/dd",
+                                Locale.getDefault()) : new SimpleDateFormat("EEE M/dd", Locale.getDefault());
+                        return sdf.format(date.getTime()).toUpperCase();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return "";
+                    }
                 }
-            }
-             @Override
-             public String interpretTime(int hour) {
-                 Calendar calendar = Calendar.getInstance();
-                 calendar.set(Calendar.HOUR_OF_DAY, hour);
-                 calendar.set(Calendar.MINUTE, 0);
 
-                 try {
-                     SimpleDateFormat sdf = DateFormat.is24HourFormat(getContext()) ? new SimpleDateFormat("HH:mm", Locale.getDefault()) : new SimpleDateFormat("hh a", Locale.getDefault());
-                     return sdf.format(calendar.getTime());
-                 } catch (Exception e) {
-                     e.printStackTrace();
-                     return "";
-                 }
-             }
-        };
+                @Override
+                public String interpretTime(int hour) {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.set(Calendar.HOUR_OF_DAY, hour);
+                    calendar.set(Calendar.MINUTE, 0);
+
+                    try {
+                        SimpleDateFormat sdf = DateFormat.is24HourFormat(getContext()) ? new SimpleDateFormat("HH:mm", Locale.getDefault()) : new SimpleDateFormat("hh a", Locale.getDefault());
+                        return sdf.format(calendar.getTime());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return "";
+                    }
+                }
+            };
+        }
         return mDateTimeInterpreter;
     }
 
