@@ -1,17 +1,13 @@
 package com.example.jojo.schedulemapper;
 
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.StrictMode;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.location.LocationManager;
 import android.location.Location;
 import android.location.Criteria;
-import android.content.Context;
 import android.support.v4.content.ContextCompat;
 
 
@@ -22,13 +18,9 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.ui.IconGenerator;
 import com.parse.FindCallback;
@@ -43,18 +35,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
-
-
 
 /*
  * Class that creates the map for routing you throughout the day.
  * After pulling and building the map, queries Parse for the list of events and finds the
  * next one that has a start time after the current time. TIes are broken alphabetically
  */
+
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
     // list of hardcoded places to route to

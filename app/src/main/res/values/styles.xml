@@ -15,4 +15,8 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
+    <style name="button" parent="@android:style/Widget.Button">
+        <item name="com.example.jojo.schedulemapper:font">fonts/Roboto-Bold.ttf</item>
+    </style>
+
 </resources>
