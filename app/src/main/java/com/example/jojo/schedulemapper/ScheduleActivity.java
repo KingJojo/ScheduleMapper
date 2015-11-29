@@ -436,8 +436,9 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.HOUR_OF_DAY, hour);
                 calendar.set(Calendar.MINUTE, 0);
-                SimpleDateFormat sdf = new SimpleDateFormat("hh a", Locale.getDefault());
-
+                //SimpleDateFormat sdf = new SimpleDateFormat("hh a", Locale.getDefault());
+                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
+                
                 return sdf.format(calendar.getTime());
             }
         });
