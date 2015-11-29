@@ -14,8 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -30,15 +28,19 @@ import java.util.Calendar;
  */
 public class EditEventActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    // store the date and time of the event
     private int year, month, day;
     private int startHour, startMinute;
     private int endHour, endMinute;
+    private int durationMinutes;
     private boolean start;
+
+    // the TextViews in the layout
     TextView startTime, endTime;
     TextView dateView;
+
+    // the event we are currently editing
     private static WeekViewEvent currEvent = null;
-    private LinearLayout myLayout = null;
-    private View hiddenInfo = null;
     ArrayAdapter<String> adapter;
 
     @Override
@@ -47,32 +49,34 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         setContentView(R.layout.activity_edit_event);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        // set the building spinner
         String[] buildingsList = getResources().getStringArray(R.array.buildingsArray);
         Spinner buildings = (Spinner) findViewById(R.id.buildingLocation);
         adapter = new ArrayAdapter<String>(EditEventActivity.this,
                 android.R.layout.simple_spinner_item, buildingsList);
-
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         buildings.setAdapter(adapter);
         buildings.setOnItemSelectedListener(this);
 
+        // retrieve the selected event from the ScheduleActivity
         currEvent = ScheduleActivity.getCurrentEvent();
 
+        // set the spinner value
         int index = 0;
-
         for (int i=0;i<buildings.getCount();i++){
             if (buildings.getItemAtPosition(i).toString().equalsIgnoreCase(currEvent.getBuildingLocation())){
                 index = i;
                 break;
             }
         }
-
         buildings.setSelection(index);
 
+        // set the TextViews
         startTime = (TextView)findViewById(R.id.textView);
         endTime = (TextView)findViewById(R.id.textView3);
         dateView = (TextView)findViewById(R.id.textView2);
 
+        // set the EditTexts
         EditText title, location, note;
         title = (EditText) findViewById(R.id.name);
         location = (EditText) findViewById(R.id.location);
@@ -80,14 +84,20 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         title.setText(currEvent.getName());
         location.setText(currEvent.getBuildingNumber());
         note.setText(currEvent.getNote());
-        year = currEvent.getStartTime().get(Calendar.YEAR);
-        month = currEvent.getStartTime().get(Calendar.MONTH);
-        day = currEvent.getStartTime().get(Calendar.DAY_OF_MONTH);
-        updateDate(year, month, day);
+
+        // assigns the year, month, and day fields
+        updateDate(currEvent.getStartTime().get(Calendar.YEAR),
+                // Calendar is 0-11, our month is 1-12
+                currEvent.getStartTime().get(Calendar.MONTH)+1,
+                currEvent.getStartTime().get(Calendar.DAY_OF_MONTH));
+
         startHour = currEvent.getStartTime().get(Calendar.HOUR_OF_DAY);
         startMinute = currEvent.getStartTime().get(Calendar.MINUTE);
         endHour = currEvent.getEndTime().get(Calendar.HOUR_OF_DAY);
         endMinute = currEvent.getEndTime().get(Calendar.MINUTE);
+
+        durationMinutes = (endHour-startHour)*60 + endMinute - startMinute;
+
         start = true;
         updateStartTime(startHour, startMinute);
         start = false;
@@ -106,10 +116,11 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         EditText eventNote = (EditText) findViewById(R.id.note);
         Spinner building = (Spinner) findViewById(R.id.buildingLocation);
 
-/*      How to use the checkboxes:
-        CheckBox sunday = (CheckBox) findViewById(R.id.checkBoxSun);
-        daysOfWeek[0] = (sunday.isChecked());
-        } */
+        /*
+         * How to use the checkboxes:
+         * CheckBox sunday = (CheckBox) findViewById(R.id.checkBoxSun);
+         * daysOfWeek[0] = (sunday.isChecked());
+         */
 
         if(eventText.getText().toString().equals("")) {
             Toast.makeText(getApplicationContext(), "Please enter an event title.", Toast.LENGTH_SHORT).show();
@@ -124,8 +135,8 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         } else if(startHour > endHour || (startHour == endHour && startMinute > endMinute)) {
             Toast.makeText(getApplicationContext(), "Please enter a valid start and end time.", Toast.LENGTH_SHORT).show();
         } else {
-            String location = building.getSelectedItem().toString() ;
-            location += " " +eventLocation.getText().toString() ;
+            String location = building.getSelectedItem().toString();
+            location += " " + eventLocation.getText().toString() ;
             intent.putExtra("eventTitle", eventText.getText().toString());
             intent.putExtra("locationBuilding", building.getSelectedItem().toString());
             intent.putExtra("location", location);
@@ -150,55 +161,37 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         finish();
     }
 
-    public class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
+    @SuppressWarnings("ValidFragment")
+    public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year, month, day;
-            if (currEvent != null) {
-                year = currEvent.getStartTime().get(Calendar.YEAR);
-                month = currEvent.getStartTime().get(Calendar.MONTH);
-                day = currEvent.getStartTime().get(Calendar.DAY_OF_MONTH);
-                updateDate(year, month, day);
-            }
-            else {
-                year = c.get(Calendar.YEAR);
-                month = c.get(Calendar.MONTH);
-                day = c.get(Calendar.DAY_OF_MONTH);
-            }
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+            // Use the original date as the default date in the picker, and return a DatePicker with
+            // that date. DatePicker months are 0-11, while our months are 1-12
+            return new DatePickerDialog(getActivity(), this, year, month-1, day);
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            updateDate(year, month, day);
+            // DatePicker months are 0-11, while our months are 1-12
+            updateDate(year, month+1, day);
         }
     }
 
-    public class TimePickerFragment extends DialogFragment
-            implements TimePickerDialog.OnTimeSetListener {
+    @SuppressWarnings("ValidFragment")
+    public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
+            // Use the original event time as the default values for the picker
             int hour, minute;
-            if (currEvent != null) {
-                if (start) {
-                    hour = currEvent.getStartTime().get(Calendar.HOUR_OF_DAY);
-                    minute = currEvent.getStartTime().get(Calendar.MINUTE);
-                }
-                else {
-                    hour = currEvent.getEndTime().get(Calendar.HOUR_OF_DAY);
-                    minute = currEvent.getEndTime().get(Calendar.MINUTE);
-                }
+
+            if (start) {
+                hour = startHour;
+                minute = startMinute;
             }
             else {
-                hour = c.get(Calendar.HOUR_OF_DAY) + 1;
-                minute = 0;
+                hour = endHour;
+                minute = endMinute;
             }
 
             // Create a new instance of TimePickerDialog and return it
@@ -215,7 +208,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
 
     public void updateDate( int year, int month, int day ) {
         this.year = year;
-        this.month = month+1;
+        this.month = month;
         this.day = day;
         dateView.setText(this.month + "/" + day + "/" + year);
     }
@@ -235,10 +228,22 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         if (!start) {
             endHour = hourOfDay;
             endMinute = minute;
-            if(minute < 10)
-                endTime.setText(hourOfDay + ":0" + minute);
+            if(endMinute < 10)
+                endTime.setText(endHour + ":0" + endMinute);
             else
-                endTime.setText(hourOfDay + ":" + minute);
+                endTime.setText(endHour + ":" + endMinute);
+        }
+        else {
+            endHour = hourOfDay + durationMinutes/60;
+            endMinute = minute + durationMinutes%60;
+            if(endMinute >= 60) {
+                endHour++;
+                endMinute -= 60;
+            }
+            if(endMinute < 10)
+                endTime.setText(endHour + ":0" + endMinute);
+            else
+                endTime.setText(endHour + ":" + endMinute);
         }
     }
 

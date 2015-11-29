@@ -1,6 +1,5 @@
 package com.example.jojo.schedulemapper;
 
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -13,19 +12,13 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.alamkanak.weekview.WeekViewEvent;
 import com.alamkanak.weekview.WeekViewEventRepeatable;
-
-import java.util.Calendar;
 
 /**
  * Created by Nathan on 11/14/2015.
@@ -35,12 +28,12 @@ import java.util.Calendar;
 public class EditRepeatableEventActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     // store the time of the event
-    private int year, month, day;
     private int startHour, startMinute;
     private int endHour, endMinute;
+    private int durationMinutes;
     private boolean start;
 
-    // the textViews in the layout
+    // the TextViews in the layout
     TextView startTime, endTime;
     TextView dateView;
 
@@ -66,26 +59,25 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
         buildings.setAdapter(adapter);
         buildings.setOnItemSelectedListener(this);
 
-        // retrieve the selected event from the Schedule Activity
+        // retrieve the selected event from the ScheduleActivity
         currEvent = ScheduleActivity.getCurrentRepeatableEvent();
 
         // set the spinner value
         int index = 0;
-
         for (int i=0;i<buildings.getCount();i++){
             if (buildings.getItemAtPosition(i).toString().equalsIgnoreCase(currEvent.getBuildingLocation())){
                 index = i;
                 break;
             }
         }
-
-        // set the times
         buildings.setSelection(index);
+
+        // set the TextViews
         startTime = (TextView)findViewById(R.id.textView);
         endTime = (TextView)findViewById(R.id.textView3);
         dateView = (TextView)findViewById(R.id.textView2);
 
-        // set the text
+        // set the EditTexts
         EditText title, location, note;
         title = (EditText) findViewById(R.id.name);
         location = (EditText) findViewById(R.id.location);
@@ -99,6 +91,7 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
         startMinute = currEvent.getStartMinute();
         endHour = currEvent.getEndHour();
         endMinute = currEvent.getEndMinute();
+        durationMinutes = (endHour-startHour)*60 + endMinute - startMinute;
 
         // update times
         start = true;
@@ -166,7 +159,6 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
             intent.putExtra("endHour", endHour);
             intent.putExtra("endMinute", endMinute);
 
-
             boolean days[] = new boolean[7];
 
             days[0] = ((CheckBox)findViewById(R.id.checkBoxSun)).isChecked();
@@ -191,21 +183,21 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
         finish();
     }
 
-    public class TimePickerFragment extends DialogFragment
-            implements TimePickerDialog.OnTimeSetListener {
+    @SuppressWarnings("ValidFragment")
+    public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
+            // Use the original event time as the default values for the picker
             int hour, minute;
-            if (currEvent != null) {
-                hour = currEvent.getStartHour();
-                minute = currEvent.getStartMinute();
+
+            if (start) {
+                hour = startHour;
+                minute = startMinute;
             }
             else {
-                hour = c.get(Calendar.HOUR_OF_DAY) + 1;
-                minute = 0;
+                hour = endHour;
+                minute = endMinute;
             }
 
             // Create a new instance of TimePickerDialog and return it
@@ -218,13 +210,6 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
             updateEndTime(hourOfDay, minute);
         }
 
-    }
-
-    public void updateDate( int year, int month, int day ) {
-        this.year = year;
-        this.month = month+1;
-        this.day = day;
-        dateView.setText(this.month + "/" + day + "/" + year);
     }
 
     public void updateStartTime( int hourOfDay, int minute) {
@@ -242,10 +227,22 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
         if (!start) {
             endHour = hourOfDay;
             endMinute = minute;
-            if(minute < 10)
-                endTime.setText(hourOfDay + ":0" + minute);
+            if(endMinute < 10)
+                endTime.setText(endHour + ":0" + endMinute);
             else
-                endTime.setText(hourOfDay + ":" + minute);
+                endTime.setText(endHour + ":" + endMinute);
+        }
+        else {
+            endHour = hourOfDay + durationMinutes/60;
+            endMinute = minute + durationMinutes%60;
+            if(endMinute >= 60) {
+                endHour++;
+                endMinute -= 60;
+            }
+            if(endMinute < 10)
+                endTime.setText(endHour + ":0" + endMinute);
+            else
+                endTime.setText(endHour + ":" + endMinute);
         }
     }
 

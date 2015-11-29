@@ -3,7 +3,6 @@ package com.example.jojo.schedulemapper;
 /*
  * Created by kevinkuo on 11/1/15
  */
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -12,18 +11,14 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Adapter;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.util.Log;
 import android.text.format.DateFormat;
 import android.app.DatePickerDialog;
 import android.widget.DatePicker;
-import android.content.Context;
 import android.widget.Toast;
 import android.widget.Spinner;
 import android.widget.ArrayAdapter;
@@ -203,9 +198,8 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
     }
 
 
-    @SuppressLint("ValidFragment")
-    public class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
+    @SuppressWarnings("ValidFragment")
+    public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -232,9 +226,8 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         }
     }
 
-    @SuppressLint("ValidFragment")
-    public class TimePickerFragment extends DialogFragment
-            implements TimePickerDialog.OnTimeSetListener {
+    @SuppressWarnings("ValidFragment")
+    public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -290,18 +283,18 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         if (!start) {
             endHour = hourOfDay;
             endMinute = minute;
-            if(minute < 10)
-                endTime.setText(hourOfDay + ":0" + minute);
+            if(endMinute < 10)
+                endTime.setText(endHour + ":0" + endMinute);
             else
-                endTime.setText(hourOfDay + ":" + minute);
+                endTime.setText(endHour + ":" + endMinute);
         }
         else {
             endHour = hourOfDay+1;
             endMinute = minute;
             if(minute < 10)
-                endTime.setText(endHour + ":0" + minute);
+                endTime.setText(endHour + ":0" + endMinute);
             else
-                endTime.setText(hourOfDay + ":" + minute);
+                endTime.setText(endHour + ":" + endMinute);
         }
     }
 
