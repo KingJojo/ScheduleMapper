@@ -2,6 +2,7 @@ package com.example.jojo.schedulemapper;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +13,7 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -43,6 +45,11 @@ public class MainActivity extends AppCompatActivity {
         };
         Button scheduleBtn = (Button) findViewById(R.id.scheduleButton);
         scheduleBtn.setOnClickListener(scheduleListener);
+
+        Typeface tf = Typeface.createFromAsset(getAssets(),
+                "fonts/Roboto-Light.ttf");
+        TextView tv = (TextView) findViewById(R.id.textView4);
+        tv.setTypeface(tf);
     }
 
     @Override

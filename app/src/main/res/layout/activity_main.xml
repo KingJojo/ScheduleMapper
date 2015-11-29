@@ -30,18 +30,32 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/scheduleButton"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="150dp"
         android:textColor="#FFFFFF"
-        android:layout_alignLeft="@+id/mapButton"
-        android:layout_alignStart="@+id/mapButton"
-        android:layout_alignRight="@+id/mapButton"
-        android:layout_alignEnd="@+id/mapButton"
         android:textSize="20sp"
         android:background="@drawable/big"
         android:text="Schedule"
         android:typeface="sans"
-        />
+        android:layout_alignRight="@+id/textView4"
+        android:layout_alignEnd="@+id/textView4"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignStart="@+id/textView4"
+        android:layout_alignParentEnd="false"
+        android:layout_alignTop="@+id/mapButton"
+        android:layout_marginTop="100dp" />
+
+    <!-- to test custom font buttons lel
+        <com.example.jojo.schedulemapper.ButtonPlus
+        style="@style/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/textView4"
+        android:layout_alignEnd="@+id/textView4"
+        android:layout_alignLeft="@+id/textView4"
+        android:layout_alignStart="@+id/textView4"
+        android:textColor="#FFFFFF"
+        android:textSize="20sp"
+        android:background="@drawable/big"
+        android:text="MAP"/> -->
 
     <TextView
         android:layout_width="wrap_content"
