@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
@@ -11,37 +10,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="18dp"
-        android:layout_marginTop="18dp"
         android:layout_marginRight="18dp"
-        android:orientation="vertical"
+        android:layout_marginTop="18dp"
         android:longClickable="false"
+        android:orientation="vertical"
         android:paddingBottom="30dp">
-
 
 
         <LinearLayout
             android:id="@+id/eventFields"
-            android:layout_width="326dp"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:weightSum="1">
 
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/nameWrapper"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
-            <EditText
-                android:id="@+id/name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:hint="Event title"
-                android:textSize="30dp"
-                android:textColor="#6f797979" />
+                <EditText
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Event title"
+                    android:inputType="text"
+                    android:textColor="#6f797979"
+                    android:textSize="30dp" />
+
+            </android.support.design.widget.TextInputLayout>
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/locationFields"
-            android:layout_marginTop="18dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
             android:orientation="horizontal"
             android:weightSum="4">
 
@@ -49,37 +54,44 @@
                 android:id="@+id/buildingLocation"
                 android:layout_width="0dp"
                 android:layout_height="29dp"
-                android:layout_weight="3"/>
+                android:layout_weight="3" />
 
-            <EditText
-                android:id="@+id/location"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:ems="10"
-                android:inputType="text"
-                android:hint="Location"
-                android:textColor="#6f797979" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/locationWrapper"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
 
+                <EditText
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="Location"
+                    android:inputType="text"
+                    android:textColor="#6f797979" />
+
+            </android.support.design.widget.TextInputLayout>
 
 
         </LinearLayout>
+
         <LinearLayout
             android:id="@+id/startTimeFields"
-            android:layout_marginTop="18dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:layout_marginTop="18dp"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/startButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="18dp"
+                android:background="@drawable/button"
                 android:onClick="showStartTimePicker"
                 android:text="start time"
-                android:textColor="#303F9F"
-                android:background="@drawable/button" />
+                android:textColor="#303F9F" />
 
             <TextView
                 android:id="@+id/textView"
@@ -93,9 +105,9 @@
 
         <LinearLayout
             android:id="@+id/endTimeFields"
-            android:layout_marginTop="18dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
             android:orientation="horizontal"
             android:weightSum="1">
 
@@ -104,10 +116,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="18dp"
+                android:background="@drawable/button"
                 android:onClick="showEndTimePicker"
                 android:text="End time"
-                android:textColor="#303F9F"
-                android:background="@drawable/button" />
+                android:textColor="#303F9F" />
 
             <TextView
                 android:id="@+id/textView3"
@@ -120,27 +132,35 @@
 
         <LinearLayout
             android:id="@+id/noteFields"
-            android:layout_marginTop="18dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <EditText
-                android:id="@+id/note"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:hint="Note" />
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/noteWrapper"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/note"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ems="10"
+                    android:hint="Note"
+                    android:inputType="text" />
+
+            </android.support.design.widget.TextInputLayout>
+
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/repeatDayChecks"
-            android:layout_marginTop="18dp"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:layout_marginTop="18dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/textView6"
@@ -151,18 +171,18 @@
                 android:textAppearance="?android:attr/textAppearanceSmall" />
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal">
 
                 <CheckBox
                     android:id="@+id/checkBoxSun"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
                     android:checked="false"
-                    android:text="Sun"
-                    android:layout_marginRight="5dp" />
+                    android:text="Sun" />
 
                 <CheckBox
                     android:id="@+id/checkBoxMon"
@@ -175,9 +195,9 @@
                     android:id="@+id/checkBoxTue"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
                     android:checked="false"
-                    android:text="Tue"
-                    android:layout_marginRight="5dp" />
+                    android:text="Tue" />
 
                 <CheckBox
                     android:id="@+id/checkBoxWed"
@@ -189,25 +209,25 @@
             </LinearLayout>
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
                 <CheckBox
                     android:id="@+id/checkBoxThu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="5dp"
                     android:checked="false"
-                    android:text="Thu"
-                    android:layout_marginRight="5dp" />
+                    android:text="Thu" />
 
                 <CheckBox
                     android:id="@+id/checkBoxFri"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="12dp"
                     android:checked="false"
-                    android:text="Fri"
-                    android:layout_marginRight="12dp" />
+                    android:text="Fri" />
 
                 <CheckBox
                     android:id="@+id/checkBoxSat"
@@ -224,25 +244,25 @@
             android:id="@+id/editEventButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop= "30dp"
-            android:text="Edit Event"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/button"
             android:onClick="editEvent"
 
             android:singleLine="false"
-            android:textColor="#303F9F"
-            android:background="@drawable/button" />
+            android:text="Edit Event"
+            android:textColor="#303F9F" />
 
         <Button
             android:id="@+id/deleteEventButton"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop= "30dp"
-            android:text="Delete Event"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/button"
             android:onClick="deleteEvent"
 
             android:singleLine="false"
-            android:textColor="#303F9F"
-            android:background="@drawable/button" />
+            android:text="Delete Event"
+            android:textColor="#303F9F" />
 
     </LinearLayout>
 
