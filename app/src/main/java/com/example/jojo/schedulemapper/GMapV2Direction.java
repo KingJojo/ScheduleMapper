@@ -1,7 +1,7 @@
 package com.example.jojo.schedulemapper;
 
 /**
- * Created by nathanng on 11/18/15.
+ * Created by Akexorcist on 2/24/13.
  */
 
 import java.io.InputStream;
@@ -32,13 +32,15 @@ public class GMapV2Direction {
 
     }
 
+    // load the xml data for the given start and end points
     public Document getDocument(LatLng start, LatLng end) {
         String url = "https://maps.googleapis.com/maps/api/directions/xml?"
                 + "origin=" + start.latitude + "," + start.longitude
                 + "&destination=" + end.latitude + "," + end.longitude
                 + "&sensor=false&units=metric&mode=walking&key=AIzaSyBGTKTXTCo_mopDknJCDkD_D5QLM2iKk9g";
         Log.d("url", url);
-        System.out.println(url);
+
+        // try to parse the output of the url into a Document
         try {
             HttpClient httpClient = new DefaultHttpClient();
             HttpContext localContext = new BasicHttpContext();
@@ -55,6 +57,7 @@ public class GMapV2Direction {
         return null;
     }
 
+    // parse the document for the duration
     public String getDurationText(Document doc) {
         try {
 
@@ -69,6 +72,7 @@ public class GMapV2Direction {
         }
     }
 
+    // parse for the duration value
     public int getDurationValue(Document doc) {
         try {
             NodeList nl1 = doc.getElementsByTagName("duration");
@@ -82,12 +86,8 @@ public class GMapV2Direction {
         }
     }
 
+    // parse for the distance text
     public String getDistanceText(Document doc) {
-        /*
-         * while (en.hasMoreElements()) { type type = (type) en.nextElement();
-         *
-         * }
-         */
 
         try {
             NodeList nl1;
@@ -102,19 +102,9 @@ public class GMapV2Direction {
         } catch (Exception e) {
             return "-1";
         }
-
-        /*
-         * NodeList nl1; if(doc.getElementsByTagName("distance")!=null){ nl1=
-         * doc.getElementsByTagName("distance");
-         *
-         * Node node1 = nl1.item(nl1.getLength() - 1); NodeList nl2 = null; if
-         * (node1.getChildNodes() != null) { nl2 = node1.getChildNodes(); Node
-         * node2 = nl2.item(getNodeIndex(nl2, "value")); Log.d("DistanceText",
-         * node2.getTextContent()); return node2.getTextContent(); } else return
-         * "-1";} else return "-1";
-         */
     }
 
+    // parse for the distance value
     public int getDistanceValue(Document doc) {
         try {
             NodeList nl1 = doc.getElementsByTagName("distance");
@@ -127,16 +117,9 @@ public class GMapV2Direction {
         } catch (Exception e) {
             return -1;
         }
-        /*
-         * NodeList nl1 = doc.getElementsByTagName("distance"); Node node1 =
-         * null; if (nl1.getLength() > 0) node1 = nl1.item(nl1.getLength() - 1);
-         * if (node1 != null) { NodeList nl2 = node1.getChildNodes(); Node node2
-         * = nl2.item(getNodeIndex(nl2, "value")); Log.i("DistanceValue",
-         * node2.getTextContent()); return
-         * Integer.parseInt(node2.getTextContent()); } else return 0;
-         */
     }
 
+    // parse for the start address of the direction
     public String getStartAddress(Document doc) {
         try {
             NodeList nl1 = doc.getElementsByTagName("start_address");
@@ -149,6 +132,7 @@ public class GMapV2Direction {
 
     }
 
+    // parse for the end address of the direction
     public String getEndAddress(Document doc) {
         try {
             NodeList nl1 = doc.getElementsByTagName("end_address");
@@ -159,6 +143,8 @@ public class GMapV2Direction {
             return "-1";
         }
     }
+
+    // parse for the copy rights
     public String getCopyRights(Document doc) {
         try {
             NodeList nl1 = doc.getElementsByTagName("copyrights");
@@ -171,6 +157,7 @@ public class GMapV2Direction {
 
     }
 
+    // get the Arraylist of points for the route
     public ArrayList<LatLng> getDirection(Document doc) {
         NodeList nl1, nl2, nl3;
         ArrayList<LatLng> listGeopoints = new ArrayList<LatLng>();
@@ -180,6 +167,7 @@ public class GMapV2Direction {
                 Node node1 = nl1.item(i);
                 nl2 = node1.getChildNodes();
 
+                // parse for the location of each route
                 Node locationNode = nl2
                         .item(getNodeIndex(nl2, "start_location"));
                 nl3 = locationNode.getChildNodes();
@@ -189,6 +177,7 @@ public class GMapV2Direction {
                 double lng = Double.parseDouble(lngNode.getTextContent());
                 listGeopoints.add(new LatLng(lat, lng));
 
+                // parse for the line to draw between them
                 locationNode = nl2.item(getNodeIndex(nl2, "polyline"));
                 nl3 = locationNode.getChildNodes();
                 latNode = nl3.item(getNodeIndex(nl3, "points"));
@@ -198,6 +187,7 @@ public class GMapV2Direction {
                             .get(j).longitude));
                 }
 
+                // parse for the ending locations of the line
                 locationNode = nl2.item(getNodeIndex(nl2, "end_location"));
                 nl3 = locationNode.getChildNodes();
                 latNode = nl3.item(getNodeIndex(nl3, "lat"));
@@ -211,6 +201,7 @@ public class GMapV2Direction {
         return listGeopoints;
     }
 
+    // get the index of the node in the list
     private int getNodeIndex(NodeList nl, String nodename) {
         for (int i = 0; i < nl.getLength(); i++) {
             if (nl.item(i).getNodeName().equals(nodename))
@@ -219,6 +210,7 @@ public class GMapV2Direction {
         return -1;
     }
 
+    // decode the String to return a list of points to route
     private ArrayList<LatLng> decodePoly(String encoded) {
         ArrayList<LatLng> poly = new ArrayList<LatLng>();
         int index = 0, len = encoded.length();

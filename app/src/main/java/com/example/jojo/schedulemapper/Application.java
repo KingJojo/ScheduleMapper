@@ -11,18 +11,21 @@ import com.parse.ParseACL;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.alamkanak.weekview.WeekViewEventRepeatable;
 
+/*
+ * Wrapper class for entire application. Initializes Parse settings and variables
+ */
 public class Application extends android.app.Application {
-
-    public Application() {
-    }
 
     @Override
     public void onCreate() {
         super.onCreate();
-        // Enable Local Datastore.
+
+        //enable ACL so user don't have to log in
         ParseUser.enableAutomaticUser();
         ParseACL defaultACL = new ParseACL();
         ParseACL.setDefaultACL(defaultACL, true);
+
+        // register subclasses and initialize Parse
         ParseObject.registerSubclass(WeekViewEvent.class);
         ParseObject.registerSubclass(WeekViewEventRepeatable.class);
         ParseObject.registerSubclass(DisabledRepeatable.class);

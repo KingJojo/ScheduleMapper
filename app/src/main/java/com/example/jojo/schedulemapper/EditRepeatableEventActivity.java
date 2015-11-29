@@ -29,19 +29,26 @@ import java.util.Calendar;
 
 /**
  * Created by Nathan on 11/14/2015.
+ * Activity class to edit a repeatable event. Called from the schedule activity on a long press
+ * of a repeatable event.
  */
 public class EditRepeatableEventActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
+    // store the time of the event
     private int year, month, day;
     private int startHour, startMinute;
     private int endHour, endMinute;
     private boolean start;
+
+    // the textViews in the layout
     TextView startTime, endTime;
     TextView dateView;
+
+    // the event we are currently editing
     private static WeekViewEventRepeatable currEvent = null;
-    private LinearLayout myLayout = null;
-    private View hiddenInfo = null;
     ArrayAdapter<String> adapter;
+
+    // booleans to store whether it is repeating or not
     private boolean sunday, monday, tuesday, wednesday, thursday, friday, saturday;
 
     @Override
@@ -50,17 +57,19 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
         setContentView(R.layout.activity_edit_repeatable_event);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        // set the buildings spinner
         String[] buildingsList = getResources().getStringArray(R.array.buildingsArray);
         Spinner buildings = (Spinner) findViewById(R.id.buildingLocation);
         adapter = new ArrayAdapter<String>(EditRepeatableEventActivity.this,
                 android.R.layout.simple_spinner_item, buildingsList);
-
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         buildings.setAdapter(adapter);
         buildings.setOnItemSelectedListener(this);
 
+        // retrieve the selected event from the Schedule Activity
         currEvent = ScheduleActivity.getCurrentRepeatableEvent();
 
+        // set the spinner value
         int index = 0;
 
         for (int i=0;i<buildings.getCount();i++){
@@ -70,11 +79,13 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
             }
         }
 
+        // set the times
         buildings.setSelection(index);
         startTime = (TextView)findViewById(R.id.textView);
         endTime = (TextView)findViewById(R.id.textView3);
         dateView = (TextView)findViewById(R.id.textView2);
 
+        // set the text
         EditText title, location, note;
         title = (EditText) findViewById(R.id.name);
         location = (EditText) findViewById(R.id.location);
@@ -83,16 +94,19 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
         location.setText(currEvent.getBuildingNumber());
         note.setText(currEvent.getNote());
 
+        // assign the times
         startHour = currEvent.getStartHour();
         startMinute = currEvent.getStartMinute();
         endHour = currEvent.getEndHour();
         endMinute = currEvent.getEndMinute();
 
+        // update times
         start = true;
         updateStartTime(startHour, startMinute);
         start = false;
         updateEndTime(endHour, endMinute);
 
+        // get and assign checkbox values
         sunday = currEvent.getDay(0);
         monday = currEvent.getDay(1);
         tuesday = currEvent.getDay(2);
@@ -114,20 +128,18 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id){}
     public void onNothingSelected(AdapterView<?> parent){}
 
+    // called when user pressed Edit event button
     public void editEvent(View view)
     {
         Intent intent = new Intent();
 
+        // set text and spinner objects
         EditText eventText = (EditText) findViewById(R.id.name);
         EditText eventLocation = (EditText) findViewById(R.id.location);
         EditText eventNote = (EditText) findViewById(R.id.note);
         Spinner building = (Spinner) findViewById(R.id.buildingLocation);
 
-/*      How to use the checkboxes:
-        CheckBox sunday = (CheckBox) findViewById(R.id.checkBoxSun);
-        daysOfWeek[0] = (sunday.isChecked());
-        } */
-
+        // check for errors and toast the user
         if(eventText.getText().toString().equals("")) {
             Toast.makeText(getApplicationContext(), "Please enter an event title.", Toast.LENGTH_SHORT).show();
         } else if(eventLocation.getText().toString().equals("")) {
@@ -141,6 +153,8 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
         } else if(startHour > endHour || (startHour == endHour && startMinute > endMinute)) {
             Toast.makeText(getApplicationContext(), "Please enter a valid start and end time.", Toast.LENGTH_SHORT).show();
         } else {
+
+            // if no errors, load up the data into the intent
             String location =building.getSelectedItem().toString() ;
             location += " " +eventLocation.getText().toString() ;
             intent.putExtra("eventTitle", eventText.getText().toString());
@@ -165,12 +179,13 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
 
             intent.putExtra("days", days);
 
-            System.out.println("Finishing up edit");
+            // return the intent
             setResult(RESULT_OK, intent);
             finish();
         }
     }
 
+    // return a null intent if delete is pressed
     public void deleteEvent(View view) {
         setResult(RESULT_OK, null);
         finish();
