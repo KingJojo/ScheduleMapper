@@ -3,6 +3,7 @@ package com.example.jojo.schedulemapper;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.format.DateFormat;
 import android.util.TypedValue;
 import android.content.Intent;
 import android.view.Menu;
@@ -160,7 +161,6 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
 
         // Lets change some dimensions to best fit the view.
-
         mWeekView.notifyDatasetChanged();
     }
 
@@ -325,6 +325,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
+        // checks whether to display day as letter or abbreviation only if view change is called
         if(id == R.id.action_week_view || id == R.id.action_day_view || id == R.id.action_three_day_view) {
             setupDateTimeInterpreter(id == R.id.action_week_view);
         }
@@ -432,7 +433,12 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
             @Override
             public String interpretTime(int hour) {
-                return hour > 12 ? (hour - 12) + " PM" : (hour == 0 ? "12 AM" : hour + " AM");
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.HOUR_OF_DAY, hour);
+                calendar.set(Calendar.MINUTE, 0);
+                SimpleDateFormat sdf = new SimpleDateFormat("hh a", Locale.getDefault());
+
+                return sdf.format(calendar.getTime());
             }
         });
     }
