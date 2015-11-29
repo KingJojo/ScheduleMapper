@@ -324,7 +324,11 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        setupDateTimeInterpreter(id == R.id.action_week_view);
+
+        if(id == R.id.action_week_view || id == R.id.action_day_view || id == R.id.action_three_day_view) {
+            setupDateTimeInterpreter(id == R.id.action_week_view);
+        }
+
         switch (id){
 
             // change modes
@@ -422,6 +426,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 // Details: http://stackoverflow.com/questions/16959502/get-one-letter-abbreviation-of-week-day-of-a-date-in-java#answer-16959657
                 if (shortDate)
                     weekday = String.valueOf(weekday.charAt(0));
+
                 return weekday.toUpperCase() + format.format(date.getTime());
             }
 
