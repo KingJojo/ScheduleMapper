@@ -439,8 +439,6 @@ public class WeekView extends View {
 
         // Draw the header row.
         drawHeaderRowAndEvents(canvas);
-        System.out.println("redrawing");
-        System.out.println(getNumberOfVisibleDays());
 
         // Draw the time column and all the axes/separators.
         drawTimeColumnAndAxes(canvas);
@@ -461,7 +459,6 @@ public class WeekView extends View {
 
             // Draw the text if its y position is not outside of the visible area. The pivot point of the text is the point at the bottom-right corner.
             String time = getDateTimeInterpreter().interpretTime(i);
-            System.out.println(time);
             if (time == null)
                 throw new IllegalStateException("A DateTimeInterpreter must not return null time");
             if (top < getHeight()) canvas.drawText(time, mTimeTextWidth + mHeaderColumnPadding, top + mTimeTextHeight, mTimeTextPaint);

@@ -13,7 +13,10 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.content.Context;
 import android.widget.TextView;
+
+import static android.app.PendingIntent.getActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,10 +49,19 @@ public class MainActivity extends AppCompatActivity {
         Button scheduleBtn = (Button) findViewById(R.id.scheduleButton);
         scheduleBtn.setOnClickListener(scheduleListener);
 
-        Typeface tf = Typeface.createFromAsset(getAssets(),
-                "fonts/Roboto-Light.ttf");
-        TextView tv = (TextView) findViewById(R.id.textView4);
-        tv.setTypeface(tf);
+
+        /* Set fonts correctly */
+        CustomFontHelper changeTitleFont = new CustomFontHelper();
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView4),
+                "fonts/Roboto-Thin.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.mapButton),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.scheduleButton),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+
     }
 
     @Override

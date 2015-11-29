@@ -68,6 +68,48 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         endTime = (TextView)findViewById(R.id.textView3);
         repeatable = false;
 
+        /* Set fonts correctly */
+
+        CustomFontHelper changeTitleFont = new CustomFontHelper();
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.startButton),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.endButton),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.dateButton),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.submit),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView2),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView3),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.note),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.location),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.repeatableNo),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.repeatableYes),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.repeatableText),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+
+
+
     }
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id){}

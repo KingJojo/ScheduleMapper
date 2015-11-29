@@ -108,6 +108,37 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
         friday = currEvent.getDay(5);
         saturday = currEvent.getDay(6);
 
+
+        /* Set fonts correctly */
+        CustomFontHelper changeTitleFont = new CustomFontHelper();
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.startButton),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.endButton),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.editEventButton),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.deleteEventButton),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView2),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView3),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.note),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.location),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
         ((CheckBox)findViewById(R.id.checkBoxSun)).setChecked(sunday);
         ((CheckBox)findViewById(R.id.checkBoxMon)).setChecked(monday);
         ((CheckBox)findViewById(R.id.checkBoxTue)).setChecked(tuesday);

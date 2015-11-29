@@ -55,6 +55,37 @@ public class ViewEventActivity extends AppCompatActivity {
         endHour = currEvent.getEndTime().get(Calendar.HOUR);
         endMinute = currEvent.getEndTime().get(Calendar.MINUTE);
         updateEndTime(endHour, endMinute);
+
+
+        CustomFontHelper changeTitleFont = new CustomFontHelper();
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.startButton),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.endButton),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.dateButton),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.name),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView2),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView3),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.note),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.location),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
     }
 
     public void updateDate( int year, int month, int day ) {

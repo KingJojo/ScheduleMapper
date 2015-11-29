@@ -6,6 +6,13 @@ import android.widget.Button;
 
 /**
  * Created by Guizus on 11/28/15.
+ *
+ * Creates class for buttons to have custom fonts -- yay!
+ *
+ * @constructors: public ButtonPlus(Context context);
+ *                public ButtonPlus(Context context, AttributeSet attrs);
+ *                public ButtonPlus(Context context, AttributeSet attrs, int defStyle);
+ *
  */
 public class ButtonPlus extends Button {
     public ButtonPlus(Context context) {
