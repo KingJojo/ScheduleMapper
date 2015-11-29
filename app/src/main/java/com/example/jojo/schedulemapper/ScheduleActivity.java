@@ -158,12 +158,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         // Set long press listener for events.
         mWeekView.setEventLongPressListener(this);
 
-        mWeekView.setNumberOfVisibleDays(3);
 
         // Lets change some dimensions to best fit the view.
-        mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
-        mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
-        mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
 
         mWeekView.notifyDatasetChanged();
     }
@@ -328,7 +324,11 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        setupDateTimeInterpreter(id == R.id.action_week_view);
+
+        if(id == R.id.action_week_view || id == R.id.action_day_view || id == R.id.action_three_day_view) {
+            setupDateTimeInterpreter(id == R.id.action_week_view);
+        }
+
         switch (id){
 
             // change modes
@@ -426,6 +426,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 // Details: http://stackoverflow.com/questions/16959502/get-one-letter-abbreviation-of-week-day-of-a-date-in-java#answer-16959657
                 if (shortDate)
                     weekday = String.valueOf(weekday.charAt(0));
+
                 return weekday.toUpperCase() + format.format(date.getTime());
             }
 
@@ -438,9 +439,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
     // simply return all events when month changes
     @Override
-    public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-        return events;
-    }
+    public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) { return events; }
 
     // fill the schedule with temporary events generated from the repeat list
     private void populateRepeatable(){

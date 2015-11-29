@@ -124,7 +124,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         } else if(startHour > endHour || (startHour == endHour && startMinute > endMinute)) {
             Toast.makeText(getApplicationContext(), "Please enter a valid start and end time.", Toast.LENGTH_SHORT).show();
         } else {
-            String location =building.getSelectedItem().toString() ;
+            String location = building.getSelectedItem().toString() ;
             location += " " +eventLocation.getText().toString() ;
             intent.putExtra("eventTitle", eventText.getText().toString());
             intent.putExtra("locationBuilding", building.getSelectedItem().toString());

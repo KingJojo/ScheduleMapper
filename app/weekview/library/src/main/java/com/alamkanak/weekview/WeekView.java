@@ -1,5 +1,6 @@
 package com.alamkanak.weekview;
 
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -437,6 +438,8 @@ public class WeekView extends View {
 
         // Draw the header row.
         drawHeaderRowAndEvents(canvas);
+        System.out.println("redrawing");
+        System.out.println(getNumberOfVisibleDays());
 
         // Draw the time column and all the axes/separators.
         drawTimeColumnAndAxes(canvas);
@@ -1173,7 +1176,7 @@ public class WeekView extends View {
      * @return The date, time interpreter.
      */
     public DateTimeInterpreter getDateTimeInterpreter() {
-        if (mDateTimeInterpreter == null) {
+        if(mDateTimeInterpreter == null) {
             mDateTimeInterpreter = new DateTimeInterpreter() {
                 @Override
                 public String interpretDate(Calendar date) {
