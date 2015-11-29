@@ -47,10 +47,7 @@ import java.util.Locale;
  */
 public class WeekView extends View {
 
-    @Deprecated
-    public static final int LENGTH_SHORT = 1;
-    @Deprecated
-    public static final int LENGTH_LONG = 2;
+    public static final int SEVEN_DAY_VIEW = 7;
     private final Context mContext;
     private Paint mTimeTextPaint;
     private float mTimeTextWidth;
@@ -118,7 +115,6 @@ public class WeekView extends View {
     private int mDefaultEventColor;
     private boolean mIsFirstDraw = true;
     private boolean mAreDimensionsInvalid = true;
-    @Deprecated private int mDayNameLength = LENGTH_LONG;
     private int mOverlappingEventGap = 0;
     private int mEventMarginVertical = 0;
     private float mXScrollingSpeed = 0.75f;
@@ -305,7 +301,6 @@ public class WeekView extends View {
             mEventTextColor = a.getColor(R.styleable.WeekView_eventTextColor, mEventTextColor);
             mEventPadding = a.getDimensionPixelSize(R.styleable.WeekView_hourSeparatorHeight, mEventPadding);
             mHeaderColumnBackgroundColor = a.getColor(R.styleable.WeekView_headerColumnBackground, mHeaderColumnBackgroundColor);
-            mDayNameLength = a.getInteger(R.styleable.WeekView_dayNameLength, mDayNameLength);
             mOverlappingEventGap = a.getDimensionPixelSize(R.styleable.WeekView_overlappingEventGap, mOverlappingEventGap);
             mEventMarginVertical = a.getDimensionPixelSize(R.styleable.WeekView_eventMarginVertical, mEventMarginVertical);
             mXScrollingSpeed = a.getFloat(R.styleable.WeekView_xScrollingSpeed, mXScrollingSpeed);
@@ -1244,35 +1239,33 @@ public class WeekView extends View {
      * @return The date, time interpreter.
      */
     public DateTimeInterpreter getDateTimeInterpreter() {
-        if (mDateTimeInterpreter == null) {
-            mDateTimeInterpreter = new DateTimeInterpreter() {
-                @Override
-                public String interpretDate(Calendar date) {
-                    try {
-                        SimpleDateFormat sdf = mDayNameLength == LENGTH_SHORT ? new SimpleDateFormat("EEEEE M/dd", Locale.getDefault()) : new SimpleDateFormat("EEE M/dd", Locale.getDefault());
-                        return sdf.format(date.getTime()).toUpperCase();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return "";
-                    }
+        mDateTimeInterpreter = new DateTimeInterpreter() {
+            @Override
+            public String interpretDate(Calendar date) {
+                try {
+                    SimpleDateFormat sdf = (mNumberOfVisibleDays == SEVEN_DAY_VIEW) ? new SimpleDateFormat("EEEEE M/dd",
+                            Locale.getDefault()) : new SimpleDateFormat("EEE M/dd", Locale.getDefault());
+                    return sdf.format(date.getTime()).toUpperCase();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return "";
                 }
+            }
+             @Override
+             public String interpretTime(int hour) {
+                 Calendar calendar = Calendar.getInstance();
+                 calendar.set(Calendar.HOUR_OF_DAY, hour);
+                 calendar.set(Calendar.MINUTE, 0);
 
-                @Override
-                public String interpretTime(int hour) {
-                    Calendar calendar = Calendar.getInstance();
-                    calendar.set(Calendar.HOUR_OF_DAY, hour);
-                    calendar.set(Calendar.MINUTE, 0);
-
-                    try {
-                        SimpleDateFormat sdf = DateFormat.is24HourFormat(getContext()) ? new SimpleDateFormat("HH:mm", Locale.getDefault()) : new SimpleDateFormat("hh a", Locale.getDefault());
-                        return sdf.format(calendar.getTime());
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return "";
-                    }
-                }
-            };
-        }
+                 try {
+                     SimpleDateFormat sdf = DateFormat.is24HourFormat(getContext()) ? new SimpleDateFormat("HH:mm", Locale.getDefault()) : new SimpleDateFormat("hh a", Locale.getDefault());
+                     return sdf.format(calendar.getTime());
+                 } catch (Exception e) {
+                     e.printStackTrace();
+                     return "";
+                 }
+             }
+        };
         return mDateTimeInterpreter;
     }
 
@@ -1483,33 +1476,6 @@ public class WeekView extends View {
     public void setDefaultEventColor(int defaultEventColor) {
         mDefaultEventColor = defaultEventColor;
         invalidate();
-    }
-
-    /**
-     * <b>Note:</b> Use {@link #setDateTimeInterpreter(DateTimeInterpreter)} and
-     * {@link #getDateTimeInterpreter()} instead.
-     * @return Either long or short day name is being used.
-     */
-    @Deprecated
-    public int getDayNameLength() {
-        return mDayNameLength;
-    }
-
-    /**
-     * Set the length of the day name displayed in the header row. Example of short day names is
-     * 'M' for 'Monday' and example of long day names is 'Mon' for 'Monday'.
-     * <p>
-     *     <b>Note:</b> Use {@link #setDateTimeInterpreter(DateTimeInterpreter)} instead.
-     * </p>
-     * @param length Supported values are {@link com.alamkanak.weekview.WeekView#LENGTH_SHORT} and
-     * {@link com.alamkanak.weekview.WeekView#LENGTH_LONG}.
-     */
-    @Deprecated
-    public void setDayNameLength(int length) {
-        if (length != LENGTH_LONG && length != LENGTH_SHORT) {
-            throw new IllegalArgumentException("length parameter must be either LENGTH_LONG or LENGTH_SHORT");
-        }
-        this.mDayNameLength = length;
     }
 
     public int getOverlappingEventGap() {

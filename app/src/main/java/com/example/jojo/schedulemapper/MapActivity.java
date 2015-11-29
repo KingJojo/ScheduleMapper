@@ -39,40 +39,60 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-/* unused import statements
-
-import java.util.Date;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.CameraPosition;
-import com.google.android.gms.maps.SupportMapFragment;
-import android.content.Context;
-import android.location.Address;
-import android.location.Geocoder;
-import android.content.Intent;
-
-*/
+/*
+ * Class that creates the map for routing you throughout the day.
+ * After pulling and building the map, queries Parse for the list of events and finds the
+ * next one that has a start time after the current time. TIes are broken alphabetically
+ */
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
+    // list of hardcoded places to route to
+    private LatLng cse = new LatLng(32.881718, -117.233321);
+    private LatLng wlh = new LatLng(32.880945, -117.234413);
+    private LatLng center = new LatLng(32.878069, -117.237387);
+    private LatLng ledden = new LatLng(32.878860, -117.241808);
+    private LatLng price = new LatLng(32.879766, -117.236943);
+    private LatLng york = new LatLng(32.874500, -117.240342);
+    private LatLng galbraith = new LatLng(32.874144, -117.240927);
+    private LatLng peterson = new LatLng(32.879931, -117.239885);
+    private LatLng cogs = new LatLng(32.880345, -117.239032);
+    private LatLng sequoyah = new LatLng(32.882142, -117.240613);
+    private LatLng apm = new LatLng(32.879013, -117.241084);
+    private LatLng solis = new LatLng(32.880832, -117.239640);
+
+    // the Map
     private GoogleMap mMap;
     private LocationManager locationManager;
+
+    // current position
     private LatLng myPosition;
+
+    // Array lists to store the query results
     private ArrayList<WeekViewEvent> events;
     private ArrayList<WeekViewEventRepeatable> repeats;
     private ArrayList<DisabledRepeatable> disabled;
+
+    // random id for generated events from Repeatable
     Random rand = new Random();
+
+    // current day and day after
     Calendar now;
     Calendar tomorrow;
+
+    // current time
     int dayOfWeek;
     int hour;
     int minute;
+
+    // text bubble icon generator
     private IconGenerator icnGenerator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        // initialize dates and times
         now = Calendar.getInstance();
 
         icnGenerator = new IconGenerator(this);
@@ -88,20 +108,25 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         tomorrow.add(Calendar.DATE, 1);
 
+        // query for events in parse
         events = new ArrayList<WeekViewEvent>();
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("WeekViewEvent");
+
+        // search only between today and tomorrow
         query.whereGreaterThanOrEqualTo("startTime", now.getTime());
         query.whereLessThanOrEqualTo("endTime", tomorrow.getTime());
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> eventList, ParseException e) {
                 if (e == null) {
-                    System.out.println("found " + eventList.size());
+
+                    // once found, add to the eventList
                     for (int i = 0; i < eventList.size(); i++) {
-                        System.out.println("name: " + ((WeekViewEvent) eventList.get(i)).getName());
                         if (((WeekViewEvent) eventList.get(i)).isEnabled()) {
                             events.add((WeekViewEvent) eventList.get(i));
                         }
                     }
+
+                    // next get the repeats
                     getRepeats();
                 } else {
                     // handle Parse Exception here
@@ -109,16 +134,19 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             }
         });
 
-
-
-
+        // ensure strict thread policy
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
+        // set the layout
         setContentView(R.layout.activity_map);
+
+        // get the map and set the location/manager
         mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map)).getMap();
         mMap.setMyLocationEnabled(true);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        // get the current location using our location manager
         Criteria criteria = new Criteria();
         String provider = locationManager.getBestProvider(criteria, true);
         if ( ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION)
@@ -140,10 +168,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         }
     }
 
+    // method to query for the repeatable events
     private void getRepeats() {
         repeats = new ArrayList<WeekViewEventRepeatable>();
 
         ParseQuery<ParseObject> query2 = new ParseQuery<ParseObject>("WeekViewEventRepeatable");
+
+        // search only for events on the current day of week
         switch(dayOfWeek) {
             case Calendar.SUNDAY:
                 query2.whereEqualTo("sunday", true);
@@ -167,16 +198,19 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 query2.whereEqualTo("saturday", true);
                 break;
         }
-        System.out.println(dayOfWeek + ", " + hour + ", " + minute);
+
+        // search after the curent hour
         query2.whereGreaterThanOrEqualTo("startHour", hour);
         query2.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> eventList, ParseException e) {
                 if (e == null) {
-                    System.out.println("found " + eventList.size());
+
+                    // add all events found to the list
                     for (int i = 0; i < eventList.size(); i++) {
-                        System.out.println("name: " + ((WeekViewEventRepeatable) eventList.get(i)).getName());
                         repeats.add((WeekViewEventRepeatable) eventList.get(i));
                     }
+
+                    // query the disabled events
                     getDisabled();
                 } else {
                     // handle Parse Exception here
@@ -185,19 +219,23 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         });
     }
 
+    // get the disabled events for repeatable
     private void getDisabled() {
         disabled = new ArrayList<DisabledRepeatable>();
 
         ParseQuery<ParseObject> query3 = new ParseQuery<ParseObject>("DisabledRepeatable");
+
+        // search only after today's current time to tomorrow
         query3.whereGreaterThanOrEqualTo("startTime", now.getTime());
         query3.whereLessThanOrEqualTo("endTime", tomorrow.getTime());
         query3.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> eventList, ParseException e) {
                 if (e == null) {
-                    System.out.println("found " + eventList.size());
                     for (int i = 0; i < eventList.size(); i++) {
                         disabled.add((DisabledRepeatable) eventList.get(i));
                     }
+
+                    // load the events and choose the latest one
                     fillMap();
                 } else {
                     // handle Parse Exception here
@@ -206,19 +244,27 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         });
     }
 
+    // load the events and chooses the latest one
     private void fillMap() {
         for(int i = 0; i < repeats.size(); i++) {
+
+            // search through each repeat event
             WeekViewEventRepeatable source = repeats.get(i);
             Calendar start = Calendar.getInstance();
+
+            // get start time
             start.set(Calendar.HOUR_OF_DAY, source.getStartHour());
             start.set(Calendar.MINUTE, source.getStartMinute());
 
+            // get end time
             Calendar end = Calendar.getInstance();
             end.set(Calendar.HOUR_OF_DAY, source.getEndHour());
             end.set(Calendar.MINUTE, source.getEndMinute());
 
+            // default enabled
             boolean enabled = true;
 
+            // search through disabled events to see if need to flip boolean
             for(int j = 0; j < disabled.size(); j++) {
                 if(disabledOverlapping(start, end, source.getRepeatableId(), disabled.get(j))) {
                     enabled = false;
@@ -226,6 +272,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 }
             }
 
+            // if not flipped, add the event to the list
             if(enabled) {
                 WeekViewEvent newEvent = new WeekViewEvent(Math.abs(rand.nextLong()), source.getName(), source.getBuildingLocation(),
                         source.getLocation(), source.getNote(), source.getRepeatableId(), now.get(Calendar.YEAR),
@@ -236,6 +283,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             }
         }
 
+        // sort based on start time
         Collections.sort(events, new Comparator<WeekViewEvent>() {
             @Override
             public int compare(WeekViewEvent e1, WeekViewEvent e2) {
@@ -243,27 +291,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             }
         });
 
-        LatLng cse = new LatLng(32.881718, -117.233321);
-        LatLng wlh = new LatLng(32.880945, -117.234413);
-        LatLng center = new LatLng(32.878069, -117.237387);
-        LatLng ledden = new LatLng(32.878860, -117.241808);
-        LatLng price = new LatLng(32.879766, -117.236943);
-        LatLng york = new LatLng(32.874500, -117.240342);
-        LatLng galbraith = new LatLng(32.874144, -117.240927);
-        LatLng peterson = new LatLng(32.879931, -117.239885);
-        LatLng cogs = new LatLng(32.880345, -117.239032);
-        LatLng sequoyah = new LatLng(32.882142, -117.240613);
-        LatLng apm = new LatLng(32.879013, -117.241084);
-        LatLng solis = new LatLng(32.880832, -117.239640);
+        //the destination to route to
         LatLng destination;
 
+        // if there are events in the list, grab the first one
         if(events.size() != 0) {
             WeekViewEvent event = events.get(0);
-            System.out.println(event.getLocation());
-            System.out.println(event.getBuildingLocation());
-            System.out.println(event.getBuildingNumber());
             GMapV2Direction md = new GMapV2Direction();
             Document doc;
+
+            // change destination based on location of event
             if (event.getBuildingLocation().equals("CSE"))
                 destination = cse;
             else if (event.getBuildingLocation().equals("Center"))
@@ -289,20 +326,28 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             else
                 destination = solis;
 
+            // route to the location
             doc = md.getDocument(myPosition, destination);
 
+            // add a marker to show the event name and time
             SimpleDateFormat fr = new SimpleDateFormat("HH:mm", Locale.US);
             mMap.addMarker(new MarkerOptions().position(destination).visible(true)
-                    .icon(BitmapDescriptorFactory.fromBitmap(icnGenerator.makeIcon(event.getName() + " at " + fr.format(event.getStartTime().getTime())))));
-            
+                    .icon(BitmapDescriptorFactory.fromBitmap(icnGenerator.makeIcon(event.getName() +
+                            " at " + fr.format(event.getStartTime().getTime())))));
+
+            // get the routing polyline
             ArrayList<LatLng> directionPoint = md.getDirection(doc);
             PolylineOptions rectLine = new PolylineOptions().width(15).color(
                     Color.RED);
 
+            // loop and add each individual line
             for (int k = 0; k < directionPoint.size(); k++) {
+
+                // if at the middle of the route, place a marker showing estimated duration
                 if(k == directionPoint.size()/2) {
                     mMap.addMarker(new MarkerOptions().position(directionPoint.get(k)).visible(true)
-                            .icon(BitmapDescriptorFactory.fromBitmap(icnGenerator.makeIcon("ETA: " + md.getDurationText(doc)))));
+                            .icon(BitmapDescriptorFactory.fromBitmap(icnGenerator.makeIcon("ETA: " +
+                                    md.getDurationText(doc)))));
 
                 }
                 rectLine.add(directionPoint.get(k));
@@ -313,6 +358,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     }
 
+    // checks whether the disabled event matches with the given time and id
     private boolean disabledOverlapping(Calendar start1, Calendar end1, long repeatableId, DisabledRepeatable disabled) {
         return (start1.get(Calendar.MONTH) == disabled.getStartTime().get(Calendar.MONTH) &&
                 start1.get(Calendar.DAY_OF_MONTH) == disabled.getStartTime().get(Calendar.DAY_OF_MONTH) &&
