@@ -57,6 +57,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     private int[] colorArray = {Color.parseColor("#59dbe0"), Color.parseColor("#f57f68"),
                                         Color.parseColor("#87d288"), Color.parseColor("#f8b552")};
     private int colorIndex = 0;
+    private int viewDays = 0;
     Random rand = new Random();
 
     @Override
@@ -136,12 +137,17 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         // Set long press listener for events.
         mWeekView.setEventLongPressListener(this);
 
-        mWeekView.setNumberOfVisibleDays(3);
+        if(viewDays == 0) {
+            mWeekView.setNumberOfVisibleDays(3);
 
+            viewDays = 3;
+        }
         // Lets change some dimensions to best fit the view.
-        mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
-        mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
-        mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
+        else if (viewDays == 7){
+            mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
+            mWeekView.setTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
+            mWeekView.setEventTextSize((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 12, getResources().getDisplayMetrics()));
+        }
 
         mWeekView.notifyDatasetChanged();
     }
@@ -320,6 +326,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                     item.setChecked(!item.isChecked());
                     mWeekViewType = TYPE_DAY_VIEW;
                     mWeekView.setNumberOfVisibleDays(1);
+                    viewDays = 1;
 
                     // Lets change some dimensions to best fit the view.
                     mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
@@ -334,6 +341,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                     item.setChecked(!item.isChecked());
                     mWeekViewType = TYPE_THREE_DAY_VIEW;
                     mWeekView.setNumberOfVisibleDays(3);
+                    viewDays = 3;
 
                     // Lets change some dimensions to best fit the view.
                     mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 8, getResources().getDisplayMetrics()));
@@ -348,6 +356,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                     item.setChecked(!item.isChecked());
                     mWeekViewType = TYPE_WEEK_VIEW;
                     mWeekView.setNumberOfVisibleDays(7);
+                    viewDays = 7;
 
                     // Lets change some dimensions to best fit the view.
                     mWeekView.setColumnGap((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()));
@@ -389,9 +398,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     }
 
     @Override
-    public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-        return events;
-    }
+    public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) { return events; }
 
     private void populateRepeatable(){
 

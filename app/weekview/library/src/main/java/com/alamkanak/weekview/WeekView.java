@@ -1,5 +1,10 @@
 package com.alamkanak.weekview;
 
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -442,6 +447,8 @@ public class WeekView extends View {
 
         // Draw the header row.
         drawHeaderRowAndEvents(canvas);
+        System.out.println("redrawing");
+        System.out.println(getNumberOfVisibleDays());
 
         // Draw the time column and all the axes/separators.
         drawTimeColumnAndAxes(canvas);
@@ -643,9 +650,68 @@ public class WeekView extends View {
 
             // Draw the day labels.
             String dayLabel = getDateTimeInterpreter().interpretDate(day);
+            String output = "";
+            if(mNumberOfVisibleDays == 7){
+                String pattern = "SUN";
+
+                Pattern r = Pattern.compile(pattern);
+                Matcher m = r.matcher(dayLabel);
+                if(m.find()){
+                    output = m.replaceAll("S");
+                }
+
+                pattern = "MON";
+                r = Pattern.compile(pattern);
+                m = r.matcher(dayLabel);
+                if(m.find()){
+                    System.out.println("kek");
+                    output = m.replaceAll("M");
+                }
+
+                pattern = "TUE";
+                r = Pattern.compile(pattern);
+                m = r.matcher(dayLabel);
+                if(m.find()){
+                    output = m.replaceAll("T");
+                }
+
+                pattern = "WED";
+                r = Pattern.compile(pattern);
+                m = r.matcher(dayLabel);
+                if(m.find()){
+                    output = m.replaceAll("W");
+                }
+
+                pattern = "THU";
+                r = Pattern.compile(pattern);
+                m = r.matcher(dayLabel);
+                if(m.find()){
+                    output = m.replaceAll("T");
+                }
+
+                pattern = "FRI";
+                r = Pattern.compile(pattern);
+                m = r.matcher(dayLabel);
+                if(m.find()){
+                    output = m.replaceAll("F");
+                }
+
+                pattern = "SAT";
+                r = Pattern.compile(pattern);
+                m = r.matcher(dayLabel);
+                if(m.find()){
+                    output = m.replaceAll("S");
+                }
+
+            }
+            if(output == ""){
+                output = dayLabel;
+            }
+            System.out.println(output);
+            System.out.println(mNumberOfVisibleDays);
             if (dayLabel == null)
                 throw new IllegalStateException("A DateTimeInterpreter must not return null date");
-            canvas.drawText(dayLabel, startPixel + mWidthPerDay / 2, mHeaderTextHeight + mHeaderRowPadding, sameDay ? mTodayHeaderTextPaint : mHeaderTextPaint);
+            canvas.drawText(output, startPixel + mWidthPerDay / 2, mHeaderTextHeight + mHeaderRowPadding, sameDay ? mTodayHeaderTextPaint : mHeaderTextPaint);
             startPixel += mWidthPerDay + mColumnGap;
         }
 
