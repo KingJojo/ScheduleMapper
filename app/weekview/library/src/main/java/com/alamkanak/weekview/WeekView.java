@@ -385,6 +385,7 @@ public class WeekView extends View {
         mEventTextPaint.setColor(mEventTextColor);
         mEventTextPaint.setTextSize(mEventTextSize);
 
+
         // Set default event color.
         mDefaultEventColor = Color.parseColor("#9fc6e7");
 
@@ -562,7 +563,9 @@ public class WeekView extends View {
             mLastVisibleDay = (Calendar) day.clone();
             day.add(Calendar.DATE, dayNumber - 1);
             mLastVisibleDay.add(Calendar.DATE, dayNumber - 2);
-            boolean sameDay = isSameDay(day, today);
+
+            // CHANGED !!!
+            boolean sameDay = isSameDay(day, today());
 
             // Get more events if necessary. We want to store the events 3 months beforehand. Get
             // events only when it is the first iteration of the loop.
@@ -637,7 +640,8 @@ public class WeekView extends View {
             // Check if the day is today.
             day = (Calendar) today.clone();
             day.add(Calendar.DATE, dayNumber - 1);
-            boolean sameDay = isSameDay(day, today);
+            // CHANGED !!!!
+            boolean sameDay = isSameDay(day, today());
 
             // Draw the day labels.
             String dayLabel = getDateTimeInterpreter().interpretDate(day);
@@ -1574,6 +1578,7 @@ public class WeekView extends View {
             dayDiff = 0;
             today = getSunday();
         }
+
         mCurrentOrigin.x = - dayDiff * (mWidthPerDay + mColumnGap);
         mCurrentOrigin.y = 0;
         invalidate();
