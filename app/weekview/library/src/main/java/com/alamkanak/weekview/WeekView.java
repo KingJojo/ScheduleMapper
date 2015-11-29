@@ -1202,8 +1202,10 @@ public class WeekView extends View {
                     calendar.set(Calendar.MINUTE, 0);
 
                     try {
-                        //SimpleDateFormat sdf = DateFormat.is24HourFormat(getContext()) ? new SimpleDateFormat("HH:mm", Locale.getDefault()) : new SimpleDateFormat("hh a", Locale.getDefault());
+                        // To handle toggling between 24 hour format and 12 hour format -- not needed in current set up
+                        // SimpleDateFormat sdf = DateFormat.is24HourFormat(getContext()) ? new SimpleDateFormat("HH:mm", Locale.getDefault()) : new SimpleDateFormat("hh a", Locale.getDefault());
 
+                        // format time so that only 24 hour format is printed
                         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm", Locale.getDefault());
                         return sdf.format(calendar.getTime());
                     } catch (Exception e) {
