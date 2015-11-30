@@ -381,7 +381,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         PolylineOptions rectLine = new PolylineOptions().width(15).color(
                 Color.RED);
 
-        float duration = md.getDurationValue(doc)/60;
+        float duration = (float) md.getDurationValue(doc)/60f;
 
         // loop and add each individual line
         for (int k = 0; k < directionPoint.size(); k++) {
@@ -390,7 +390,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             if (k == directionPoint.size() / 2) {
                 mMap.addMarker(new MarkerOptions().position(directionPoint.get(k)).visible(true)
                         .icon(BitmapDescriptorFactory.fromBitmap(icnGenerator.makeIcon("ETA: " +
-                                String.format("%.2f", duration) + " min"))));
+                                String.format("%.1f", duration) + " min"))));
             }
             rectLine.add(directionPoint.get(k));
         }

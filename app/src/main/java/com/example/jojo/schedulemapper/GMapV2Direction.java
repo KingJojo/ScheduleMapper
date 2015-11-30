@@ -75,16 +75,12 @@ public class GMapV2Direction {
     // parse for the duration value
     public int getDurationValue(Document doc) {
         try {
-            int counter = 0;
             NodeList nl1 = doc.getElementsByTagName("duration");
-            for(int i = 0; i < nl1.getLength(); i++) {
-                Node node1 = nl1.item(i);
-                NodeList nl2 = node1.getChildNodes();
-                Node node2 = nl2.item(getNodeIndex(nl2, "value"));
-                Log.i("DurationValue", node2.getTextContent());
-                counter += Integer.parseInt(node2.getTextContent());
-            }
-            return counter;
+            Node node1 = nl1.item(nl1.getLength() - 1);
+            NodeList nl2 = node1.getChildNodes();
+            Node node2 = nl2.item(getNodeIndex(nl2, "value"));
+            Log.i("DurationValue", node2.getTextContent());
+            return Integer.parseInt(node2.getTextContent());
         } catch (Exception e) {
             return -1;
         }
