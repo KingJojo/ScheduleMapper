@@ -93,7 +93,8 @@
                 android:onClick="showDatePickerDialog"
                 android:singleLine="true"
                 android:text="Start Date"
-                android:textColor="#303F9F" />
+                android:textColor="#303F9F"
+                android:elevation="15dp" />
 
             <TextView
                 android:id="@+id/textView2"
@@ -121,7 +122,8 @@
                 android:background="@drawable/button"
                 android:onClick="showStartTimePicker"
                 android:text="start time"
-                android:textColor="#303F9F" />
+                android:textColor="#303F9F"
+                android:elevation="15dp" />
 
             <TextView
                 android:id="@+id/textView"
@@ -149,7 +151,8 @@
                 android:background="@drawable/button"
                 android:onClick="showEndTimePicker"
                 android:text="End time"
-                android:textColor="#303F9F" />
+                android:textColor="#303F9F"
+                android:elevation="15dp"/>
 
             <TextView
                 android:id="@+id/textView3"
@@ -197,7 +200,8 @@
 
             android:singleLine="false"
             android:text="Edit Event"
-            android:textColor="#303F9F" />
+            android:textColor="#303F9F"
+            android:elevation="15dp"/>
 
         <Button
             android:id="@+id/deleteEventButton"
@@ -209,7 +213,8 @@
 
             android:singleLine="false"
             android:text="Delete Event"
-            android:textColor="#303F9F" />
+            android:textColor="#303F9F"
+            android:elevation="15dp"/>
 
     </LinearLayout>
 
