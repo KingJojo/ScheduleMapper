@@ -143,21 +143,18 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id){}
     public void onNothingSelected(AdapterView<?> parent){}
 
+    /* method is entered when "Edit Event" button is pressed */
     public void editEvent(View view)
     {
         Intent intent = new Intent();
 
+        // find all fields of the form
         EditText eventText = (EditText) findViewById(R.id.name);
         EditText eventLocation = (EditText) findViewById(R.id.location);
         EditText eventNote = (EditText) findViewById(R.id.note);
         Spinner building = (Spinner) findViewById(R.id.buildingLocation);
 
-        /*
-         * How to use the checkboxes:
-         * CheckBox sunday = (CheckBox) findViewById(R.id.checkBoxSun);
-         * daysOfWeek[0] = (sunday.isChecked());
-         */
-
+        // checking for erroneous input
         if(eventText.getText().toString().equals("")) {
             Toast.makeText(getApplicationContext(), "Please enter an event title.", Toast.LENGTH_SHORT).show();
         } else if(eventLocation.getText().toString().equals("")) {
@@ -171,6 +168,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         } else if(startHour > endHour || (startHour == endHour && startMinute > endMinute)) {
             Toast.makeText(getApplicationContext(), "Please enter a valid start and end time.", Toast.LENGTH_SHORT).show();
         } else {
+            // sending entered information so that it can be stored from the ScheduleActivity
             String location = building.getSelectedItem().toString();
             location += " " + eventLocation.getText().toString() ;
             intent.putExtra("eventTitle", eventText.getText().toString());
@@ -186,13 +184,15 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
             intent.putExtra("endMinute", endMinute);
             intent.putExtra("repeatable", false);
 
-            System.out.println("Finishing up edit");
+            // go back to ScheduleActivity with result OK
             setResult(RESULT_OK, intent);
             finish();
         }
     }
 
+    /* method entered when delete event button pressed */
     public void deleteEvent(View view) {
+        // return to ScheduleActivity without sending any information, with a null intent
         setResult(RESULT_OK, null);
         finish();
     }
@@ -235,6 +235,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
                     DateFormat.is24HourFormat(getActivity()));
         }
 
+        // after picking time, update the textviews
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             updateStartTime(hourOfDay, minute);
             updateEndTime(hourOfDay, minute);
@@ -242,6 +243,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
 
     }
 
+    // changes text in textview and sets internal variables
     public void updateDate( int year, int month, int day ) {
         this.year = year;
         this.month = month;
@@ -249,6 +251,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         dateView.setText(this.month + "/" + day + "/" + year);
     }
 
+    // changes start time text and sets internal variables
     public void updateStartTime( int hourOfDay, int minute) {
         if (start) {
             startHour = hourOfDay;
@@ -260,7 +263,9 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         }
     }
 
+    // changes end time text and sets internal variables
     public void updateEndTime( int hourOfDay, int minute ) {
+        // update end time to what user set
         if (!start) {
             endHour = hourOfDay;
             endMinute = minute;
@@ -269,6 +274,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
             else
                 endTime.setText(endHour + ":" + endMinute);
         }
+        // set end time to start time + event duration
         else {
             endHour = hourOfDay + durationMinutes/60;
             endMinute = minute + durationMinutes%60;

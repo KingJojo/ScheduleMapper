@@ -139,6 +139,7 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
         changeTitleFont.setCustomFont((TextView) findViewById(R.id.location),
                 "fonts/Roboto-Light.ttf", getApplicationContext());
 
+        // find checkboxes
         ((CheckBox)findViewById(R.id.checkBoxSun)).setChecked(sunday);
         ((CheckBox)findViewById(R.id.checkBoxMon)).setChecked(monday);
         ((CheckBox)findViewById(R.id.checkBoxTue)).setChecked(tuesday);
@@ -236,6 +237,7 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
                     DateFormat.is24HourFormat(getActivity()));
         }
 
+        // after time is set by user, update text fields
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             updateStartTime(hourOfDay, minute);
             updateEndTime(hourOfDay, minute);
@@ -243,6 +245,7 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
 
     }
 
+    // update the start time text and corresponding variables
     public void updateStartTime( int hourOfDay, int minute) {
         if (start) {
             startHour = hourOfDay;
@@ -254,7 +257,9 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
         }
     }
 
+    // update end time text and corresponding variables
     public void updateEndTime( int hourOfDay, int minute ) {
+        // set end time to user inputted time
         if (!start) {
             endHour = hourOfDay;
             endMinute = minute;
@@ -263,6 +268,7 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
             else
                 endTime.setText(endHour + ":" + endMinute);
         }
+        // set end time to start time + Event duration
         else {
             endHour = hourOfDay + durationMinutes/60;
             endMinute = minute + durationMinutes%60;
