@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+
+        // set listener for map button
         Button mapBtn = (Button) findViewById(R.id.mapButton);
         mapBtn.setOnClickListener(mapListener);
 
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this, ScheduleActivity.class));
             }
         };
+        // set listener for schedule button
         Button scheduleBtn = (Button) findViewById(R.id.scheduleButton);
         scheduleBtn.setOnClickListener(scheduleListener);
 

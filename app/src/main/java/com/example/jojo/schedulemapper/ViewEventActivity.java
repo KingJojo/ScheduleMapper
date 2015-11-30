@@ -29,12 +29,15 @@ public class ViewEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_event);
 
+        // get the event to view
         currEvent = ScheduleActivity.getCurrentEvent();
 
+        // find the text fields
         startTime = (TextView)findViewById(R.id.textView);
         endTime = (TextView)findViewById(R.id.textView3);
         dateView = (TextView)findViewById(R.id.textView2);
 
+        // set the text fields to the current location's information
         TextView title, location, note;
         title = (TextView) findViewById(R.id.name);
         location = (TextView) findViewById(R.id.location);

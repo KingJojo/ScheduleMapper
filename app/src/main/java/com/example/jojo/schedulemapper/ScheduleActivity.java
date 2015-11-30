@@ -43,7 +43,7 @@ import java.util.Random;
  */
 
 public class ScheduleActivity extends AppCompatActivity implements WeekView.MonthChangeListener,
-        WeekView.EventClickListener, WeekView.EventLongPressListener {
+        WeekView.EventClickListener, WeekView.EventLongPressListener, WeekView.EmptyViewLongPressListener {
 
     // index of views on the schedule
     private static final int TYPE_DAY_VIEW = 1;
@@ -66,6 +66,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     // keep track of tapped events, either single or repeatable
     private static WeekViewEvent tappedSingle = null;
     private static WeekViewEventRepeatable tappedRepeat = null;
+    private static Calendar tappedStart = null;
 
     // toggle between edit and view mode
     private boolean editMode = false; // used to toggle between edit and view mode
@@ -159,6 +160,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         // Set long press listener for events.
         mWeekView.setEventLongPressListener(this);
 
+        // set listener for the empty schedule
+        mWeekView.setEmptyViewLongPressListener(this);
 
         // Lets change some dimensions to best fit the view.
         mWeekView.notifyDatasetChanged();
@@ -345,6 +348,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
             // start the add event activity
             case R.id.action_add_event:
                 tappedSingle = null;
+                tappedStart = null;
                 startActivityForResult(new Intent( this, InputEventActivity.class ), 1 );
                 return true;
 
@@ -584,6 +588,12 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     }
 
     @Override
+    public void onEmptyViewLongPress(Calendar startTime) {
+        tappedStart = startTime;
+        startActivityForResult(new Intent( this, InputEventActivity.class ), 1 );
+    }
+
+    @Override
     public void onEventLongPress(WeekViewEvent event, RectF eventRect) {
 
         // only do something in edit mode
@@ -618,10 +628,10 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     }
 
     // used to get event from inputeventactivity class
-    public static WeekViewEvent getCurrentEvent() {
-        return tappedSingle;
-    }
+    public static WeekViewEvent getCurrentEvent() { return tappedSingle; }
 
     // get the tapped repeatable event
     public static WeekViewEventRepeatable getCurrentRepeatableEvent() { return tappedRepeat; }
+
+    public static Calendar getTappedStartTime() {return tappedStart;}
 }

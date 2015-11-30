@@ -76,7 +76,7 @@ public class GMapV2Direction {
     public int getDurationValue(Document doc) {
         try {
             NodeList nl1 = doc.getElementsByTagName("duration");
-            Node node1 = nl1.item(0);
+            Node node1 = nl1.item(nl1.getLength() - 1);
             NodeList nl2 = node1.getChildNodes();
             Node node2 = nl2.item(getNodeIndex(nl2, "value"));
             Log.i("DurationValue", node2.getTextContent());
