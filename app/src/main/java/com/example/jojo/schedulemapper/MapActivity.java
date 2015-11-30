@@ -118,6 +118,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         // search only between today and tomorrow
         query.whereGreaterThanOrEqualTo("startTime", now.getTime());
         query.whereLessThanOrEqualTo("endTime", tomorrow.getTime());
+        query.whereEqualTo("enabled", true);
         query.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> eventList, ParseException e) {
                 if (e == null) {
@@ -300,6 +301,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
             WeekViewEvent firstEvent = events.get(0);
 
+            System.out.println(events.size());
             int counter = 1;
             for(int i = 1; i < events.size(); i++) {
                 if(events.get(i).getStartTime().compareTo(firstEvent.getStartTime()) == 0) {

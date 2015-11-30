@@ -235,7 +235,7 @@ public class WeekViewEvent extends ParseObject{
         return prevColor;
     }
 
-    public synchronized void changeColor() {
+    public void changeColor() {
         int temp = getColor();
         mColor = getPrevColor();
         prevColor = temp;
@@ -243,6 +243,7 @@ public class WeekViewEvent extends ParseObject{
         put("prevColor", prevColor);
         enabled = !enabled;
         put("enabled", enabled);
+        this.saveInBackground();
     }
 
     public boolean isEnabled() {
