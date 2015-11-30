@@ -585,7 +585,6 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         // for single events change the color and notify the data set
         } else {
             event.changeColor();
-            event.saveInBackground();
             mWeekView.notifyDatasetChanged();
         }
     }
