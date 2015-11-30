@@ -137,6 +137,8 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         changeTitleFont.setCustomFont((TextView) findViewById(R.id.location),
                 "fonts/Roboto-Light.ttf", getApplicationContext());
 
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.name),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
 
     }
 

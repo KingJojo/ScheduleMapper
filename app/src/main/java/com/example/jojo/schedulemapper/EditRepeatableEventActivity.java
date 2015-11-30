@@ -127,9 +127,6 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
         changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView),
                 "fonts/Roboto-Light.ttf", getApplicationContext());
 
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView2),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
         changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView3),
                 "fonts/Roboto-Light.ttf", getApplicationContext());
 
@@ -137,6 +134,9 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
                 "fonts/Roboto-Light.ttf", getApplicationContext());
 
         changeTitleFont.setCustomFont((TextView) findViewById(R.id.location),
+                "fonts/Roboto-Light.ttf", getApplicationContext());
+
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.name),
                 "fonts/Roboto-Light.ttf", getApplicationContext());
 
         // find checkboxes
