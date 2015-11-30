@@ -49,6 +49,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         setContentView(R.layout.activity_input_event);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
+        // get list of all building locations and find the spinner used to display them
         String[] buildingsList = getResources().getStringArray(R.array.buildingsArray);
         Spinner buildings = (Spinner) findViewById(R.id.buildingLocation);
         adapter = new ArrayAdapter<String>(InputEventActivity.this,
@@ -57,12 +58,17 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         buildings.setAdapter(adapter);
         buildings.setOnItemSelectedListener(this);
+
+        // get the current event if existent
         currEvent = ScheduleActivity.getCurrentEvent();
 
+        // automatically inflate the nonrepeatable layout
         myLayout = (LinearLayout) findViewById(R.id.forRepeating);
         hiddenInfo = getLayoutInflater().inflate(R.layout.activity_input_nonrepeatable
                 , myLayout, false);
         myLayout.addView(hiddenInfo);
+
+        // find the views for nonrepeating events
         dateView = (TextView)findViewById(R.id.textView2);
         startTime = (TextView)findViewById(R.id.textView);
         endTime = (TextView)findViewById(R.id.textView3);
@@ -131,21 +137,18 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id){}
     public void onNothingSelected(AdapterView<?> parent){}
 
+    // called when Add Event button is pressed
     public void submitEvent(View view)
     {
         Intent intent = new Intent();
 
+        // find the data fields on form
         EditText eventText = (EditText) findViewById(R.id.name);
         EditText eventLocation = (EditText) findViewById(R.id.location);
         EditText eventNote = (EditText) findViewById(R.id.note);
         Spinner building = (Spinner) findViewById(R.id.buildingLocation);
 
-        /*
-        How to use the checkboxes:
-        CheckBox sunday = (CheckBox) findViewById(R.id.checkBoxSun);
-        daysOfWeek[0] = (sunday.isChecked());
-        */
-
+        // check for erroneous input
         if(eventText.getText().toString().equals("")) {
             Toast.makeText(getApplicationContext(), "Please enter an event title.", Toast.LENGTH_SHORT).show();
         } else if(eventLocation.getText().toString().equals("")) {
@@ -161,6 +164,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         } else if(repeatable && !isADaySelected()) {
             Toast.makeText(getApplicationContext(), "Please select at least one day.", Toast.LENGTH_SHORT).show();
         } else {
+            // send required information back to ScheduleActivity
             String location = building.getSelectedItem().toString();
             location += " " + eventLocation.getText().toString();
             intent.putExtra("eventTitle", eventText.getText().toString());
@@ -176,6 +180,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
             intent.putExtra("endHour", endHour);
             intent.putExtra("endMinute", endMinute);
 
+            // send which days are repeated if necessary
             if (repeatable) {
                 boolean days[] = new boolean[7];
 
@@ -190,17 +195,20 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
                 intent.putExtra("days", days);
             }
 
+            // warning for adding event before today
             else {
                 if(isBeforeToday()) {
                     Toast.makeText(getApplicationContext(), "Warning: Date selected is before current date.", Toast.LENGTH_SHORT).show();
                 }
             }
 
+            // go back to ScheduleActivity
             setResult(RESULT_OK, intent);
             finish();
         }
     }
 
+    // checks to see if any days are selected
     private boolean isADaySelected() {
         if (((CheckBox)findViewById(R.id.checkBoxSun)).isChecked() ||
             ((CheckBox)findViewById(R.id.checkBoxMon)).isChecked() ||
@@ -217,6 +225,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         }
     }
 
+    // changes the layout depending on whether or not repeatable is chosen
     public void onRadioButtonClicked(View view)
     {
         boolean checked = ((RadioButton) view).isChecked();
@@ -376,6 +385,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         showTimePickerDialog(v);
     }
 
+    // checks to see if event is before today
     private boolean isBeforeToday() {
         Calendar calobj = Calendar.getInstance();
         if( year < calobj.get(Calendar.YEAR) || (year == calobj.get(Calendar.YEAR) && (month < (calobj.get(Calendar.MONTH)+1))) ||
