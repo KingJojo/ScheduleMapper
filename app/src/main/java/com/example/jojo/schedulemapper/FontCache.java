@@ -9,9 +9,10 @@ import java.util.*;
  *
  * Created to reduce memory usage on older devices while using custom fonted buttons
  *
- * @instance variable: Hashtable<String, Typeface> fontCache
+ * @variable: Hashtable<String, Typeface> fontCache
  * @methods: public static Typeface get(String name, Context context);
  */
+
 public class FontCache {
     private static Hashtable<String, Typeface> fontCache = new Hashtable<String, Typeface>();
 

@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+<!-- file created by GUI master thomas gui
+     on 11/30/15
+     for his glorious cse 110 class
+     for his awesome team the purple dinosaurs -->
+
 <resources>
+
+    <!-- standard colors -->
+
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#750048ff</color>
@@ -10,4 +19,45 @@
     <color name="toolbar">#efefef</color>
     <color name="toolbar_text">#8f000000</color>
     <color name="accent">#2789e4</color>
+
+    <!-- colors that may be used for testing different palettes -->
+
+    <color name="colorPrimaryLighter">#6e7bc7</color>
+    <color name="colorPrimaryDarkest">#30309f</color>
+    <color name="colorAccentDark">#750037ff</color>
+    <color name="colorPrimaryLightest">#3f62b5</color>
+
+
+    <!-- experimental red theme -->
+
+    <color name="colorPrimaryExperimental">#9f3037</color>
+    <color name="colorAccentExperimental">#a6d1464f</color>
+    <color name="colorPrimaryLightExperimental">#9f304a</color>
+    <color name="colorPrimaryDarkExperimental">#9c1921</color>
+    <color name="colorAccentDarkExperimental">#a6d1565e</color>
+
+    <!-- experimental yellow theme -->
+
+    <color name="colorPrimaryExperimental2">#fbff00</color>
+    <color name="colorAccentExperimental2">#e7b5b72e</color>
+    <color name="colorPrimaryLightExperimental2">#fff86d</color>
+    <color name="colorPrimaryDarkExperimental2">#818300</color>
+    <color name="colorAccentDarkExperimental2">#e79e9f29</color>
+
+    <!-- experimental green theme -->
+
+    <color name="colorPrimaryExperimental3">#00ae23</color>
+    <color name="colorPrimaryLightExperimental3">#01d42b</color>
+    <color name="colorPrimaryDarkExperimental3">#006e16</color>
+    <color name="colorAccentExperimental3">#129e2e</color>
+    <color name="colorAccentDarkExperimental3">#0e8f28</color>
+
+    <!-- experimental blue theme -->
+
+    <color name="colorPrimaryExperimental4">#00385e</color>
+    <color name="colorPrimaryLightExperimental4">#004b7e</color>
+    <color name="colorPrimaryDarkExperimental4">#002f50</color>
+    <color name="colorAccentExperimental4">#d70b5283</color>
+    <color name="colorAccentDarkExperimental4">#d7093e63</color>
+
 </resources>
