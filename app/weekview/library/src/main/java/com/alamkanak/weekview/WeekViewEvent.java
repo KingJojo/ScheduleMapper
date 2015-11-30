@@ -235,7 +235,7 @@ public class WeekViewEvent extends ParseObject{
         return prevColor;
     }
 
-    public void changeColor() {
+    public synchronized void changeColor() {
         int temp = getColor();
         mColor = getPrevColor();
         prevColor = temp;

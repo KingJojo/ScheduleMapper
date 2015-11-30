@@ -347,8 +347,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 if(k == directionPoint.size()/2) {
                     mMap.addMarker(new MarkerOptions().position(directionPoint.get(k)).visible(true)
                             .icon(BitmapDescriptorFactory.fromBitmap(icnGenerator.makeIcon("ETA: " +
-                                    md.getDurationText(doc)))));
-
+                                    md.getDurationValue(doc) + " min"))));
                 }
                 rectLine.add(directionPoint.get(k));
             }

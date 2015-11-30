@@ -107,8 +107,24 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         changeTitleFont.setCustomFont((TextView) findViewById(R.id.repeatableText),
                 "fonts/Roboto-Light.ttf", getApplicationContext());
 
+        Calendar startTime = ScheduleActivity.getTappedStartTime();
 
+        if(startTime != null) {
+            updateDate(startTime.get(Calendar.YEAR),
+                    // Calendar is 0-11, our month is 1-12
+                    startTime.get(Calendar.MONTH),
+                    startTime.get(Calendar.DAY_OF_MONTH));
 
+            startHour = startTime.get(Calendar.HOUR_OF_DAY);
+            startMinute = 0;
+            endHour = startHour + 1;
+            endMinute = 0;
+
+            start = true;
+            updateStartTime(startHour, startMinute);
+            start = false;
+            updateEndTime(endHour, endMinute);
+        }
 
     }
 
