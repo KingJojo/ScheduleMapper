@@ -52,8 +52,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         // set the building spinner
         String[] buildingsList = getResources().getStringArray(R.array.buildingsArray);
         Spinner buildings = (Spinner) findViewById(R.id.buildingLocation);
-        adapter = new ArrayAdapter<String>(EditEventActivity.this,
-                android.R.layout.simple_spinner_item, buildingsList);
+        adapter = new ArrayAdapter<String>(EditEventActivity.this, android.R.layout.simple_spinner_item, buildingsList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         buildings.setAdapter(adapter);
         buildings.setOnItemSelectedListener(this);
@@ -87,8 +86,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
 
         // assigns the year, month, and day fields
         updateDate(currEvent.getStartTime().get(Calendar.YEAR),
-                // Calendar is 0-11, our month is 1-12
-                currEvent.getStartTime().get(Calendar.MONTH)+1,
+                currEvent.getStartTime().get(Calendar.MONTH)+1, // Calendar is 0-11, our month is 1-12
                 currEvent.getStartTime().get(Calendar.DAY_OF_MONTH));
 
         startHour = currEvent.getStartTime().get(Calendar.HOUR_OF_DAY);
@@ -103,42 +101,20 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         start = false;
         updateEndTime(endHour, endMinute);
 
-
         /* Set fonts correctly */
         CustomFontHelper changeTitleFont = new CustomFontHelper();
 
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.startButton),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.endButton),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.dateButton),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.editEventButton),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.deleteEventButton),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView2),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView3),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.note),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.location),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.name),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.startButton), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.endButton), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.dateButton), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.editEventButton), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.deleteEventButton), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView2), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView3), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.note), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.location), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.name), "fonts/Roboto-Light.ttf", getApplicationContext());
 
     }
 
@@ -233,11 +209,10 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
             }
 
             // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute,
-                    DateFormat.is24HourFormat(getActivity()));
+            return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
         }
 
-        // after picking time, update the textviews
+        // after picking time, update the TextViews
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             updateStartTime(hourOfDay, minute);
             updateEndTime(hourOfDay, minute);
@@ -245,7 +220,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
 
     }
 
-    // changes text in textview and sets internal variables
+    // changes text in TextView and sets internal variables
     public void updateDate( int year, int month, int day ) {
         this.year = year;
         this.month = month;
@@ -296,16 +271,19 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+    // should not be called by itself
     public void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
+    // determines which time to set. sets start time
     public void showStartTimePicker (View v) {
         start = true;
         showTimePickerDialog(v);
     }
 
+    // determines which time to set. sets end time
     public void showEndTimePicker (View v) {
         start = false;
         showTimePickerDialog(v);

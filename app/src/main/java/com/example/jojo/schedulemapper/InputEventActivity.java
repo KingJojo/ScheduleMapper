@@ -52,9 +52,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         // get list of all building locations and find the spinner used to display them
         String[] buildingsList = getResources().getStringArray(R.array.buildingsArray);
         Spinner buildings = (Spinner) findViewById(R.id.buildingLocation);
-        adapter = new ArrayAdapter<String>(InputEventActivity.this,
-                    android.R.layout.simple_spinner_item, buildingsList);
-
+        adapter = new ArrayAdapter<String>(InputEventActivity.this, android.R.layout.simple_spinner_item, buildingsList);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_item);
         buildings.setAdapter(adapter);
         buildings.setOnItemSelectedListener(this);
@@ -64,8 +62,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
 
         // automatically inflate the nonrepeatable layout
         myLayout = (LinearLayout) findViewById(R.id.forRepeating);
-        hiddenInfo = getLayoutInflater().inflate(R.layout.activity_input_nonrepeatable
-                , myLayout, false);
+        hiddenInfo = getLayoutInflater().inflate(R.layout.activity_input_nonrepeatable, myLayout, false);
         myLayout.addView(hiddenInfo);
 
         // find the views for nonrepeating events
@@ -75,53 +72,27 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         repeatable = false;
 
         /* Set fonts correctly */
-
         CustomFontHelper changeTitleFont = new CustomFontHelper();
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.startButton),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
 
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.endButton),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.dateButton),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.submit),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView2),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView3),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.note),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.location),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.repeatableNo),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.repeatableYes),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.repeatableText),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.name),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.startButton), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.endButton), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.dateButton), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.submit), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView2), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView3), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.note), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.location), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.repeatableNo), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.repeatableYes), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.repeatableText), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.name), "fonts/Roboto-Light.ttf", getApplicationContext());
 
         Calendar startTime = ScheduleActivity.getTappedStartTime();
 
         if(startTime != null) {
             updateDate(startTime.get(Calendar.YEAR),
-                    // Calendar is 0-11, our month is 1-12
-                    startTime.get(Calendar.MONTH),
+                    startTime.get(Calendar.MONTH), // Calendar is 0-11, our month is 1-12
                     startTime.get(Calendar.DAY_OF_MONTH));
 
             startHour = startTime.get(Calendar.HOUR_OF_DAY);
@@ -232,6 +203,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
     public void onRadioButtonClicked(View view)
     {
         boolean checked = ((RadioButton) view).isChecked();
+        CustomFontHelper changeTitleFont = new CustomFontHelper();
 
         switch(view.getId())
         {
@@ -241,13 +213,28 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
                         myLayout.removeView(hiddenInfo);
                     }
 
-                    hiddenInfo = getLayoutInflater().inflate(R.layout.activity_input_repeatable
-                            , myLayout, false);
+                    hiddenInfo = getLayoutInflater().inflate(R.layout.activity_input_repeatable, myLayout, false);
                     myLayout.addView(hiddenInfo);
                     dateView = null;
                     startTime = (TextView)findViewById(R.id.textView);
                     endTime = (TextView)findViewById(R.id.textView3);
                     repeatable = true;
+
+                    // set fonts correctly
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.submit), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.startButton), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.endButton), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView3), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView6), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.note), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.checkBoxSun), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.checkBoxMon), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.checkBoxTue), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.checkBoxWed), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.checkBoxThu), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.checkBoxFri), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.checkBoxSat), "fonts/Roboto-Light.ttf", getApplicationContext());
                 }
                 break;
             case R.id.repeatableNo:
@@ -255,13 +242,23 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
                     if(hiddenInfo != null) {
                         myLayout.removeView(hiddenInfo);
                     }
-                    hiddenInfo = getLayoutInflater().inflate(R.layout.activity_input_nonrepeatable
-                            , myLayout, false);
+                    hiddenInfo = getLayoutInflater().inflate(R.layout.activity_input_nonrepeatable, myLayout, false);
                     myLayout.addView(hiddenInfo);
                     dateView = (TextView)findViewById(R.id.textView2);
                     startTime = (TextView)findViewById(R.id.textView);
                     endTime = (TextView)findViewById(R.id.textView3);
                     repeatable = false;
+
+                    // set fonts correctly
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.startButton), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.endButton), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.dateButton), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.submit), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView2), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView3), "fonts/Roboto-Light.ttf", getApplicationContext());
+                    changeTitleFont.setCustomFont((TextView) findViewById(R.id.note), "fonts/Roboto-Light.ttf", getApplicationContext());
+
                 }
                 break;
         }
@@ -320,8 +317,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
             }
 
             // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute,
-                    DateFormat.is24HourFormat(getActivity()));
+            return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -373,16 +369,19 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+    // should not be called by itself
     public void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
+    // determines which time to set. sets start time
     public void showStartTimePicker (View v) {
         start = true;
         showTimePickerDialog(v);
     }
 
+    // determines which time to set. sets end time
     public void showEndTimePicker (View v) {
         start = false;
         showTimePickerDialog(v);

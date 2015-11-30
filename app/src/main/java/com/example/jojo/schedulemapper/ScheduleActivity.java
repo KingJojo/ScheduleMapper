@@ -73,7 +73,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
     // array of colors to use for the events
     private int[] colorArray = {Color.parseColor("#59dbe0"), Color.parseColor("#f57f68"),
-                                        Color.parseColor("#87d288"), Color.parseColor("#f8b552")};
+                                Color.parseColor("#87d288"), Color.parseColor("#f8b552")};
     private int colorIndex = 0;
 
     // used to generate ids for the events so there are no collisions
@@ -219,8 +219,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                     String quarter = data.getStringExtra("quarter");
 
                     WeekViewEventRepeatable newRepeatable = new WeekViewEventRepeatable(title,
-                            buildingLocation, location, note, Math.abs(rand.nextLong()), startHour, startMinute, endHour,
-                            endMinute, days, quarter);
+                            buildingLocation, location, note, Math.abs(rand.nextLong()), startHour,
+                            startMinute, endHour, endMinute, days, quarter);
 
                     newRepeatable.setColor(colorArray[colorIndex]);
                     repeats.add(newRepeatable);
@@ -237,6 +237,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                                 }
                             }
                         }
+
                     }
 
                 }
@@ -247,14 +248,15 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                     int month = data.getIntExtra("month", 0);
                     int day = data.getIntExtra("day", 0);
 
-                    WeekViewEvent newEvent = new WeekViewEvent(Math.abs(rand.nextLong()), title, buildingLocation, location,
-                            note, -1, year, month, day, startHour, startMinute, year, month,
-                            day, endHour, endMinute, true);
+                    WeekViewEvent newEvent = new WeekViewEvent(Math.abs(rand.nextLong()), title,
+                            buildingLocation, location, note, -1, year, month, day, startHour,
+                            startMinute, year, month, day, endHour, endMinute, true);
 
                     // warning message if new event overlaps with existing event
                     for(int i=0; i<events.size(); ++i){
                         if(areEventsOverlapping(newEvent, events.get(i))){
                             Toast.makeText(getApplicationContext(), "Warning: New single event overlaps with existing event.", Toast.LENGTH_SHORT).show();
+                            System.out.println("Overlapping event toast");
                             break;
                         }
                     }
@@ -309,8 +311,8 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
                 // create the new event and add it
                 WeekViewEventRepeatable newRepeatable = new WeekViewEventRepeatable(title,
-                        buildingLocation, location, note, Math.abs(rand.nextLong()), startHour, startMinute, endHour,
-                        endMinute, days, quarter);
+                        buildingLocation, location, note, Math.abs(rand.nextLong()), startHour,
+                        startMinute, endHour, endMinute, days, quarter);
                 newRepeatable.setColor(colorArray[colorIndex]);
                 repeats.add(newRepeatable);
                 newRepeatable.saveInBackground();
@@ -349,7 +351,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
             case R.id.action_add_event:
                 tappedSingle = null;
                 tappedStart = null;
-                startActivityForResult(new Intent( this, InputEventActivity.class ), 1 );
+                startActivityForResult(new Intent( this, InputEventActivity.class ), 1);
                 return true;
 
             // go to the current day
@@ -503,11 +505,12 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                         }
 
                         // add the event with the given enabled state
-                        WeekViewEvent newEvent = new WeekViewEvent(Math.abs(rand.nextLong()), source.getName(), source.getBuildingLocation(),
-                                source.getLocation(), source.getNote(), source.getRepeatableId(), date.get(Calendar.YEAR),
-                                date.get(Calendar.MONTH)+1, date.get(Calendar.DAY_OF_MONTH), source.getStartHour(),
-                                source.getStartMinute(), date.get(Calendar.YEAR), date.get(Calendar.MONTH)+1,
-                                date.get(Calendar.DAY_OF_MONTH), source.getEndHour(), source.getEndMinute(), enabled);
+                        WeekViewEvent newEvent = new WeekViewEvent(Math.abs(rand.nextLong()), source.getName(),
+                                source.getBuildingLocation(), source.getLocation(), source.getNote(),
+                                source.getRepeatableId(), date.get(Calendar.YEAR), date.get(Calendar.MONTH)+1,
+                                date.get(Calendar.DAY_OF_MONTH), source.getStartHour(), source.getStartMinute(),
+                                date.get(Calendar.YEAR), date.get(Calendar.MONTH)+1, date.get(Calendar.DAY_OF_MONTH),
+                                source.getEndHour(), source.getEndMinute(), enabled);
 
                         // add to the event list
                         events.add(newEvent);
@@ -565,7 +568,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 disabled.add(newDisabled);
             } else {
 
-                // otherwise reenable it by deleting from the disabled list
+                // otherwise re-enable it by deleting from the disabled list
                 for(int j = 0; j < disabled.size(); j++) {
                     if(disabledOverlapping(event.getStartTime(), event.getEndTime(), event.getRepeatableId(), disabled.get(j))) {
                         disabled.get(j).deleteInBackground();
@@ -627,7 +630,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         }
     }
 
-    // used to get event from inputeventactivity class
+    // used to get event from InputEventActivity class
     public static WeekViewEvent getCurrentEvent() { return tappedSingle; }
 
     // get the tapped repeatable event
