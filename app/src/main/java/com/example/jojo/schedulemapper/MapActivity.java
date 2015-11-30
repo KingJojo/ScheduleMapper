@@ -1,5 +1,7 @@
 package com.example.jojo.schedulemapper;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.os.StrictMode;
@@ -9,6 +11,7 @@ import android.location.LocationManager;
 import android.location.Location;
 import android.location.Criteria;
 import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
 
 
 import com.alamkanak.weekview.DisabledRepeatable;
@@ -291,70 +294,108 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             }
         });
 
-        //the destination to route to
-        LatLng destination;
 
         // if there are events in the list, grab the first one
         if(events.size() != 0) {
-            WeekViewEvent event = events.get(0);
-            GMapV2Direction md = new GMapV2Direction();
-            Document doc;
 
-            // change destination based on location of event
-            if (event.getBuildingLocation().equals("CSE"))
-                destination = cse;
-            else if (event.getBuildingLocation().equals("Center"))
-                destination = center;
-            else if (event.getBuildingLocation().equals("WLH"))
-                destination = wlh;
-            else if (event.getBuildingLocation().equals("Ledden"))
-                destination = ledden;
-            else if (event.getBuildingLocation().equals("Price"))
-                destination = price;
-            else if (event.getBuildingLocation().equals("York"))
-                destination = york;
-            else if (event.getBuildingLocation().equals("Galbraith"))
-                destination = galbraith;
-            else if (event.getBuildingLocation().equals("Peterson"))
-                destination = peterson;
-            else if (event.getBuildingLocation().equals("Cogs"))
-                destination = cogs;
-            else if (event.getBuildingLocation().equals("Sequoyah"))
-                destination = sequoyah;
-            else if (event.getBuildingLocation().equals("APM"))
-                destination = apm;
-            else
-                destination = solis;
+            WeekViewEvent firstEvent = events.get(0);
 
-            // route to the location
-            doc = md.getDocument(myPosition, destination);
-
-            // add a marker to show the event name and time
-            SimpleDateFormat fr = new SimpleDateFormat("HH:mm", Locale.US);
-            mMap.addMarker(new MarkerOptions().position(destination).visible(true)
-                    .icon(BitmapDescriptorFactory.fromBitmap(icnGenerator.makeIcon(event.getName() +
-                            " at " + fr.format(event.getStartTime().getTime())))));
-
-            // get the routing polyline
-            ArrayList<LatLng> directionPoint = md.getDirection(doc);
-            PolylineOptions rectLine = new PolylineOptions().width(15).color(
-                    Color.RED);
-
-            // loop and add each individual line
-            for (int k = 0; k < directionPoint.size(); k++) {
-
-                // if at the middle of the route, place a marker showing estimated duration
-                if(k == directionPoint.size()/2) {
-                    mMap.addMarker(new MarkerOptions().position(directionPoint.get(k)).visible(true)
-                            .icon(BitmapDescriptorFactory.fromBitmap(icnGenerator.makeIcon("ETA: " +
-                                    md.getDurationValue(doc) + " min"))));
+            int counter = 1;
+            for(int i = 1; i < events.size(); i++) {
+                if(events.get(i).getStartTime().compareTo(firstEvent.getStartTime()) == 0) {
+                    counter++;
                 }
-                rectLine.add(directionPoint.get(k));
             }
 
-            mMap.addPolyline(rectLine);
+            if(counter > 1) {
+
+                String[] items = new String[counter];
+                for(int i = 0; i < counter; i++) {
+                    items[i] = events.get(i).getName() + " at " + events.get(i).getLocation();
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Choose an event");
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        routeToEvent(events.get(item));
+                    }
+                });
+                AlertDialog alert = builder.create();
+                alert.show();
+            } else {
+                routeToEvent(firstEvent);
+            }
+
+
+        } else {
+            Toast.makeText(getApplicationContext(), "No more events left today!", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    public void routeToEvent(WeekViewEvent event) {
+
+        //the destination to route to
+        LatLng destination;
+
+        GMapV2Direction md = new GMapV2Direction();
+        Document doc;
+
+        // change destination based on location of event
+        if (event.getBuildingLocation().equals("CSE"))
+            destination = cse;
+        else if (event.getBuildingLocation().equals("Center"))
+            destination = center;
+        else if (event.getBuildingLocation().equals("WLH"))
+            destination = wlh;
+        else if (event.getBuildingLocation().equals("Ledden"))
+            destination = ledden;
+        else if (event.getBuildingLocation().equals("Price"))
+            destination = price;
+        else if (event.getBuildingLocation().equals("York"))
+            destination = york;
+        else if (event.getBuildingLocation().equals("Galbraith"))
+            destination = galbraith;
+        else if (event.getBuildingLocation().equals("Peterson"))
+            destination = peterson;
+        else if (event.getBuildingLocation().equals("Cogs"))
+            destination = cogs;
+        else if (event.getBuildingLocation().equals("Sequoyah"))
+            destination = sequoyah;
+        else if (event.getBuildingLocation().equals("APM"))
+            destination = apm;
+        else
+            destination = solis;
+
+        // route to the location
+        doc = md.getDocument(myPosition, destination);
+
+        // add a marker to show the event name and time
+        SimpleDateFormat fr = new SimpleDateFormat("HH:mm", Locale.US);
+        mMap.addMarker(new MarkerOptions().position(destination).visible(true)
+                .icon(BitmapDescriptorFactory.fromBitmap(icnGenerator.makeIcon(event.getName() +
+                        " at " + fr.format(event.getStartTime().getTime())))));
+
+        // get the routing polyline
+        ArrayList<LatLng> directionPoint = md.getDirection(doc);
+        PolylineOptions rectLine = new PolylineOptions().width(15).color(
+                Color.RED);
+
+        float duration = md.getDurationValue(doc)/60;
+
+        // loop and add each individual line
+        for (int k = 0; k < directionPoint.size(); k++) {
+
+            // if at the middle of the route, place a marker showing estimated duration
+            if (k == directionPoint.size() / 2) {
+                mMap.addMarker(new MarkerOptions().position(directionPoint.get(k)).visible(true)
+                        .icon(BitmapDescriptorFactory.fromBitmap(icnGenerator.makeIcon("ETA: " +
+                                String.format("%.2f", duration) + " min"))));
+            }
+            rectLine.add(directionPoint.get(k));
+        }
+
+        mMap.addPolyline(rectLine);
     }
 
     // checks whether the disabled event matches with the given time and id
