@@ -228,13 +228,14 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                     populateRepeatable();
 
                     // checks if new repeatable overlaps with events
+                    outerloop:
                     for(int i=0; i<events.size(); ++i) {
                         if(events.get(i).getRepeatableId() == newRepeatable.getRepeatableId()){
                             for(int j=0; j<events.size(); ++j) {
                                 if(!events.get(i).equals(events.get(j)) && areEventsOverlapping(events.get(i), events.get(j))) {
                                     Toast.makeText(getApplicationContext(), "Warning: New repeatable event " +
                                             "overlaps with existing event.", Toast.LENGTH_SHORT).show();
-                                    return;
+                                    break outerloop;
                                 }
                             }
                         }
