@@ -107,7 +107,7 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
         friday = currEvent.getDay(5);
         saturday = currEvent.getDay(6);
 
-        /* Set fonts correctly */
+        // set fonts correctly
         CustomFontHelper changeTitleFont = new CustomFontHelper();
 
         changeTitleFont.setCustomFont((TextView) findViewById(R.id.startButton), "fonts/Roboto-Light.ttf", getApplicationContext());
@@ -221,8 +221,7 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
             }
 
             // Create a new instance of TimePickerDialog and return it
-            return new TimePickerDialog(getActivity(), this, hour, minute,
-                    DateFormat.is24HourFormat(getActivity()));
+            return new TimePickerDialog(getActivity(), this, hour, minute, DateFormat.is24HourFormat(getActivity()));
         }
 
         // after time is set by user, update text fields

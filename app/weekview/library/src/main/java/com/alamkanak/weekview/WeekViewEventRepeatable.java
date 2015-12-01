@@ -18,11 +18,8 @@ public class WeekViewEventRepeatable extends ParseObject{
     private int mColor;
     private String mBuildingLocation;
     private int prevColor;
-    //private String mQuarter;
     private boolean sunday, monday, tuesday, wednesday, thursday, friday, saturday;
-
     private long mRepeatableId = -1;
-    boolean enabled = true;
 
     // not used, included for Parse
     public WeekViewEventRepeatable() {
@@ -31,7 +28,7 @@ public class WeekViewEventRepeatable extends ParseObject{
 
     public WeekViewEventRepeatable(String name, String buildingLocation, String location, String note,
                                    long repeatableId, int startHour, int startMinute, int endHour, int endMinute,
-                                   boolean days[], String quarter) {
+                                   boolean days[]) {
 
         prevColor = Color.parseColor("#e6e6e6");
         put("prevColor", prevColor);
@@ -71,8 +68,6 @@ public class WeekViewEventRepeatable extends ParseObject{
         put("friday", friday);
         put("saturday", saturday);
 
-        //mQuarter = quarter;
-        //put("quarter", mQuarter);
     }
 
     public String getName() {

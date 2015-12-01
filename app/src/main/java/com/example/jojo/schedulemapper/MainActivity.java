@@ -1,22 +1,14 @@
 package com.example.jojo.schedulemapper;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.content.Context;
 import android.widget.TextView;
-
-import static android.app.PendingIntent.getActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,22 +40,16 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(new Intent(MainActivity.this, ScheduleActivity.class));
             }
         };
+
         // set listener for schedule button
         Button scheduleBtn = (Button) findViewById(R.id.scheduleButton);
         scheduleBtn.setOnClickListener(scheduleListener);
 
-
         /* Set fonts correctly */
         CustomFontHelper changeTitleFont = new CustomFontHelper();
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView4),
-                "fonts/Roboto-Thin.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.mapButton),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
-        changeTitleFont.setCustomFont((TextView) findViewById(R.id.scheduleButton),
-                "fonts/Roboto-Light.ttf", getApplicationContext());
-
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.textView4), "fonts/Roboto-Thin.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.mapButton), "fonts/Roboto-Light.ttf", getApplicationContext());
+        changeTitleFont.setCustomFont((TextView) findViewById(R.id.scheduleButton), "fonts/Roboto-Light.ttf", getApplicationContext());
 
     }
 
@@ -88,4 +74,5 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }

@@ -328,8 +328,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 routeToEvent(firstEvent);
             }
 
+        }
 
-        } else {
+        else {
             Toast.makeText(getApplicationContext(), "No more events left today!", Toast.LENGTH_SHORT).show();
         }
 
@@ -380,8 +381,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         // get the routing polyline
         ArrayList<LatLng> directionPoint = md.getDirection(doc);
-        PolylineOptions rectLine = new PolylineOptions().width(15).color(
-                Color.RED);
+        PolylineOptions rectLine = new PolylineOptions().width(15).color(Color.RED);
 
         float duration = (float) md.getDurationValue(doc)/60f;
 

@@ -3,13 +3,11 @@ package com.example.jojo.schedulemapper;
 import android.graphics.RectF;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.text.format.DateFormat;
 import android.util.TypedValue;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.graphics.Color;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.alamkanak.weekview.DateTimeInterpreter;
@@ -17,7 +15,6 @@ import com.alamkanak.weekview.DisabledRepeatable;
 import com.alamkanak.weekview.WeekView;
 import com.alamkanak.weekview.WeekViewEvent;
 import com.alamkanak.weekview.WeekViewEventRepeatable;
-import com.parse.GetCallback;
 import com.parse.ParseQuery;
 import com.parse.ParseException;
 import com.parse.FindCallback;
@@ -147,23 +144,17 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
             }
         });
 
-        // Get a reference for the week view in the layout.
+        // get a reference for the week view in the layout
         mWeekView = (WeekView) findViewById(R.id.weekView);
-
-        // Show a toast message about the touched event.
+        // show a toast message about the touched event
         mWeekView.setOnEventClickListener(this);
-
-        // The week view has infinite scrolling horizontally. We have to provide the events of a
-        // month every time the month changes on the week view.
+        // lets WeekView know when month changes
         mWeekView.setMonthChangeListener(this);
-
-        // Set long press listener for events.
+        // set long press listener for events
         mWeekView.setEventLongPressListener(this);
-
         // set listener for the empty schedule
         mWeekView.setEmptyViewLongPressListener(this);
-
-        // Lets change some dimensions to best fit the view.
+        // tells WeekView to regenerate calendar with current data
         mWeekView.notifyDatasetChanged();
     }
 
@@ -216,11 +207,10 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 // create a WeekViewEventRepeatable if repeat set
                 if( repeatable ) {
                     boolean days[] = data.getBooleanArrayExtra("days");
-                    String quarter = data.getStringExtra("quarter");
 
                     WeekViewEventRepeatable newRepeatable = new WeekViewEventRepeatable(title,
                             buildingLocation, location, note, Math.abs(rand.nextLong()), startHour,
-                            startMinute, endHour, endMinute, days, quarter);
+                            startMinute, endHour, endMinute, days);
 
                     newRepeatable.setColor(colorArray[colorIndex]);
                     repeats.add(newRepeatable);
@@ -308,12 +298,11 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                 int endMinute = data.getIntExtra("endMinute", 0);
 
                 boolean days[] = data.getBooleanArrayExtra("days");
-                String quarter = data.getStringExtra("quarter");
 
                 // create the new event and add it
                 WeekViewEventRepeatable newRepeatable = new WeekViewEventRepeatable(title,
                         buildingLocation, location, note, Math.abs(rand.nextLong()), startHour,
-                        startMinute, endHour, endMinute, days, quarter);
+                        startMinute, endHour, endMinute, days);
                 newRepeatable.setColor(colorArray[colorIndex]);
                 repeats.add(newRepeatable);
                 newRepeatable.saveInBackground();
@@ -456,10 +445,10 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
     @Override
     public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) { return events; }
 
-    // fill the schedule with temporary events generated from the repeat list
+    // fills schedule with events generated from the repeats list that are cleared upon next populate
     private void populateRepeatable(){
 
-        // remove all repeatable events for now
+        // remove all existing repeatable generated events
         for (int i = events.size() - 1; i >= 0; --i) {
             if (events.get(i).isRepeatable())
                 events.remove(i);
@@ -534,6 +523,7 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         long end1 = event1.getEndTime().getTimeInMillis();
         long start2 = event2.getStartTime().getTimeInMillis();
         long end2 = event2.getEndTime().getTimeInMillis();
+
         return !((start1 >= end2) || (end1 <= start2));
     }
 

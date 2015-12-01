@@ -71,7 +71,7 @@ public class InputEventActivity extends AppCompatActivity implements OnItemSelec
         endTime = (TextView)findViewById(R.id.textView3);
         repeatable = false;
 
-        /* Set fonts correctly */
+        // set fonts correctly
         CustomFontHelper changeTitleFont = new CustomFontHelper();
 
         changeTitleFont.setCustomFont((TextView) findViewById(R.id.startButton), "fonts/Roboto-Light.ttf", getApplicationContext());

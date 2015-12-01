@@ -101,7 +101,7 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         start = false;
         updateEndTime(endHour, endMinute);
 
-        /* Set fonts correctly */
+        // set fonts correctly
         CustomFontHelper changeTitleFont = new CustomFontHelper();
 
         changeTitleFont.setCustomFont((TextView) findViewById(R.id.startButton), "fonts/Roboto-Light.ttf", getApplicationContext());

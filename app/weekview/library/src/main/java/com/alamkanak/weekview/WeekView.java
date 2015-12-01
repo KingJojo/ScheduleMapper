@@ -1,6 +1,5 @@
 package com.alamkanak.weekview;
 
-
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -17,7 +16,6 @@ import android.text.SpannableStringBuilder;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
 import android.text.style.StyleSpan;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -192,7 +190,6 @@ public class WeekView extends View {
             ViewCompat.postInvalidateOnAnimation(WeekView.this);
             return true;
         }
-
 
         @Override
         public boolean onSingleTapConfirmed(MotionEvent e) {
@@ -384,7 +381,6 @@ public class WeekView extends View {
         mEventTextPaint.setStyle(Paint.Style.FILL);
         mEventTextPaint.setColor(mEventTextColor);
         mEventTextPaint.setTextSize(mEventTextSize);
-
 
         // Set default event color.
         mDefaultEventColor = Color.parseColor("#9fc6e7");
@@ -868,7 +864,6 @@ public class WeekView extends View {
                 if(nextPeriodEvents == null)
                     nextPeriodEvents = mWeekViewLoader.onLoad(periodToFetch+1);
 
-
                 //clear events
                 mEventRects.clear();
                 sortAndCacheEvents(previousPeriodEvents);
@@ -1054,13 +1049,13 @@ public class WeekView extends View {
             }
         }
 
-
         // Calculate left and right position for all the events.
         // Get the maxRowCount by looking in all columns.
         int maxRowCount = 0;
         for (List<EventRect> column : columns){
             maxRowCount = Math.max(maxRowCount, column.size());
         }
+
         for (int i = 0; i < maxRowCount; i++) {
             // Set the left and right values of the event.
             float j = 0;
@@ -1076,6 +1071,7 @@ public class WeekView extends View {
                 j++;
             }
         }
+
     }
 
 
@@ -1225,7 +1221,6 @@ public class WeekView extends View {
         // refresh time column width
         initTextTimeWidth();
     }
-
 
     /**
      * Get the number of visible days in a week.

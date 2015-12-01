@@ -1,6 +1,5 @@
 package com.alamkanak.weekview;
 
-import android.graphics.Color;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
@@ -9,6 +8,9 @@ import java.util.Date;
 
 /**
  * Created by Nathan on 11/15/15.
+ *
+ * DisabledRepeatable is used to keep track of which of the generated repeatable events stored have
+ * been disabled. This allows single disabled events of a repeatable to be stored in Parse.
  */
 
 @ParseClassName("DisabledRepeatable")
