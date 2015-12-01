@@ -234,10 +234,10 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                                 if(!events.get(i).equals(events.get(j)) && areEventsOverlapping(events.get(i), events.get(j))) {
                                     Toast.makeText(getApplicationContext(), "Warning: New repeatable event " +
                                             "overlaps with existing event.", Toast.LENGTH_SHORT).show();
+                                    return;
                                 }
                             }
                         }
-
                     }
 
                 }
