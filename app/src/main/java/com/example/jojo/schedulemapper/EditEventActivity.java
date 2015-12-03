@@ -115,7 +115,6 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
         changeTitleFont.setCustomFont((TextView) findViewById(R.id.note), "fonts/Roboto-Light.ttf", getApplicationContext());
         changeTitleFont.setCustomFont((TextView) findViewById(R.id.location), "fonts/Roboto-Light.ttf", getApplicationContext());
         changeTitleFont.setCustomFont((TextView) findViewById(R.id.name), "fonts/Roboto-Light.ttf", getApplicationContext());
-
     }
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id){}
@@ -217,7 +216,6 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
             updateStartTime(hourOfDay, minute);
             updateEndTime(hourOfDay, minute);
         }
-
     }
 
     // changes text in TextView and sets internal variables

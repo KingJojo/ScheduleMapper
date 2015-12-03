@@ -16,7 +16,6 @@ import java.util.*;
 public class FontCache {
     private static Hashtable<String, Typeface> fontCache = new Hashtable<String, Typeface>();
 
-
     /**
      * Puts typeface into fontCache if not already in the fontCache
      * @param name

@@ -69,6 +69,7 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
                 break;
             }
         }
+
         buildings.setSelection(index);
 
         // set the TextViews
@@ -135,7 +136,6 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
         ((CheckBox)findViewById(R.id.checkBoxThu)).setChecked(thursday);
         ((CheckBox)findViewById(R.id.checkBoxFri)).setChecked(friday);
         ((CheckBox)findViewById(R.id.checkBoxSat)).setChecked(saturday);
-
     }
 
     public void onItemSelected(AdapterView<?> parent, View v, int position, long id){}
@@ -229,7 +229,6 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
             updateStartTime(hourOfDay, minute);
             updateEndTime(hourOfDay, minute);
         }
-
     }
 
     // update the start time text and corresponding variables
@@ -270,7 +269,6 @@ public class EditRepeatableEventActivity extends AppCompatActivity implements Ad
             else
                 endTime.setText(endHour + ":" + endMinute);
         }
-
     }
 
     // should not be called by itself

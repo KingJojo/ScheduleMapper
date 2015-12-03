@@ -70,7 +70,7 @@ public class GMapV2Direction {
             return -1;
         }
     }
-    
+
     // get the Arraylist of points for the route
     public ArrayList<LatLng> getDirection(Document doc) {
         NodeList nl1, nl2, nl3;
