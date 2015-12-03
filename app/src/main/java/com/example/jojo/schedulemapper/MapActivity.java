@@ -50,19 +50,35 @@ import java.util.Random;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    // list of hardcoded places to route to
-    private LatLng cse = new LatLng(32.881718, -117.233321);
-    private LatLng wlh = new LatLng(32.880945, -117.234413);
-    private LatLng center = new LatLng(32.878069, -117.237387);
-    private LatLng ledden = new LatLng(32.878860, -117.241808);
-    private LatLng price = new LatLng(32.879766, -117.236943);
-    private LatLng york = new LatLng(32.874500, -117.240342);
-    private LatLng galbraith = new LatLng(32.874144, -117.240927);
-    private LatLng peterson = new LatLng(32.879931, -117.239885);
-    private LatLng cogs = new LatLng(32.880345, -117.239032);
-    private LatLng sequoyah = new LatLng(32.882142, -117.240613);
-    private LatLng apm = new LatLng(32.879013, -117.241084);
-    private LatLng solis = new LatLng(32.880832, -117.239640);
+    private String[] locations = {
+            "CSE",
+            "Center",
+            "WLH",
+            "Ledden",
+            "Price",
+            "York",
+            "Galbraith",
+            "Peterson",
+            "Cogs",
+            "Sequoyah",
+            "APM",
+            "Solis"
+    };
+
+    private LatLng[] destArray = {
+            new LatLng(32.881718, -117.233321),
+            new LatLng(32.880945, -117.234413),
+            new LatLng(32.878069, -117.237387),
+            new LatLng(32.878860, -117.241808),
+            new LatLng(32.879766, -117.236943),
+            new LatLng(32.874500, -117.240342),
+            new LatLng(32.874144, -117.240927),
+            new LatLng(32.879931, -117.239885),
+            new LatLng(32.880345, -117.239032),
+            new LatLng(32.882142, -117.240613),
+            new LatLng(32.879013, -117.241084),
+            new LatLng(32.880832, -117.239640)
+    };
 
     // the Map
     private GoogleMap mMap;
@@ -168,7 +184,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myPosition, 15));
             }
-
         }
     }
 
@@ -339,36 +354,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     public void routeToEvent(WeekViewEvent event) {
 
         //the destination to route to
-        LatLng destination;
-
+        LatLng destination = null;
         GMapV2Direction md = new GMapV2Direction();
         Document doc;
 
-        // change destination based on location of event
-        if (event.getBuildingLocation().equals("CSE"))
-            destination = cse;
-        else if (event.getBuildingLocation().equals("Center"))
-            destination = center;
-        else if (event.getBuildingLocation().equals("WLH"))
-            destination = wlh;
-        else if (event.getBuildingLocation().equals("Ledden"))
-            destination = ledden;
-        else if (event.getBuildingLocation().equals("Price"))
-            destination = price;
-        else if (event.getBuildingLocation().equals("York"))
-            destination = york;
-        else if (event.getBuildingLocation().equals("Galbraith"))
-            destination = galbraith;
-        else if (event.getBuildingLocation().equals("Peterson"))
-            destination = peterson;
-        else if (event.getBuildingLocation().equals("Cogs"))
-            destination = cogs;
-        else if (event.getBuildingLocation().equals("Sequoyah"))
-            destination = sequoyah;
-        else if (event.getBuildingLocation().equals("APM"))
-            destination = apm;
-        else
-            destination = solis;
+        for(int i = 0; i < locations.length; i++) {
+            if(event.getBuildingLocation().equals(locations[i])) {
+                destination = destArray[i];
+                break;
+            }
+        }
 
         // route to the location
         doc = md.getDocument(myPosition, destination);

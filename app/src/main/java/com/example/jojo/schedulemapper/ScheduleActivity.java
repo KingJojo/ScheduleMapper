@@ -230,7 +230,6 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
                             }
                         }
                     }
-
                 }
 
                 // create a WeekViewEvent
