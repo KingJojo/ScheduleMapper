@@ -57,21 +57,6 @@ public class GMapV2Direction {
         return null;
     }
 
-    // parse the document for the duration
-    public String getDurationText(Document doc) {
-        try {
-
-            NodeList nl1 = doc.getElementsByTagName("duration");
-            Node node1 = nl1.item(0);
-            NodeList nl2 = node1.getChildNodes();
-            Node node2 = nl2.item(getNodeIndex(nl2, "text"));
-            Log.i("DurationText", node2.getTextContent());
-            return node2.getTextContent();
-        } catch (Exception e) {
-            return "0";
-        }
-    }
-
     // parse for the duration value
     public int getDurationValue(Document doc) {
         try {
@@ -85,78 +70,7 @@ public class GMapV2Direction {
             return -1;
         }
     }
-
-    // parse for the distance text
-    public String getDistanceText(Document doc) {
-
-        try {
-            NodeList nl1;
-            nl1 = doc.getElementsByTagName("distance");
-
-            Node node1 = nl1.item(nl1.getLength() - 1);
-            NodeList nl2 = null;
-            nl2 = node1.getChildNodes();
-            Node node2 = nl2.item(getNodeIndex(nl2, "value"));
-            Log.d("DistanceText", node2.getTextContent());
-            return node2.getTextContent();
-        } catch (Exception e) {
-            return "-1";
-        }
-    }
-
-    // parse for the distance value
-    public int getDistanceValue(Document doc) {
-        try {
-            NodeList nl1 = doc.getElementsByTagName("distance");
-            Node node1 = null;
-            node1 = nl1.item(nl1.getLength() - 1);
-            NodeList nl2 = node1.getChildNodes();
-            Node node2 = nl2.item(getNodeIndex(nl2, "value"));
-            Log.i("DistanceValue", node2.getTextContent());
-            return Integer.parseInt(node2.getTextContent());
-        } catch (Exception e) {
-            return -1;
-        }
-    }
-
-    // parse for the start address of the direction
-    public String getStartAddress(Document doc) {
-        try {
-            NodeList nl1 = doc.getElementsByTagName("start_address");
-            Node node1 = nl1.item(0);
-            Log.i("StartAddress", node1.getTextContent());
-            return node1.getTextContent();
-        } catch (Exception e) {
-            return "-1";
-        }
-
-    }
-
-    // parse for the end address of the direction
-    public String getEndAddress(Document doc) {
-        try {
-            NodeList nl1 = doc.getElementsByTagName("end_address");
-            Node node1 = nl1.item(0);
-            Log.i("StartAddress", node1.getTextContent());
-            return node1.getTextContent();
-        } catch (Exception e) {
-            return "-1";
-        }
-    }
-
-    // parse for the copy rights
-    public String getCopyRights(Document doc) {
-        try {
-            NodeList nl1 = doc.getElementsByTagName("copyrights");
-            Node node1 = nl1.item(0);
-            Log.i("CopyRights", node1.getTextContent());
-            return node1.getTextContent();
-        } catch (Exception e) {
-            return "-1";
-        }
-
-    }
-
+    
     // get the Arraylist of points for the route
     public ArrayList<LatLng> getDirection(Document doc) {
         NodeList nl1, nl2, nl3;
