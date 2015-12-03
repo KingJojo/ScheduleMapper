@@ -110,18 +110,15 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         ParseQuery<ParseObject> query2 = new ParseQuery<ParseObject>("WeekViewEventRepeatable");
         query2.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> eventList, ParseException e) {
-                if (e == null) {
-                    // add the repeat events to the repeat list
-                    for (int i = 0; i < eventList.size(); i++) {
-                        repeats.add((WeekViewEventRepeatable) eventList.get(i));
-                    }
 
-                    // fill with extra events and update the data set
-                    populateRepeatable();
-                    mWeekView.notifyDatasetChanged();
-                } else {
-                    // handle Parse Exception here
+                // add the repeat events to the repeat list
+                for (int i = 0; i < eventList.size(); i++) {
+                    repeats.add((WeekViewEventRepeatable) eventList.get(i));
                 }
+
+                // fill with extra events and update the data set
+                populateRepeatable();
+                mWeekView.notifyDatasetChanged();
             }
         });
 
@@ -130,30 +127,31 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
         ParseQuery<ParseObject> query3 = new ParseQuery<ParseObject>("DisabledRepeatable");
         query3.findInBackground(new FindCallback<ParseObject>() {
             public void done(List<ParseObject> eventList, ParseException e) {
-                if (e == null) {
 
-                    // fill the list and add the new events
-                    for (int i = 0; i < eventList.size(); i++) {
-                        disabled.add((DisabledRepeatable) eventList.get(i));
-                    }
-                    populateRepeatable();
-                    mWeekView.notifyDatasetChanged();
-                } else {
-                    // handle Parse Exception here
+                // fill the list and add the new events
+                for (int i = 0; i < eventList.size(); i++) {
+                    disabled.add((DisabledRepeatable) eventList.get(i));
                 }
+                populateRepeatable();
+                mWeekView.notifyDatasetChanged();
             }
         });
 
         // get a reference for the week view in the layout
         mWeekView = (WeekView) findViewById(R.id.weekView);
+
         // show a toast message about the touched event
         mWeekView.setOnEventClickListener(this);
+
         // lets WeekView know when month changes
         mWeekView.setMonthChangeListener(this);
+
         // set long press listener for events
         mWeekView.setEventLongPressListener(this);
+
         // set listener for the empty schedule
         mWeekView.setEmptyViewLongPressListener(this);
+
         // tells WeekView to regenerate calendar with current data
         mWeekView.notifyDatasetChanged();
     }
@@ -309,7 +307,6 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
 
                 mWeekView.notifyDatasetChanged();
                 colorIndex = (colorIndex + 1) % 4;
-
             }
         }
     }
