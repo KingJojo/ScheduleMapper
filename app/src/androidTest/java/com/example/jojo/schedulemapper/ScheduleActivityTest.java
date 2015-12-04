@@ -34,7 +34,7 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
     }
 
     public ScheduleActivityTest() throws ClassNotFoundException {
-        super(ScheduleActivity.class);
+        super(MainActivity.class);
     }
 
     public void testRun() {
@@ -48,6 +48,8 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
         /*
          * Given an empty schedule
          */
+
+        solo.clickOnView(solo.getView(R.id.scheduleButton));
 
         /*
          * When a student adds his lectures and discussions using the prompt
@@ -116,6 +118,31 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
         assertEquals("Don't be late!", note);
 
         solo.goBack();
+        solo.waitForActivity(ScheduleActivity.class);
+
+        solo.clickOnView(solo.getView(R.id.weekView));
+        solo.drag(1049.0f, 188.6f, 988.1f, 988.2f, 10);
+        solo.clickLongOnScreen(630.5f, 987.1f, 2000);
+        solo.waitForActivity(ViewEventActivity.class);
+
+        String name1 = solo.getText(0).getText().toString();
+        String location1 = solo.getText(1).getText().toString();
+        String date1 = solo.getText(3).getText().toString();
+        String start1 = solo.getText(5).getText().toString();
+        String end1 = solo.getText(7).getText().toString();
+        String note1 = solo.getText(8).getText().toString();
+
+        assertEquals("Math180A Discussion", name1);
+        assertEquals("APM B412", location1);
+        assertEquals("12/2/2015", date1);
+        assertEquals("7:00", start1);
+        assertEquals("8:00", end1);
+        assertEquals("Remember HW", note1);
+
+        solo.goBack();
+        solo.waitForActivity(ScheduleActivity.class);
+        solo.goBack();
+        solo.waitForActivity(MainActivity.class);
 
         solo.clickOnView(solo.getView(R.id.mapButton));
         solo.waitForActivity(MapActivity.class);
