@@ -30,5 +30,6 @@ dependencies {
     compile 'com.parse.bolts:bolts-android:1.+'
     compile 'com.parse:parse-android:1.+'
     compile 'com.larswerkman:HoloColorPicker:1.5'
+    androidTestCompile 'com.jayway.android.robotium:robotium-solo:5.5.3'
     compile project(':weekview:library')
 }
