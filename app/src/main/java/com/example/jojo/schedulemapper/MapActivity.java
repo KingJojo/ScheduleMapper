@@ -374,6 +374,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         // add a marker to show the event name and time
         SimpleDateFormat fr = new SimpleDateFormat("HH:mm", Locale.US);
 
+
         nextClass = mMap.addMarker(new MarkerOptions().position(destination).visible(false).title(event.getName())
                 .icon(BitmapDescriptorFactory.fromBitmap(icnGenerator.makeIcon(event.getName() +
                         " at " + fr.format(event.getStartTime().getTime())))));
@@ -430,7 +431,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     }
 
-    public Marker getNextClassMarker(){
+
+    public Marker getNextClassMarker() {
         return nextClass;
     }
 }

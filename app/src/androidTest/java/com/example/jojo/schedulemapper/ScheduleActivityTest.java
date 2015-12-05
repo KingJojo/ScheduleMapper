@@ -2,24 +2,12 @@ package com.example.jojo.schedulemapper;
 
 
 import android.app.Activity;
-import android.graphics.PointF;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
-import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.model.Marker;
 import com.robotium.solo.Solo;
 
-import junit.framework.TestCase;
-
-import java.util.ArrayList;
 
 
 /**
@@ -122,7 +110,7 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
         assertEquals("CSE100 Lecture", name);
         assertEquals("Center 113", location);
         assertEquals("11/30/2015", date);
-        assertEquals( "5:00", start);
+        assertEquals("5:00", start);
         assertEquals("6:20", end);
         assertEquals("Don't be late!", note);
 
@@ -151,11 +139,49 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
 
         solo.goBack();
         solo.waitForActivity(ScheduleActivity.class);
-        solo.goBack();
-        solo.waitForActivity(MainActivity.class);
 
-        solo.clickOnView(solo.getView(R.id.mapButton));
-        solo.waitForActivity(MapActivity.class);
+        // add CSE100Final
+        solo.clickOnView(solo.getView(R.id.action_add_event));
+        solo.waitForActivity(InputEventActivity.class);
+        solo.clickOnView(solo.getView(R.id.repeatableNo));
+        solo.enterText(0, "CSE100 Final");
+        solo.clickOnView(solo.getView(R.id.buildingLocation));
+        solo.scrollToTop();
+        solo.clickOnView(solo.getView(TextView.class, 5));
+        solo.enterText(1, "2622");
+        solo.enterText(2, "Get here early!");
+        solo.clickOnView(solo.getView(R.id.dateButton));
+        solo.setDatePicker(0, 2015, 11, 4);
+        solo.clickOnButton("OK");
+        solo.clickOnView(solo.getView(R.id.startButton));
+        solo.setTimePicker(0, 19, 0);
+        solo.clickOnButton("OK");
+        solo.clickOnView(solo.getView(R.id.endButton));
+        solo.setTimePicker(0, 21, 0);
+        solo.clickOnButton("OK");
+        solo.clickOnView(solo.getView(R.id.submit));
+        solo.waitForActivity(ScheduleActivity.class);
+
+        solo.drag(1049.0f, 188.6f, 988.1f, 988.2f, 10);
+        solo.clickOnScreen(546.2f, 665.0f);
+        solo.sleep(500);
+        solo.clickLongOnScreen(711.5f, 686.4f, 2000);
+        solo.waitForActivity(ViewEventActivity.class);
+
+        String name2 = solo.getText(0).getText().toString();
+        String location2 = solo.getText(1).getText().toString();
+        String date2 = solo.getText(3).getText().toString();
+        String start2 = solo.getText(5).getText().toString();
+        String end2 = solo.getText(7).getText().toString();
+        String note2 = solo.getText(8).getText().toString();
+
+        assertEquals("CSE100 Final", name2);
+        assertEquals("York 2622", location2);
+        assertEquals("12/4/2015", date2);
+        assertEquals("7:00", start2);
+        assertEquals("9:00", end2);
+        assertEquals("Get here early!", note2);
+
 
         /*
          * Scenario 2:
@@ -164,13 +190,32 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
          * the location of the next class, and the route to that next class.
          */
 
-        /* check map */
+        // Given an schedule with a classes added by the user; done above
+        solo.goBack();
+        solo.waitForActivity(ScheduleActivity.class);
+        solo.goBack();
+        solo.waitForActivity(MainActivity.class);
+
+        // When the user goes to the map
+        solo.clickOnView(solo.getView(R.id.mapButton));
+        solo.waitForActivity(MapActivity.class);
+        solo.sleep(3000);
+
+        /* ... then they should see the map with their location, the location of the next class,
+         * and the route to that next class. Due to the changing location of the user.
+         *
+         * NOTE: it's very hard to test for correctness of the location of the user and
+         * ETA to the next class, so we only check for the correct class marker in this case
+         *
+         * Change the marker name to check for accordingly depending on the time the test is run.
+         */
         Activity current = solo.getCurrentActivity();
 
-        Marker nextClass = ((MapActivity)current).getNextClassMarker();
+        Marker nextClass = ((MapActivity) current).getNextClassMarker();
         String nextClassTitle = nextClass.getTitle();
 
-        assertEquals("CSE100 Lecture", nextClassTitle);
+        assertEquals("CSE100 Final at 17:00", nextClassTitle);
+
 
         /*
          * Scenario 3:
@@ -179,15 +224,15 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
          * should appear in the new time slot with the new information.
          */
 
-        /* change to edit mode*/
+        // Given an schedule with a class added by the user; done above
         solo.clickOnView(solo.getView(R.id.edit_menu));
         solo.clickOnScreen(137.0f, 156.0f);
 
-        /* click on event */
+
         solo.clickOnView(solo.getView(R.id.weekView));
         solo.clickLongOnScreen(578.0f, 713.0f, 2000);
 
-        /* edit the event */
+        // when the user changes to edit mode and edits the time and fields of the event
         solo.enterText(0, "a");
         solo.enterText(1, "j");
         solo.enterText(2, "Remember:");
@@ -200,11 +245,11 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnView(solo.getView(R.id.editEventButton));
         solo.waitForActivity(ScheduleActivity.class);
 
-        /* change back to view mode*/
+
         solo.clickOnView(solo.getView(R.id.edit_menu));
         solo.clickOnScreen(154.0f, 302.0f);
 
-        /* click on event NEEDS TO BE EDITED*/
+
         solo.clickOnView(solo.getView(R.id.weekView));
         solo.clickLongOnScreen(595.0f, 485.0f, 2000);
         solo.waitForActivity(EditEventActivity.class);
@@ -216,13 +261,13 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
         String editedEnd1 = solo.getText(7).getText().toString();
         String editedNote = solo.getText(8).getText().toString();
 
+        // then the event should appear in the new time slot with the new information.
+
         assertEquals("CSE100 Lecturea", editedName1);
         assertEquals("Center 113j", editedLocation1);
         assertEquals("12/2/2015", editedDate1);
         assertEquals("4:30", editedStart1);
         assertEquals("5:00", editedEnd1);
         assertEquals("Don't be late!Remember:", editedNote);
-
-
     }
 }
