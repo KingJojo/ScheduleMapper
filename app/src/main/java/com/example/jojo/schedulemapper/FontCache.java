@@ -5,7 +5,8 @@ import android.graphics.Typeface;
 import java.util.*;
 
 /**
- * Created by Guizus on 11/28/15.
+ * Created by Guizus on 11/28/15. Adapted from:
+ * http://stackoverflow.com/questions/16648190/how-to-set-a-particular-font-for-a-button-text-in-android
  *
  * Created to reduce memory usage on older devices while using custom fonted buttons
  *

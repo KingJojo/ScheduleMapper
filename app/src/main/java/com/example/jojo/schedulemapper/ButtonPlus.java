@@ -5,7 +5,8 @@ import android.util.*;
 import android.widget.Button;
 
 /**
- * Created by Guizus on 11/28/15.
+ * Created by Guizus on 11/28/15. Adapted from:
+ * http://stackoverflow.com/questions/16648190/how-to-set-a-particular-font-for-a-button-text-in-android
  *
  * Creates class for buttons to have custom fonts -- yay!
  *

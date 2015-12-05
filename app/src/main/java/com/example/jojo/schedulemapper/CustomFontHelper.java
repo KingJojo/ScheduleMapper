@@ -7,13 +7,16 @@ import android.util.*;
 import android.graphics.Typeface;
 
 /**
- * Created by Guizus on 11/28/15.
+ * Created by Guizus on 11/28/15. Adapted from:
+ * http://stackoverflow.com/questions/16648190/how-to-set-a-particular-font-for-a-button-text-in-android
  *
  * Created as a helper class to set a font on a textView; as button is a subclass
  * of textView.
  *
  * @methods: public static void setCustomFont(TextView textview, Context context, AttributeSet attrs);
  *           public static void setCustomFont(TextView textview, String font, Context context);
+ *
+ *
  */
 public class CustomFontHelper {
     /**

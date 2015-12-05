@@ -1,5 +1,7 @@
 package com.example.jojo.schedulemapper;
 
+
+import android.app.Activity;
 import android.graphics.PointF;
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
@@ -7,10 +9,17 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.model.Marker;
 import com.robotium.solo.Solo;
 
 import junit.framework.TestCase;
+
+import java.util.ArrayList;
 
 
 /**
@@ -139,6 +148,7 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
         assertEquals("8:00", end1);
         assertEquals("Remember HW", note1);
 
+
         solo.goBack();
         solo.waitForActivity(ScheduleActivity.class);
         solo.goBack();
@@ -146,6 +156,73 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
 
         solo.clickOnView(solo.getView(R.id.mapButton));
         solo.waitForActivity(MapActivity.class);
+
+        /*
+         * Scenario 2:
+         * Given an schedule with a classes added by the user, when the user
+         * goes to the map, then they should see the map with their location,
+         * the location of the next class, and the route to that next class.
+         */
+
+        /* check map */
+        Activity current = solo.getCurrentActivity();
+
+        Marker nextClass = ((MapActivity)current).getNextClassMarker();
+        String nextClassTitle = nextClass.getTitle();
+
+        assertEquals("CSE100 Lecture", nextClassTitle);
+
+        /*
+         * Scenario 3:
+         * Given an schedule with a class added by the user, when the user
+         * changes to edit mode and edits the time and fields of the event, then the event
+         * should appear in the new time slot with the new information.
+         */
+
+        /* change to edit mode*/
+        solo.clickOnView(solo.getView(R.id.edit_menu));
+        solo.clickOnScreen(137.0f, 156.0f);
+
+        /* click on event */
+        solo.clickOnView(solo.getView(R.id.weekView));
+        solo.clickLongOnScreen(578.0f, 713.0f, 2000);
+
+        /* edit the event */
+        solo.enterText(0, "a");
+        solo.enterText(1, "j");
+        solo.enterText(2, "Remember:");
+        solo.clickOnView(solo.getView(R.id.startButton));
+        solo.setTimePicker(0, 16, 30);
+        solo.clickOnButton("OK");
+        solo.clickOnView(solo.getView(R.id.endButton));
+        solo.setTimePicker(0, 17, 00);
+        solo.clickOnButton("OK");
+        solo.clickOnView(solo.getView(R.id.editEventButton));
+        solo.waitForActivity(ScheduleActivity.class);
+
+        /* change back to view mode*/
+        solo.clickOnView(solo.getView(R.id.edit_menu));
+        solo.clickOnScreen(154.0f, 302.0f);
+
+        /* click on event NEEDS TO BE EDITED*/
+        solo.clickOnView(solo.getView(R.id.weekView));
+        solo.clickLongOnScreen(595.0f, 485.0f, 2000);
+        solo.waitForActivity(EditEventActivity.class);
+
+        String editedName1 = solo.getText(0).getText().toString();
+        String editedLocation1 = solo.getText(1).getText().toString();
+        String editedDate1 = solo.getText(3).getText().toString();
+        String editedStart1 = solo.getText(5).getText().toString();
+        String editedEnd1 = solo.getText(7).getText().toString();
+        String editedNote = solo.getText(8).getText().toString();
+
+        assertEquals("CSE100 Lecturea", editedName1);
+        assertEquals("Center 113j", editedLocation1);
+        assertEquals("12/2/2015", editedDate1);
+        assertEquals("4:30", editedStart1);
+        assertEquals("5:00", editedEnd1);
+        assertEquals("Don't be late!Remember:", editedNote);
+
 
     }
 }
