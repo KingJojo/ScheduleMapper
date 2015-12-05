@@ -7,10 +7,14 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.model.Marker;
 import com.robotium.solo.Solo;
-
 import junit.framework.TestCase;
+import java.util.List;
+import java.util.logging.Handler;
 
 
 /**
@@ -141,11 +145,59 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
 
         solo.goBack();
         solo.waitForActivity(ScheduleActivity.class);
+
+        // add CSE100Final
+        solo.clickOnView(solo.getView(R.id.action_add_event));
+        solo.waitForActivity(InputEventActivity.class);
+        solo.clickOnView(solo.getView(R.id.repeatableNo));
+        solo.enterText(0, "CSE100 Final");
+        solo.clickOnView(solo.getView(R.id.buildingLocation));
+        solo.scrollToTop();
+        solo.clickOnView(solo.getView(TextView.class, 5));
+        solo.enterText(1, "2622");
+        solo.enterText(2, "Get here early!");
+        solo.clickOnView(solo.getView(R.id.dateButton));
+        solo.setDatePicker(0, 2015, 11, 4);
+        solo.clickOnButton("OK");
+        solo.clickOnView(solo.getView(R.id.startButton));
+        solo.setTimePicker(0, 17, 0);
+        solo.clickOnButton("OK");
+        solo.clickOnView(solo.getView(R.id.endButton));
+        solo.setTimePicker(0, 19, 0);
+        solo.clickOnButton("OK");
+        solo.clickOnView(solo.getView(R.id.submit));
+        solo.waitForActivity(ScheduleActivity.class);
+
+        solo.drag(1049.0f, 188.6f, 988.1f, 988.2f, 10);
+        solo.clickOnScreen(546.2f, 665.0f);
+        solo.sleep(500);
+        solo.clickLongOnScreen(711.5f, 686.4f, 2000);
+        solo.waitForActivity(ViewEventActivity.class);
+
+        String name2 = solo.getText(0).getText().toString();
+        String location2 = solo.getText(1).getText().toString();
+        String date2 = solo.getText(3).getText().toString();
+        String start2 = solo.getText(5).getText().toString();
+        String end2 = solo.getText(7).getText().toString();
+        String note2 = solo.getText(8).getText().toString();
+
+        assertEquals("CSE100 Final", name2);
+        assertEquals("York 2622", location2);
+        assertEquals("12/4/2015", date2);
+        assertEquals("5:00", start2);
+        assertEquals("7:00", end2);
+        assertEquals("Get here early!", note2);
+
+        solo.goBack();
+        solo.waitForActivity(ScheduleActivity.class);
         solo.goBack();
         solo.waitForActivity(MainActivity.class);
 
         solo.clickOnView(solo.getView(R.id.mapButton));
         solo.waitForActivity(MapActivity.class);
+        solo.sleep(3000);
+        String title = ((MapActivity) solo.getCurrentActivity()).getLocationMarker().getTitle();
+        assertEquals("CSE100 Final at 17:00", title);
 
     }
 }

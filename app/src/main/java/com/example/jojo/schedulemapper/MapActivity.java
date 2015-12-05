@@ -23,6 +23,7 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.maps.android.ui.IconGenerator;
@@ -103,6 +104,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     int dayOfWeek;
     int hour;
     int minute;
+
+    private Marker locationMarker;
 
     // text bubble icon generator
     private IconGenerator icnGenerator;
@@ -370,7 +373,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         // add a marker to show the event name and time
         SimpleDateFormat fr = new SimpleDateFormat("HH:mm", Locale.US);
-        mMap.addMarker(new MarkerOptions().position(destination).visible(true).title("location")
+        locationMarker = mMap.addMarker(new MarkerOptions().position(destination).visible(true)
+                .title(event.getName() +
+                        " at " + fr.format(event.getStartTime().getTime()))
                 .icon(BitmapDescriptorFactory.fromBitmap(icnGenerator.makeIcon(event.getName() +
                         " at " + fr.format(event.getStartTime().getTime())))));
 
@@ -420,5 +425,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
+    }
+
+    public Marker getLocationMarker() {
+        return locationMarker;
     }
 }
