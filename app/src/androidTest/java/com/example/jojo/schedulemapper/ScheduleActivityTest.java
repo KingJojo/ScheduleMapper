@@ -8,8 +8,6 @@ import android.widget.TextView;
 import com.google.android.gms.maps.model.Marker;
 import com.robotium.solo.Solo;
 
-
-
 /**
  * Created by nathanng on 12/4/15.
  */
@@ -68,11 +66,13 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnView(solo.getView(R.id.endButton));
         solo.setTimePicker(0, 18, 20);
         solo.clickOnButton("OK");
+
         solo.clickOnView(solo.getView(R.id.checkBoxMon));
         solo.clickOnView(solo.getView(R.id.checkBoxWed));
         solo.clickOnView(solo.getView(R.id.checkBoxFri));
         solo.clickOnView(solo.getView(R.id.submit));
         solo.waitForActivity(ScheduleActivity.class);
+
 
         // add Math180A Discussion
         solo.clickOnView(solo.getView(R.id.action_add_event));
@@ -94,12 +94,14 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnView(solo.getView(R.id.submit));
         solo.waitForActivity(ScheduleActivity.class);
 
+        // view the lecture event
         solo.clickOnView(solo.getView(R.id.weekView));
         solo.drag(591.0f, 591.01f, 1704.1f, 401.2f, 10);
         solo.drag(591.0f, 591.01f, 1704.1f, 401.2f, 10);
         solo.clickLongOnScreen(609.5f, 648.1f, 2000);
         solo.waitForActivity(ViewEventActivity.class);
 
+        // verify the strings and locaiton are correct
         String name = solo.getText(0).getText().toString();
         String location = solo.getText(1).getText().toString();
         String date = solo.getText(3).getText().toString();
@@ -117,11 +119,13 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
         solo.goBack();
         solo.waitForActivity(ScheduleActivity.class);
 
+        // view the discussion event
         solo.clickOnView(solo.getView(R.id.weekView));
         solo.drag(1049.0f, 188.6f, 988.1f, 988.2f, 10);
         solo.clickLongOnScreen(630.5f, 987.1f, 2000);
         solo.waitForActivity(ViewEventActivity.class);
 
+        // verify the name and location are correct
         String name1 = solo.getText(0).getText().toString();
         String location1 = solo.getText(1).getText().toString();
         String date1 = solo.getText(3).getText().toString();
@@ -154,20 +158,22 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
         solo.setDatePicker(0, 2015, 11, 4);
         solo.clickOnButton("OK");
         solo.clickOnView(solo.getView(R.id.startButton));
-        solo.setTimePicker(0, 19, 0);
+        solo.setTimePicker(0, 17, 0);
         solo.clickOnButton("OK");
         solo.clickOnView(solo.getView(R.id.endButton));
-        solo.setTimePicker(0, 21, 0);
+        solo.setTimePicker(0, 19, 0);
         solo.clickOnButton("OK");
         solo.clickOnView(solo.getView(R.id.submit));
         solo.waitForActivity(ScheduleActivity.class);
 
+        // view the Final event
         solo.drag(1049.0f, 188.6f, 988.1f, 988.2f, 10);
         solo.clickOnScreen(546.2f, 665.0f);
         solo.sleep(500);
         solo.clickLongOnScreen(711.5f, 686.4f, 2000);
         solo.waitForActivity(ViewEventActivity.class);
 
+        // verify the name and location are correct
         String name2 = solo.getText(0).getText().toString();
         String location2 = solo.getText(1).getText().toString();
         String date2 = solo.getText(3).getText().toString();
@@ -178,8 +184,9 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
         assertEquals("CSE100 Final", name2);
         assertEquals("York 2622", location2);
         assertEquals("12/4/2015", date2);
-        assertEquals("7:00", start2);
-        assertEquals("9:00", end2);
+
+        assertEquals("5:00", start2);
+        assertEquals("7:00", end2);
         assertEquals("Get here early!", note2);
 
 
@@ -205,17 +212,16 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
          * and the route to that next class. Due to the changing location of the user.
          *
          * NOTE: it's very hard to test for correctness of the location of the user and
-         * ETA to the next class, so we only check for the correct class marker in this case
+         * ETA to the next class, so we take a screenshot that can be verified by hand
          *
          * Change the marker name to check for accordingly depending on the time the test is run.
          */
+
         Activity current = solo.getCurrentActivity();
+        solo.clickOnView(solo.getView(R.id.map));
 
-        Marker nextClass = ((MapActivity) current).getNextClassMarker();
-        String nextClassTitle = nextClass.getTitle();
-
-        assertEquals("CSE100 Final at 17:00", nextClassTitle);
-
+        // manually verify the screenshot saved on the device
+        solo.takeScreenshot();
 
         /*
          * Scenario 3:
@@ -224,13 +230,17 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
          * should appear in the new time slot with the new information.
          */
 
+        // navigate back to the schedule
+        solo.goBack();
+        solo.clickOnView(solo.getView(R.id.scheduleButton));
+
         // Given an schedule with a class added by the user; done above
         solo.clickOnView(solo.getView(R.id.edit_menu));
         solo.clickOnScreen(137.0f, 156.0f);
 
-
-        solo.clickOnView(solo.getView(R.id.weekView));
-        solo.clickLongOnScreen(578.0f, 713.0f, 2000);
+        solo.drag(591.0f, 591.01f, 1704.1f, 401.2f, 10);
+        solo.drag(591.0f, 591.01f, 1704.1f, 401.2f, 10);
+        solo.clickLongOnScreen(609.5f, 648.1f, 2000);
 
         // when the user changes to edit mode and edits the time and fields of the event
         solo.enterText(0, "a");
@@ -245,14 +255,11 @@ public class ScheduleActivityTest extends ActivityInstrumentationTestCase2 {
         solo.clickOnView(solo.getView(R.id.editEventButton));
         solo.waitForActivity(ScheduleActivity.class);
 
-
+        // change to view mode and view the edited activity
         solo.clickOnView(solo.getView(R.id.edit_menu));
         solo.clickOnScreen(154.0f, 302.0f);
-
-
-        solo.clickOnView(solo.getView(R.id.weekView));
-        solo.clickLongOnScreen(595.0f, 485.0f, 2000);
-        solo.waitForActivity(EditEventActivity.class);
+        solo.clickLongOnScreen(609.5f, 648.1f, 2000);
+        solo.waitForActivity(ViewEventActivity.class);
 
         String editedName1 = solo.getText(0).getText().toString();
         String editedLocation1 = solo.getText(1).getText().toString();
