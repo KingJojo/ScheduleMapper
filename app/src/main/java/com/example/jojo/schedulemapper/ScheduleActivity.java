@@ -458,11 +458,11 @@ public class ScheduleActivity extends AppCompatActivity implements WeekView.Mont
             WeekViewEventRepeatable source = repeats.get(i);
             Calendar date = Calendar.getInstance();
             for( int index=0; index<7; ++index) {
-                // This is 9/20/15. Calendar is 0-11 while WeekView is 1-12
-                date.set(2015, 8, 20);
+                // This is 1/4/16. Calendar is 0-11 while WeekView is 1-12
+                date.set(2016, 0, 4);
                 if( source.getDay(index) ) {
                     date.add(Calendar.DAY_OF_YEAR, index);
-                    for( int count=index; count<84; count+=7) {
+                    for( int count=index; count<75; count+=7) {
 
                         // set the start and end time of the event
                         Calendar start = Calendar.getInstance();
